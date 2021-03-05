@@ -1,17 +1,24 @@
-package dk.sebsa.ironflask.sandbox.debug;
+package dk.sebsa.ironflask.engine.core.layer;
 
 import java.text.DecimalFormat;
 
 import dk.sebsa.ironflask.engine.Application;
-import dk.sebsa.ironflask.engine.core.events.Event;
-import dk.sebsa.ironflask.engine.core.layer.Layer;
-import imgui.glfw.ImGuiImplGlfw;  
+import dk.sebsa.ironflask.engine.core.Event;
+import dk.sebsa.ironflask.engine.core.Layer;
+import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
+import dk.sebsa.ironflask.engine.core.Event.EventType;
+import dk.sebsa.ironflask.engine.core.events.ButtonPressedEvent;
+import dk.sebsa.ironflask.engine.core.events.ButtonReleasedEvent;
+import dk.sebsa.ironflask.engine.core.events.MouseMoveEvent;
+import dk.sebsa.ironflask.engine.core.events.MouseScrolledEvent;
+import dk.sebsa.ironflask.engine.debug.BetterImGuiImplGlfw;
 import imgui.ImGui;
+import imgui.ImGuiIO;
 import imgui.gl3.ImGuiImplGl3;
 
-public class ImGuiLayer extends Layer {
+public abstract class ImGuiLayer extends Layer {
 	private Application application;
-	private ImGuiImplGlfw imGuiImp;
+	private BetterImGuiImplGlfw imGuiImp;
 	private ImGuiImplGl3 imGuiGlImp;
 	
 	public ImGuiLayer(Application app) {
@@ -19,7 +26,7 @@ public class ImGuiLayer extends Layer {
 		this.application = app;
 		
 		ImGui.createContext();
-		imGuiImp = new ImGuiImplGlfw();
+		imGuiImp = new BetterImGuiImplGlfw();
 		imGuiImp.init(app.window.windowId, false);
 		imGuiGlImp = new ImGuiImplGl3();
 		imGuiGlImp.init("#version 150");
@@ -29,6 +36,23 @@ public class ImGuiLayer extends Layer {
 	
 	@Override
 	public boolean handleEvent(Event e) {
+		if(e.catagory.equals(EventCatagory.Input)) {
+			final ImGuiIO io = ImGui.getIO();
+			if(e.type == EventType.MouseMoved) {
+				MouseMoveEvent e2 = (MouseMoveEvent) e;
+				io.setMousePos((float) e2.mousePosX[0], (float) e2.mousePosY[0]);
+			} else if(e.type == EventType.MouseButtonPressed) {
+				ButtonPressedEvent e2 = (ButtonPressedEvent) e;
+				io.setMouseDown(e2.button, true);
+			} else if(e.type == EventType.MouseButtonReleased) {
+				ButtonReleasedEvent e2 = (ButtonReleasedEvent) e;
+				io.setMouseDown(e2.button, false);
+			} else if(e.type == EventType.MouseScrolled) {
+				MouseScrolledEvent e2 = (MouseScrolledEvent) e;
+				io.setMouseWheelH(io.getMouseWheelH() + (float) e2.ofsetX);
+		        io.setMouseWheel(io.getMouseWheel() + (float) e2.ofsetY);
+			}
+		}
 		return false;
 	}
 
@@ -62,7 +86,11 @@ public class ImGuiLayer extends Layer {
 		ImGui.text("Memory Free: " + Math.round(freMem) + "MB");
 		
 		ImGui.end();
+		
+		drawCustom();
 	}
+	
+	public abstract void drawCustom();
 
 	@Override
 	public void render() {

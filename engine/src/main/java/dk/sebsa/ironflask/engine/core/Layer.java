@@ -1,6 +1,4 @@
-package dk.sebsa.ironflask.engine.core.layer;
-
-import dk.sebsa.ironflask.engine.core.events.Event;
+package dk.sebsa.ironflask.engine.core;
 
 public abstract class Layer {
 	public String name = "";

@@ -15,9 +15,9 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 
 import dk.sebsa.ironflask.engine.Application;
-import dk.sebsa.ironflask.engine.core.events.Event;
-import dk.sebsa.ironflask.engine.core.events.Event.EventCatagory;
-import dk.sebsa.ironflask.engine.core.events.Event.EventType;
+import dk.sebsa.ironflask.engine.core.Event;
+import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
+import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
 import dk.sebsa.ironflask.engine.math.Color;
 
@@ -206,12 +206,10 @@ public class Window {
 		// Free the window callbacks and destroy the window
 		glfwFreeCallbacks(windowId);
 		glfwDestroyWindow(windowId);
-
-		// Terminate GLFW and free the error callback
-		glfwSetErrorCallback(null);
-		glfwTerminate();
 		
-		glfwSetInputMode(windowId, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		// Terminate GLFW and free the error callback
+		glfwTerminate();
+		glfwSetErrorCallback(null).free();
 	}
 	
 	public boolean shouldClose() {

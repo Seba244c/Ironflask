@@ -1,19 +1,18 @@
-package dk.sebsa.ironflask.engine.core.events;
+package dk.sebsa.ironflask.engine.core;
 
-import dk.sebsa.ironflask.engine.core.layer.LayerStack;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
 
 public class Event {
 	public enum EventType {
-		WindowClose, WindowResize, WindowMinimize, WindowUnMinimize, WindowMoved,
-		AppUpdate, AppRender,
+		WindowClose, WindowResize, WindowMinimize, WindowUnMinimize, WindowMoved,	// DONE
+		AppUpdate, AppRender,														// DONE
 		KeyPressed, KeyReleased,
-		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled			// DONE
 	}
 	
 	public enum EventCatagory {
-		Window, Mouse, App
+		Window, Input, App
 	}
 	
 	public String name;

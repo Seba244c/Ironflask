@@ -1,10 +1,9 @@
-package dk.sebsa.ironflask.engine.core.layer;
+package dk.sebsa.ironflask.engine.core;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dk.sebsa.ironflask.engine.Application;
-import dk.sebsa.ironflask.engine.core.events.Event;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
 
@@ -31,11 +30,11 @@ public class LayerStack {
 			for(int a = stack.size()-1; a > -1; a--) {
 				Layer layer = stack.get(a);
 				// Disabled Layers
-				if(!layer.enabled) return;
+				if(!layer.enabled) continue;
 				
 				// Handle
 				e.handled = layer.handleEvent(e);
-				if(e.handled && e.oneLayer) return;
+				if(e.handled && e.oneLayer) break;
 			}
 			if(!e.handled && e.oneLayer) LoggingUtil.coreLog(Severity.Warning, name + " | "+"Unhandled event: " + e.toString());
 		}
@@ -53,6 +52,7 @@ public class LayerStack {
 	}
 	
 	public void cleanup() {
+		handleEvents();
 		LoggingUtil.appLog(app, Severity.Info, "Cleanup LayerStack: "+name);
 		for(Layer l : stack) {
 			l.close();

@@ -20,7 +20,6 @@
 		<maven.compiler.release>11</maven.compiler.release>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<imgui.java.version>1.81.1</imgui.java.version>
    </properties>
    
    <build>
@@ -61,26 +60,5 @@
   		<artifactId>engine</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
-  	<dependency>
-        <groupId>io.github.spair</groupId>
-        <artifactId>imgui-java-app</artifactId>
-        <version>1.81.1</version>
-    </dependency>
-  	<dependency>
-        <groupId>io.github.spair</groupId>
-        <artifactId>imgui-java-lwjgl3</artifactId>
-        <version>${imgui.java.version}</version>
-    </dependency>
-  	<dependency>
-        <groupId>io.github.spair</groupId>
-        <artifactId>imgui-java-natives-macos</artifactId>
-        <version>${imgui.java.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>io.github.spair</groupId>
-        <artifactId>imgui-java-natives-windows</artifactId>
-        <version>${imgui.java.version}</version>
-    </dependency>
-    
   </dependencies>
 </project>
