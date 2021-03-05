@@ -37,6 +37,16 @@ public class Window {
     
     private Application app;
 	
+	private int frames;	// Frames this seconds
+	private int fps;	// Last seconds FPS
+	
+	private double aft;
+	
+	// Vars used in Averege frame length calculation
+	private double lastFrameTime;
+	private double frameTimeThisSecond;
+	private static long time;
+	
 	@SuppressWarnings("resource")
 	public Window(String title, int width, int height, boolean vsync, Color clearColor, Application app) {
 		this.title = title;
@@ -152,10 +162,33 @@ public class Window {
 		
 		// Input mode
 		glfwSetInputMode(windowId, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		
+		// FPS counter
+		frames = 0;
+		fps = 0;
+		time = System.currentTimeMillis();
+		lastFrameTime = System.currentTimeMillis();
+		frameTimeThisSecond = 0;
+		aft = 0;
 	}
 	
 	public void update() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		// Time bewteen frames
+		frameTimeThisSecond = frameTimeThisSecond + (System.currentTimeMillis() - lastFrameTime);
+		lastFrameTime = System.currentTimeMillis();
+		
+		// Fps
+		if (System.currentTimeMillis() > time + 1000) {
+			fps = frames;
+			time = System.currentTimeMillis();
+			frames = 0;
+			
+			aft = frameTimeThisSecond/fps/1000;
+			frameTimeThisSecond = 0;
+		}
+		frames++;
 	}
 	
 	public boolean isMinimized() {
@@ -259,4 +292,20 @@ public class Window {
     		glfwSwapInterval(0);
     	}
     }
+
+	public double getAft() {
+		return aft;
+	}
+
+	public void setAft(double aft) {
+		this.aft = aft;
+	}
+
+	public int getFps() {
+		return fps;
+	}
+
+	public void setFps(int fps) {
+		this.fps = fps;
+	}
 }

@@ -1,5 +1,7 @@
 package dk.sebsa.ironflask.sandbox.debug;
 
+import java.text.DecimalFormat;
+
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.events.Event;
 import dk.sebsa.ironflask.engine.core.layer.Layer;
@@ -38,9 +40,26 @@ public class ImGuiLayer extends Layer {
 	}
 	
 	public void draw() {
-		ImGui.begin("debug Window");
+		// aft
+		DecimalFormat df = new DecimalFormat("#.#####");
+		String aft = df.format(application.window.getAft());
 		
-		ImGui.text("Helllo World!");
+		ImGui.begin("Eninge Stats");
+		
+		// Window stats
+		ImGui.text("Window Stats:");
+		ImGui.text("FPS: " + application.window.getFps());
+		ImGui.text("AFT: " + aft);
+		
+		// memory,
+		double maxMem = Runtime.getRuntime().maxMemory() / (double)(1024 * 1024);
+		double freMem = Runtime.getRuntime().freeMemory() / (double)(1024 * 1024);
+		double usedMem = maxMem-freMem;
+		ImGui.newLine();
+		ImGui.text("Memory Stats:");
+		ImGui.text("Memory Allocated: " + Math.round(maxMem) + "MB");
+		ImGui.text("Memory Used: " + Math.round(usedMem) + "/" + Math.round(maxMem) + "MB");
+		ImGui.text("Memory Free: " + Math.round(freMem) + "MB");
 		
 		ImGui.end();
 	}
