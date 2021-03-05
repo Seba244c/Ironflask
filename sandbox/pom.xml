@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dk.sebsa.ironflask</groupId>
+  <artifactId>sandbox</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Sandbox</name>
+  
+  <developers>
+        <developer>
+            <id>sebsa</id>
+            <name>Sebastian Snoer</name>
+            <email>seb.snoer@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+   </developers>
+   
+   <properties>
+		<maven.compiler.release>11</maven.compiler.release>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<imgui.java.version>1.81.1</imgui.java.version>
+   </properties>
+   
+   <build>
+	    <plugins>
+		    <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-assembly-plugin</artifactId>
+			    <executions>
+			        <execution>
+			            <phase>package</phase>
+			            <goals>
+			                <goal>single</goal>
+			            </goals>
+			            <configuration>
+			                <archive>
+			                <manifest>
+			                    <mainClass>
+			                        dk.sebsa.ironflask.sandbox.Main
+			                    </mainClass>
+			                    <addClasspath>true</addClasspath>
+			                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                				<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+			                </manifest>
+			                </archive>
+			                <descriptorRefs>
+			                    <descriptorRef>jar-with-dependencies</descriptorRef>
+			                </descriptorRefs>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
+		  </plugins>
+    </build>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>dk.sebsa.ironflask</groupId>
+  		<artifactId>engine</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+        <groupId>io.github.spair</groupId>
+        <artifactId>imgui-java-app</artifactId>
+        <version>1.81.1</version>
+    </dependency>
+  	<dependency>
+        <groupId>io.github.spair</groupId>
+        <artifactId>imgui-java-lwjgl3</artifactId>
+        <version>${imgui.java.version}</version>
+    </dependency>
+  	<dependency>
+        <groupId>io.github.spair</groupId>
+        <artifactId>imgui-java-natives-macos</artifactId>
+        <version>${imgui.java.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.github.spair</groupId>
+        <artifactId>imgui-java-natives-windows</artifactId>
+        <version>${imgui.java.version}</version>
+    </dependency>
+    
+  </dependencies>
+</project>
