@@ -27,10 +27,11 @@ public class Window {
 	private int height;
 	private String title;
 	
-	private boolean vSync;
-    private boolean isFullscreen;
-    private boolean resized;
+	private byte vSync;
+    private byte isFullscreen;
+    private byte resized;
 	private byte minimized;
+	private byte cursorShown = 1;
     
     private int[] posX = new int[1];
     private int[] posY = new int[1];
@@ -52,7 +53,8 @@ public class Window {
 		this.title = title;
         this.width = width;
         this.height = height;
-        this.vSync = vsync;
+        if(vsync) this.vSync = 1;
+        else this.vSync = 0;
         this.app = app;
         
         //-- Init --//
@@ -135,7 +137,7 @@ public class Window {
 		// Make the OpenGL context current
 		glfwMakeContextCurrent(windowId);
 		// Enable v-sync
-		if(vSync) {
+		if(vSync == 1) {
 			glfwSwapInterval(1);
 		} else {
 			glfwSwapInterval(0);
@@ -236,57 +238,66 @@ public class Window {
 	public void showCursor(boolean show) {
 		LoggingUtil.coreLog(Severity.Info, "Toggled cursor shown for window(" + title + ") to: " + show);
     	if(!show) {
+    		cursorShown = 0;
     		glfwSetInputMode(windowId, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     	} else {
+    		cursorShown = 1;
     		glfwSetInputMode(windowId, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     	}
     }
 	
 	public boolean isFullscreen() {
-		return isFullscreen;
+		return isFullscreen == 1;
 	}
 
     public void setFullscreen(boolean isFullscreen) {
     	LoggingUtil.coreLog(Severity.Info, "Changed fullscren for window(" + title + ") to: " + isFullscreen);
-		this.isFullscreen = isFullscreen;
-		resized = true;
+		resized = 1;
 		int tempH = 0;
 		int tempW = 0; 
 		if (isFullscreen) {
+			this.isFullscreen = 1;
 			tempW = width;
 			tempH = height;
 			GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 			glfwGetWindowPos(windowId, posX, posY);
 			glfwSetWindowMonitor(windowId, glfwGetPrimaryMonitor(), 0, 0, videoMode.width(), videoMode.height(), GLFW_DONT_CARE);
 			// Enable v-sync
-			if(vSync) {
+			if(vSync == 1) {
 				glfwSwapInterval(1);
 			} else {
 				glfwSwapInterval(0);
 			}
 		} else {
+			this.isFullscreen = 0;
 			glfwSetWindowMonitor(windowId, 0, posX[0], posY[0], tempW, tempH, GLFW_DONT_CARE);
 		}
 	}
 
     public boolean isResized() {
-        return resized;
+        return resized == 1;
     }
 
     public void setResized(boolean resized) {
-        this.resized = resized;
+        if(resized) {
+        	this.resized = 1;
+        } else {
+        	this.resized = 0;
+        }
+        
     }
     
     public boolean isVSync() {
-    	return vSync;
+    	return vSync == 1;
     }
     
     public void setVSync(boolean vsync) {
-    	vSync = vsync;
     	LoggingUtil.coreLog(Severity.Info, "Changed vSync for window(" + title + ") to: " + vsync);
-    	if(vSync) {
+    	if(vsync) {
+    		this.vSync = 1;
     		glfwSwapInterval(1);
     	} else {
+    		this.vSync = 0;
     		glfwSwapInterval(0);
     	}
     }
@@ -305,5 +316,9 @@ public class Window {
 
 	public void setFps(int fps) {
 		this.fps = fps;
+	}
+	
+	public boolean isCursorShown() {
+		return cursorShown == 1;
 	}
 }
