@@ -91,7 +91,7 @@ public abstract class ImGuiLayer extends Layer {
 		ImGui.begin("Window Settings");
 		
 		if(ImGui.checkbox("vSync", application.window.isVSync())) application.window.setVSync(!application.window.isVSync());
-		if(ImGui.checkbox("Cursor", application.window.isCursorShown())) application.window.showCursor(!application.window.isCursorShown());
+		if(ImGui.checkbox("Show Cursor", application.window.isCursorShown())) application.window.showCursor(!application.window.isCursorShown());
 		
 		ImGui.end();
 		
