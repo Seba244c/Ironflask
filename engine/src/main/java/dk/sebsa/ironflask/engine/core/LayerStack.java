@@ -20,7 +20,6 @@ public class LayerStack {
 	}
 	
 	public void event(Event event) {
-		LoggingUtil.coreLog(Severity.Trace, name + " | Queued event: " + event.toString());
 		queue.add(event);
 	}
 	
@@ -36,7 +35,7 @@ public class LayerStack {
 				e.handled = layer.handleEvent(e);
 				if(e.handled && e.oneLayer) break;
 			}
-			if(!e.handled && e.oneLayer) LoggingUtil.coreLog(Severity.Warning, name + " | "+"Unhandled event: " + e.toString());
+			if(!e.handled && e.oneLayer) LoggingUtil.coreLog(Severity.Trace, name + " | "+"Unhandled event: " + e.toString());
 		}
 		queue.clear();
 	}

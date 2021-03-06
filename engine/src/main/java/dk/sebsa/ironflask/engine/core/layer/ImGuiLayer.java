@@ -12,6 +12,7 @@ import dk.sebsa.ironflask.engine.core.events.ButtonReleasedEvent;
 import dk.sebsa.ironflask.engine.core.events.MouseMoveEvent;
 import dk.sebsa.ironflask.engine.core.events.MouseScrolledEvent;
 import dk.sebsa.ironflask.engine.debug.BetterImGuiImplGlfw;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.gl3.ImGuiImplGl3;
@@ -88,10 +89,11 @@ public abstract class ImGuiLayer extends Layer {
 		ImGui.end();
 		
 		// Window settings
-		ImGui.begin("Window Settings");
+		ImGui.begin("Engine Settings");
 		
 		if(ImGui.checkbox("vSync", application.window.isVSync())) application.window.setVSync(!application.window.isVSync());
 		if(ImGui.checkbox("Show Cursor", application.window.isCursorShown())) application.window.showCursor(!application.window.isCursorShown());
+		if(ImGui.checkbox("Trace Logs", LoggingUtil.traceLog)) LoggingUtil.traceLog = !LoggingUtil.traceLog;
 		
 		ImGui.end();
 		

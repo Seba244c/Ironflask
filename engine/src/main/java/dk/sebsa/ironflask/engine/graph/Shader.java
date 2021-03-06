@@ -2,6 +2,12 @@ package dk.sebsa.ironflask.engine.graph;
 
 import static org.lwjgl.opengl.GL20.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.joml.Matrix4f;
+import org.lwjgl.system.MemoryStack;
+
 import dk.sebsa.ironflask.engine.core.Asset;
 import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
@@ -13,6 +19,8 @@ public class Shader extends Asset {
 	private int vertexShaderId;
 	private int fragmentShaderId;
 	
+	private final Map<String, Integer> uniforms;
+	
 	public Shader() throws Exception {
         programId = glCreateProgram();
         if (programId == 0) {
@@ -20,6 +28,9 @@ public class Shader extends Asset {
             throw new Exception("Could not create Shader");
         }
         AssetManager.allAssets.add(this);
+        
+        // Uniforms
+        uniforms = new HashMap<>();
     }
 	
 	public Shader(String name) throws Exception {
@@ -34,7 +45,33 @@ public class Shader extends Asset {
         createVertexShader(FileUtil.loadResource("/shaders/" + name + "_vertex.glsl"));
         createFragmentShader(FileUtil.loadResource("/shaders/" + name + "_fragment.glsl"));
         link();
+        
+        // Uniforms
+        uniforms = new HashMap<>();
     }
+	
+	public void createUniform(String uniformName) throws Exception {
+	    int uniformLocation = glGetUniformLocation(programId,
+	        uniformName);
+	    if (uniformLocation < 0) {
+	        throw new Exception("Could not find uniform:" +
+	            uniformName);
+	    }
+	    uniforms.put(uniformName, uniformLocation);
+	}
+	
+	public void setUniform(String uniformName, Matrix4f value) {
+        // Dump the matrix into a float buffer
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            glUniformMatrix4fv(uniforms.get(uniformName), false,
+                               value.get(stack.mallocFloat(16)));
+        }
+    }
+	
+	public void setUniform(String uniformName, int value) {
+	    glUniform1i(uniforms.get(uniformName), value);
+	}
+
 
     public void createVertexShader(String shaderCode) throws Exception {
         vertexShaderId = createShader(shaderCode, GL_VERTEX_SHADER);

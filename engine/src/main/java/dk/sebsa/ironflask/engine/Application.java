@@ -6,6 +6,7 @@ import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.LayerStack;
 import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
+import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Color;
@@ -35,11 +36,14 @@ public class Application {
 			input.update();
 			
 			// Logic
+			WorldManager.updateAll();
 			Event event = new Event(EventType.AppUpdate, EventCatagory.App);
 			event.oneLayer = false;
             event.dispatch(stack);
+            WorldManager.lateUpdateAll();
             
             // Render
+            WorldManager.onWillRenderAll();
             stack.render();
 
             // Endoff
