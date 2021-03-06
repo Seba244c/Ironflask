@@ -29,7 +29,6 @@ public class Window {
 	
 	private byte vSync;
     private byte isFullscreen;
-    private byte resized;
 	private byte minimized;
 	private byte cursorShown = 1;
     
@@ -108,7 +107,6 @@ public class Window {
     		}
             this.width = width;
             this.height = height;
-            this.setResized(true);
                         
             glViewport(0, 0, width, height);
             
@@ -252,7 +250,6 @@ public class Window {
 
     public void setFullscreen(boolean isFullscreen) {
     	LoggingUtil.coreLog(Severity.Info, "Changed fullscren for window(" + title + ") to: " + isFullscreen);
-		resized = 1;
 		int tempH = 0;
 		int tempW = 0; 
 		if (isFullscreen) {
@@ -273,19 +270,6 @@ public class Window {
 			glfwSetWindowMonitor(windowId, 0, posX[0], posY[0], tempW, tempH, GLFW_DONT_CARE);
 		}
 	}
-
-    public boolean isResized() {
-        return resized == 1;
-    }
-
-    public void setResized(boolean resized) {
-        if(resized) {
-        	this.resized = 1;
-        } else {
-        	this.resized = 0;
-        }
-        
-    }
     
     public boolean isVSync() {
     	return vSync == 1;

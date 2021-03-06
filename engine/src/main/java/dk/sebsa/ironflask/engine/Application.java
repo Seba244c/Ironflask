@@ -19,6 +19,7 @@ public class Application {
 	public Application(String name) {
 		this.name = name;
 		
+		// Window, stack and input
 		stack = new LayerStack(this, name + "-LayerStack");
 		window = new Window(name, 800, 500, true, Color.red(), this);
 		input = new Input(this);
@@ -26,7 +27,6 @@ public class Application {
 	}
 	
 	public void run() {
-
 		while(!window.shouldClose()) {
 			// Window stuff
 			glfwPollEvents();
@@ -41,8 +41,8 @@ public class Application {
             
             // Render
             stack.render();
-			
-			// Endoff
+
+            // Endoff
             input.late();
 			glfwSwapBuffers(window.windowId);
 		}
