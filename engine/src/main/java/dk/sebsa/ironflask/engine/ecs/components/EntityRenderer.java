@@ -22,7 +22,7 @@ public class EntityRenderer extends Component {
 		
 		try {
 			shader.createUniform("projectionMatrix");
-			shader.createUniform("worldMatrix");
+			shader.createUniform("modelViewMatrix");
 			shader.createUniform("texture_sampler");
 		} catch (Exception e) { e.printStackTrace(); }
 	}

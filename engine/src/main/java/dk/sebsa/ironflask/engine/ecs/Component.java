@@ -1,6 +1,10 @@
 package dk.sebsa.ironflask.engine.ecs;
 
+import dk.sebsa.ironflask.engine.io.Input;
+
 public abstract class Component {
+	public static Input assingedInput;
+	
 	private boolean enabled = true;
 	
 	public Entity entity;

@@ -11,6 +11,7 @@ import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.ecs.CameraEntity;
 import dk.sebsa.ironflask.engine.ecs.components.EntityRenderer;
 
 
@@ -34,7 +35,9 @@ public class Renderer3d extends Renderer {
 		projectionMatrix = transformation.getProjectionMatrix(FOV, app.window.getWidth(), app.window.getHeight(), Z_NEAR, Z_FAR);
 	}
 	
-	public void render() {
+	public void render(CameraEntity camera) {
+		// Update view matrix
+		Matrix4f viewMatrix = transformation.getViewMatrix(camera);
         for(Shader shader : EntityRenderer.ers.keySet()) {
         	shader.bind();
             shader.setUniform("projectionMatrix", projectionMatrix);
@@ -45,11 +48,8 @@ public class Renderer3d extends Renderer {
 	        	
 	            for(EntityRenderer er : EntityRenderer.ers.get(shader).get(mesh)) {
 	            	// Set world matrix for this item
-	                Matrix4f worldMatrix = transformation.getWorldMatrix(
-	                        er.entity.getPosition(),
-	                        er.entity.getRotation(),
-	                        er.entity.getScale());
-	                shader.setUniform("worldMatrix", worldMatrix);
+	                Matrix4f modelViewMatrix = transformation.getModelViewMatrix(er.entity, viewMatrix);
+	                shader.setUniform("modelViewMatrix", modelViewMatrix);
 	                renderEntity(er);
 	            }
 	            

@@ -12,9 +12,9 @@ public class Entity {
 	public String name = "New Entity";
 	
 	// Transform vv
-	private Vector3f position;
-	private float scale;
-	private Vector3f rotation;
+	protected Vector3f position;
+	protected float scale;
+	protected Vector3f rotation;
 
 	private List<Component> components = new ArrayList<Component>();
 	private boolean enabled = true;

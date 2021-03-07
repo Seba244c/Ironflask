@@ -15,6 +15,10 @@ public class Vector2f {
 		this.y = 0;
 	}
 	
+	public Vector2f(double x, double y) {
+		this.x = (float) x;
+		this.y = (float) y;
+	}
 	public void zero() {
 		this.x = 0;
 		this.y = 0;
@@ -48,4 +52,8 @@ public class Vector2f {
 	
 	public float min() {return Math.min(x, y);}
 	public float max() {return Math.max(x, y);}
+	
+	public String toString() {
+		return x+", "+y;
+	}
 }

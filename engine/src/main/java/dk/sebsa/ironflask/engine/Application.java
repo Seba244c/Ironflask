@@ -6,10 +6,12 @@ import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.LayerStack;
 import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
+import dk.sebsa.ironflask.engine.ecs.Component;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Color;
+import dk.sebsa.ironflask.engine.math.Time;
 
 public class Application {
 	public String name;
@@ -25,6 +27,10 @@ public class Application {
 		window = new Window(name, 800, 500, true, Color.red(), this);
 		input = new Input(this);
 		input.addCallbacks();
+		Component.assingedInput = input;
+		
+		// Time
+		Time.init();
 	}
 	
 	public void run() {
@@ -34,6 +40,7 @@ public class Application {
 			stack.handleEvents();
 			window.update();
 			input.update();
+			Time.process();
 			
 			// Logic
 			WorldManager.updateAll();

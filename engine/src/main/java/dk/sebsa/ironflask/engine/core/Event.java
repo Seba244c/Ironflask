@@ -7,7 +7,7 @@ public class Event {
 	public enum EventType {
 		WindowClose, WindowResize, WindowMinimize, WindowUnMinimize, WindowMoved,	// DONE
 		AppUpdate, AppRender,														// DONE
-		KeyPressed, KeyReleased,
+		KeyPressed, KeyReleased, CharEvent,											// DONE
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled			// DONE
 	}
 	

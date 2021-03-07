@@ -9,18 +9,27 @@ import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.events.ButtonPressedEvent;
 import dk.sebsa.ironflask.engine.core.events.ButtonReleasedEvent;
+import dk.sebsa.ironflask.engine.core.events.CharEvent;
+import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
+import dk.sebsa.ironflask.engine.core.events.KeyReleasedEvent;
 import dk.sebsa.ironflask.engine.core.events.MouseMoveEvent;
 import dk.sebsa.ironflask.engine.core.events.MouseScrolledEvent;
 import dk.sebsa.ironflask.engine.debug.BetterImGuiImplGlfw;
+import dk.sebsa.ironflask.engine.io.Log;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
+import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
+import dk.sebsa.ironflask.engine.utils.CommandUtils;
 import imgui.ImGui;
 import imgui.ImGuiIO;
+import imgui.flag.ImGuiInputTextFlags;
 import imgui.gl3.ImGuiImplGl3;
+import imgui.type.ImString;
 
 public abstract class ImGuiLayer extends Layer {
 	private Application application;
 	private BetterImGuiImplGlfw imGuiImp;
 	private ImGuiImplGl3 imGuiGlImp;
+	private ImString consoleInput = new ImString("I NEED TO SET A MAX LENGTH SOMEHOW SO I DID IT THIS WAY. MAKE IT UNLIMTEEEEEEEEEEEEEEEEEEEED");
 	
 	public ImGuiLayer(Application app) {
 		super();
@@ -33,6 +42,8 @@ public abstract class ImGuiLayer extends Layer {
 		imGuiGlImp.init("#version 150");
         ImGui.init();
 		ImGui.styleColorsDark();
+		
+		consoleInput.clear();
 	}
 	
 	@Override
@@ -52,6 +63,15 @@ public abstract class ImGuiLayer extends Layer {
 				MouseScrolledEvent e2 = (MouseScrolledEvent) e;
 				io.setMouseWheelH(io.getMouseWheelH() + (float) e2.ofsetX);
 		        io.setMouseWheel(io.getMouseWheel() + (float) e2.ofsetY);
+			} else if(e.type == EventType.KeyPressed) {
+				KeyPressedEvent e2 = (KeyPressedEvent) e;
+				io.setKeysDown(e2.key, true);
+			} else if(e.type == EventType.KeyReleased) {
+				KeyReleasedEvent e2 = (KeyReleasedEvent) e;
+				io.setKeysDown(e2.key, false);
+			} else if(e.type == EventType.CharEvent) {
+				CharEvent e2 = (CharEvent) e;
+				io.addInputCharacter(e2.codePoint);
 			}
 		}
 		return false;
@@ -88,12 +108,32 @@ public abstract class ImGuiLayer extends Layer {
 		
 		ImGui.end();
 		
-		// Window settings
+		// Engine settings
 		ImGui.begin("Engine Settings");
 		
 		if(ImGui.checkbox("vSync", application.window.isVSync())) application.window.setVSync(!application.window.isVSync());
 		if(ImGui.checkbox("Show Cursor", application.window.isCursorShown())) application.window.showCursor(!application.window.isCursorShown());
 		if(ImGui.checkbox("Trace Logs", LoggingUtil.traceLog)) LoggingUtil.traceLog = !LoggingUtil.traceLog;
+		
+		ImGui.end();
+		
+		// Console
+		ImGui.begin("Console");
+		
+		if(ImGui.inputTextWithHint("", "Console Command", consoleInput, ImGuiInputTextFlags.EnterReturnsTrue)) {
+			CommandUtils.runCommad(consoleInput.get());
+			LoggingUtil.coreLog(Severity.Info, "Debug layer ran command: " + consoleInput.get());
+			consoleInput.clear();
+		}
+		
+		ImGui.separator();
+		
+		ImGui.beginChild("Log");
+		
+		for(Log log : Log.logs) {
+			ImGui.text(log.toString());
+		}
+		ImGui.endChild();
 		
 		ImGui.end();
 		

@@ -8,6 +8,7 @@ import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
+import dk.sebsa.ironflask.engine.ecs.CameraEntity;
 import dk.sebsa.ironflask.engine.ecs.Entity;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.ecs.components.EntityRenderer;
@@ -16,11 +17,13 @@ import dk.sebsa.ironflask.engine.graph.Renderer3d;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.sandbox.Main;
+import dk.sebsa.ironflask.sandbox.components.CameraMovement;
 import dk.sebsa.ironflask.sandbox.components.Spin;
 
 public class GameLayer extends Layer {
 	private Application application;
 	private Renderer3d renderer;
+	private CameraEntity camera;
 	
 	float[] positions = new float[] {
             // V0
@@ -111,11 +114,11 @@ public class GameLayer extends Layer {
             // Right face
             12, 13, 7, 5, 12, 7,
             // Left face
-            14, 15, 6, 4, 14, 6,
+            6,14,4,6,15,14,
             // Bottom face
             18,16,17,17,19,18,
             // Back face
-            4, 6, 7, 5, 4, 7,};
+            7,4,5,7,6,4,};
 	
 	public GameLayer(Application app) {
 		super();
@@ -127,6 +130,9 @@ public class GameLayer extends Layer {
 		} catch (Exception e) { e.printStackTrace(); }
 		
 		// Entity
+		camera = new CameraEntity();
+		camera.addComponent(new CameraMovement());
+		WorldManager.entities.add(camera);
 		try {
 			Mesh mesh = new Mesh(positions, textCoords, indices);
 			Texture texture = new Texture("/textures/grassblock.png");
@@ -166,6 +172,6 @@ public class GameLayer extends Layer {
 	
 	@Override
 	public void render() {
-		renderer.render();
+		renderer.render(camera);
 	}
 }

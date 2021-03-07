@@ -1,8 +1,10 @@
 package dk.sebsa.ironflask.engine.io;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
+import static org.lwjgl.glfw.GLFW.glfwSetCursorPos;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWCharCallback;
 import org.lwjgl.glfw.GLFWCursorEnterCallback;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
@@ -14,11 +16,13 @@ import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.events.ButtonPressedEvent;
 import dk.sebsa.ironflask.engine.core.events.ButtonReleasedEvent;
+import dk.sebsa.ironflask.engine.core.events.CharEvent;
 import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
 import dk.sebsa.ironflask.engine.core.events.KeyReleasedEvent;
 import dk.sebsa.ironflask.engine.core.events.MouseMoveEvent;
 import dk.sebsa.ironflask.engine.core.events.MouseScrolledEvent;
 import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
+import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class Input {
 	private byte[] keys;
@@ -30,16 +34,23 @@ public class Input {
 	
 	private double mouseX;
 	private double mouseY;
+	private double prevMouseX;
+	private double prevMouseY;
+	private double lockMouseX;
+	private double lockMouseY;
 	private int scrollX;
 	private int scrollY;
-	private Window window;
+	private Vector2f displVec;
+	public Window window;
 	@SuppressWarnings("unused")
 	private Application app;
 	private GLFWKeyCallback keyboard;
+	private GLFWCharCallback text;
 	private GLFWCursorPosCallback mouseMove;
 	private GLFWMouseButtonCallback mouseButtons;
 	private GLFWScrollCallback mouseScroll;
 	private GLFWCursorEnterCallback cursorEnter;
+	private byte locked = 0;
 	
 	public Input(Application app) {
 		LoggingUtil.coreLog(Severity.Info, "Creating input callbacks");
@@ -53,6 +64,8 @@ public class Input {
 
 		this.app = app;
 		this.window = app.window;
+		
+		displVec = new Vector2f();
 		
 		keyboard = new GLFWKeyCallback() {
 			public void invoke(long window, int key, int scancode, int action, int mods) {
@@ -71,6 +84,15 @@ public class Input {
 						e.dispatch(app.stack);
 					}
 				}
+			}
+		};
+		
+		text = new GLFWCharCallback() {
+			@Override
+			public void invoke(long window, int codepoint) {
+				CharEvent e = new CharEvent(EventType.CharEvent, EventCatagory.Input);
+				e.codePoint = codepoint;
+				e.dispatch(app.stack);
 			}
 		};
 		
@@ -126,6 +148,7 @@ public class Input {
 		GLFW.glfwSetScrollCallback(window.windowId, mouseScroll);
 		GLFW.glfwSetMouseButtonCallback(window.windowId, mouseButtons);
 		GLFW.glfwSetCursorEnterCallback(window.windowId, cursorEnter);
+		GLFW.glfwSetCharCallback(window.windowId, text);
 	}
 	
 	public boolean isKeyDown(int key) {
@@ -195,8 +218,30 @@ public class Input {
 		return mouseScroll;
 	}
 	
-	public void update() {
-		// E
+	public void update() { 
+		// Display vec
+		displVec.zero();
+		if (prevMouseX > 0 && prevMouseY> 0) {
+            double deltax = mouseX - prevMouseX;
+            double deltay = mouseY - prevMouseY;
+            boolean rotateX = deltax != 0;
+            boolean rotateY = deltay != 0;
+            if (rotateX) {
+                displVec.y = (float) deltax;
+            }
+            if (rotateY) {
+                displVec.x = (float) deltay;
+            }
+        }
+		
+		prevMouseX = mouseX;
+        prevMouseY = mouseY;
+		
+		if(locked == 1) {
+			glfwSetCursorPos(window.windowId, lockMouseX, lockMouseY);
+			prevMouseX = lockMouseX;
+			prevMouseY = lockMouseY;
+		}
 	}
 	
 	public void late() {
@@ -206,5 +251,28 @@ public class Input {
 		buttonsReleased = new byte[GLFW.GLFW_MOUSE_BUTTON_LAST];
 		scrollY = 0;
 		scrollX = 0;
+	}
+	
+	public Vector2f getDisplVec() {
+        return displVec;
+    }
+	
+	public void lockCursor() {
+		LoggingUtil.coreLog(Severity.Info, "Locked mouse posistion at: " + new Vector2f(mouseX, mouseY).toString());
+		if(locked == 0) {
+			locked = 1;
+			lockMouseX = mouseX;
+			lockMouseY = mouseY;
+			displVec.zero();
+		}
+		
+		glfwSetCursorPos(window.windowId, lockMouseX, lockMouseY);
+		prevMouseX = lockMouseX;
+		prevMouseY = lockMouseY;
+	}
+	
+	public void unlock() {
+		LoggingUtil.coreLog(Severity.Info, "Unlocked mouse posistion");
+		locked = 0;
 	}
 }
