@@ -27,10 +27,9 @@ public class EntityRenderer extends Component {
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
-	@SuppressWarnings("unlikely-arg-type")
 	public void onWillRender() {
 		if(!ers.containsKey(shader)) ers.put(shader, new HashMap<>());
-		if(!ers.get(shader).containsKey(ers)) ers.get(shader).put(mesh, new ArrayList<>());
+		if(!ers.get(shader).containsKey(mesh)) ers.get(shader).put(mesh, new ArrayList<>());
 		
 		ers.get(shader).get(mesh).add(this);
 	}

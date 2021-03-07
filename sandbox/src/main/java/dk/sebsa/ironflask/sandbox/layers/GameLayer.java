@@ -16,11 +16,11 @@ import dk.sebsa.ironflask.engine.graph.Renderer3d;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.sandbox.Main;
+import dk.sebsa.ironflask.sandbox.components.Spin;
 
 public class GameLayer extends Layer {
 	private Application application;
 	private Renderer3d renderer;
-	private Entity entity;
 	
 	float[] positions = new float[] {
             // V0
@@ -128,16 +128,20 @@ public class GameLayer extends Layer {
 		
 		// Entity
 		try {
-			entity = new Entity();
-			entity.setPosition(new Vector3f(0, 0, -2));
-			EntityRenderer er;
-			er = new EntityRenderer(new Mesh(positions, textCoords, indices), new Texture("/textures/grassblock.png"), new Shader("default"));
-			entity.addComponent(er);
-			WorldManager.entities.add(entity);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			Mesh mesh = new Mesh(positions, textCoords, indices);
+			Texture texture = new Texture("/textures/grassblock.png");
+			Shader shader = new Shader("default");
+			for(int i = 0; i < 10; i++) {
+				Entity entity = new Entity();
+				entity.setScale(0.5f);
+				entity.setPosition(new Vector3f(i*0.6f, 0, -2));
+				EntityRenderer er;
+				er = new EntityRenderer(mesh, texture, shader);
+				entity.addComponent(er);
+				entity.addComponent(new Spin());
+				WorldManager.entities.add(entity);
+			}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
 	@Override
@@ -149,12 +153,8 @@ public class GameLayer extends Layer {
 				else Main.debug.enabled = true;
 				return true;
 			}
-		} else if(e.type == EventType.AppUpdate) {
-			float rotation = entity.getRotation().x + 1.5f;
-			if ( rotation > 360 ) {
-			    rotation = 0;
-			}
-			entity.setRotation(new Vector3f(rotation, rotation, rotation));
+		} else if(e.type == EventType.WindowResize) {
+			renderer.windowResized();
 		}
 		return false;
 	}

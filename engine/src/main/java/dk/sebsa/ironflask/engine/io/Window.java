@@ -89,6 +89,8 @@ public class Window {
 		
 		// Setup resize callback
         glfwSetFramebufferSizeCallback(windowId, (window, w, h) -> {
+            this.width = w;
+            this.height = h;
         	if(w == 0 && h == 0) {
         		minimized = 1;
 
@@ -105,10 +107,8 @@ public class Window {
                 event.name = title + " was un-minimized";
                 event.dispatch(app.stack);
     		}
-            this.width = width;
-            this.height = height;
                         
-            glViewport(0, 0, width, height);
+            glViewport(0, 0, w, h);
             
             Event event = new Event(EventType.WindowResize, EventCatagory.Window);
             event.oneLayer = false;

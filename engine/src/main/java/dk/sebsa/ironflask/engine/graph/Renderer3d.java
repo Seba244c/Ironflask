@@ -28,7 +28,6 @@ public class Renderer3d extends Renderer {
 		
 		// Crate transformation
 		transformation = new Transformation();
-		projectionMatrix = transformation.getProjectionMatrix(FOV, app.window.getWidth(), app.window.getHeight(), Z_NEAR, Z_FAR);
     }
 	
 	public void windowResized() {
@@ -53,7 +52,6 @@ public class Renderer3d extends Renderer {
 	                shader.setUniform("worldMatrix", worldMatrix);
 	                renderEntity(er);
 	            }
-	            EntityRenderer.ers.clear();
 	            
 	            // Restore state
 	            glBindVertexArray(0);
@@ -61,6 +59,7 @@ public class Renderer3d extends Renderer {
 	        
 	        shader.unbind();
         }
+        EntityRenderer.ers.clear();
     }
 	
 	public void renderEntity(EntityRenderer er) {
