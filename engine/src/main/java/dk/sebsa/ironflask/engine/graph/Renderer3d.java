@@ -17,26 +17,18 @@ import dk.sebsa.ironflask.engine.ecs.components.EntityRenderer;
 public class Renderer3d extends Renderer {
 	private Transformation transformation;
 	private Matrix4f projectionMatrix;
-	public Shader shader;
 	
 	private static final float FOV = (float) Math.toRadians(60.0f);
     private static final float Z_NEAR = 0.01f;
     private static final float Z_FAR = 1000.f;
     private final Application app;
 	
-	public Renderer3d(Shader shader, Application app) {
-		this.shader = shader;
+	public Renderer3d(Application app) {
 		this.app = app;
 		
 		// Crate transformation
 		transformation = new Transformation();
 		projectionMatrix = transformation.getProjectionMatrix(FOV, app.window.getWidth(), app.window.getHeight(), Z_NEAR, Z_FAR);
-		
-		try {
-			shader.createUniform("projectionMatrix");
-			shader.createUniform("worldMatrix");
-			shader.createUniform("texture_sampler");
-		} catch (Exception e) { e.printStackTrace(); }
     }
 	
 	public void windowResized() {
@@ -44,29 +36,31 @@ public class Renderer3d extends Renderer {
 	}
 	
 	public void render() {
-        shader.bind();
-        
-        // Update projection Matrix
-        
-        shader.setUniform("projectionMatrix", projectionMatrix);
-
-        // Draw entities
-        shader.setUniform("texture_sampler", 0);
-        for(EntityRenderer er : EntityRenderer.ers) {
-        	// Set world matrix for this item
-            Matrix4f worldMatrix = transformation.getWorldMatrix(
-                    er.entity.getPosition(),
-                    er.entity.getRotation(),
-                    er.entity.getScale());
-            shader.setUniform("worldMatrix", worldMatrix);
-            renderEntity(er);
+        for(Shader shader : EntityRenderer.ers.keySet()) {
+        	shader.bind();
+            shader.setUniform("projectionMatrix", projectionMatrix);
+            shader.setUniform("texture_sampler", 0);
+            
+	        for(Mesh mesh : EntityRenderer.ers.get(shader).keySet()) {
+	        	glBindVertexArray(mesh.getVaoId());
+	        	
+	            for(EntityRenderer er : EntityRenderer.ers.get(shader).get(mesh)) {
+	            	// Set world matrix for this item
+	                Matrix4f worldMatrix = transformation.getWorldMatrix(
+	                        er.entity.getPosition(),
+	                        er.entity.getRotation(),
+	                        er.entity.getScale());
+	                shader.setUniform("worldMatrix", worldMatrix);
+	                renderEntity(er);
+	            }
+	            EntityRenderer.ers.clear();
+	            
+	            // Restore state
+	            glBindVertexArray(0);
+	        }
+	        
+	        shader.unbind();
         }
-        EntityRenderer.ers.clear();
-        
-        // Restore state
-        glBindVertexArray(0);
-
-        shader.unbind();
     }
 	
 	public void renderEntity(EntityRenderer er) {
@@ -76,12 +70,7 @@ public class Renderer3d extends Renderer {
 		glBindTexture(GL_TEXTURE_2D, er.getTexture().getId());
 		
 		// Draw the mesh
-        glBindVertexArray(er.getMesh().getVaoId());
-        
-        glDrawElements(GL_TRIANGLES, er.getMesh().getVertexCount(), GL_UNSIGNED_INT, 0);
-
-        // Restore state
-        glBindVertexArray(0);
+        glDrawElements(GL_TRIANGLES, er.getMesh().getVertexCount(), GL_UNSIGNED_INT, 0);        
 	}
 
 	@Override

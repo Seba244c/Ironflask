@@ -70,7 +70,7 @@ public class GameLayer extends Layer {
             // V18: V1 repeated
             -0.5f, -0.5f, 0.5f,
             // V19: V2 repeated
-            0.5f, -0.5f, 0.5f
+            0.5f, -0.5f, 0.5f,
         };
         float[] textCoords = new float[]{
             0.0f, 0.0f,
@@ -101,7 +101,7 @@ public class GameLayer extends Layer {
             0.5f, 0.0f,
             1.0f, 0.0f,
             0.5f, 0.5f,
-            1.0f, 0.5f
+            1.0f, 0.5f,
         };
         int[] indices = new int[]{
             // Front face
@@ -113,9 +113,9 @@ public class GameLayer extends Layer {
             // Left face
             14, 15, 6, 4, 14, 6,
             // Bottom face
-            16, 18, 19, 17, 16, 19,
+            18,16,17,17,19,18,
             // Back face
-            4, 6, 7, 5, 4, 7};
+            4, 6, 7, 5, 4, 7,};
 	
 	public GameLayer(Application app) {
 		super();
@@ -123,7 +123,7 @@ public class GameLayer extends Layer {
 		
 		// Set app Shader and renderer
 		try {
-			renderer = new Renderer3d(new Shader("default"), application);
+			renderer = new Renderer3d(application);
 		} catch (Exception e) { e.printStackTrace(); }
 		
 		// Entity
@@ -131,7 +131,7 @@ public class GameLayer extends Layer {
 			entity = new Entity();
 			entity.setPosition(new Vector3f(0, 0, -2));
 			EntityRenderer er;
-			er = new EntityRenderer(new Mesh(positions, textCoords, indices), new Texture("/textures/grassblock.png"));
+			er = new EntityRenderer(new Mesh(positions, textCoords, indices), new Texture("/textures/grassblock.png"), new Shader("default"));
 			entity.addComponent(er);
 			WorldManager.entities.add(entity);
 		} catch (Exception e) {
