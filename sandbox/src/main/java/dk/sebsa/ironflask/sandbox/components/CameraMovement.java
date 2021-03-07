@@ -2,10 +2,12 @@ package dk.sebsa.ironflask.sandbox.components;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import dk.sebsa.ironflask.engine.ecs.CameraEntity;
 import dk.sebsa.ironflask.engine.ecs.Component;
+import dk.sebsa.ironflask.engine.graph.Transformation;
 import dk.sebsa.ironflask.engine.math.Time;
 
 public class CameraMovement extends Component {
@@ -23,6 +25,9 @@ public class CameraMovement extends Component {
 			Component.assingedInput.window.showCursor(true);
 		} if(Component.assingedInput.isButtonDown(1)) {
 			((CameraEntity) entity).moveRotation(Component.assingedInput.getDisplVec().x * MOUSE_SENSITIVITY, Component.assingedInput.getDisplVec().y * MOUSE_SENSITIVITY, 0);
+			if(Component.assingedInput.getDisplVec().x != 0 || Component.assingedInput.getDisplVec().y != 0) {
+				((CameraEntity) entity).camDirty = 1;
+			}
 		}
 	        
 		// World pos
@@ -30,16 +35,22 @@ public class CameraMovement extends Component {
 		cameraInc.set(0, 0, 0);
 	    if (Component.assingedInput.isKeyDown(GLFW_KEY_W)) {
 	        cameraInc.z = -1;
+	        ((CameraEntity) entity).camDirty = 1;
 	    } if (Component.assingedInput.isKeyDown(GLFW_KEY_S)) {
 	        cameraInc.z += 1;
+	        ((CameraEntity) entity).camDirty = 1;
 	    } if (Component.assingedInput.isKeyDown(GLFW_KEY_A)) {
 	        cameraInc.x = -1;
+	        ((CameraEntity) entity).camDirty = 1;
 	    } if (Component.assingedInput.isKeyDown(GLFW_KEY_D)) {
 	        cameraInc.x += 1;
+	        ((CameraEntity) entity).camDirty = 1;
 	    } if (Component.assingedInput.isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
 	        cameraInc.y = -1;
+	        ((CameraEntity) entity).camDirty = 1;
 	    } if (Component.assingedInput.isKeyDown(GLFW_KEY_SPACE)) {
 	        cameraInc.y += 1;
+	        ((CameraEntity) entity).camDirty = 1;
 	    }
 	    ((CameraEntity) entity).movePosition(
 	    		cameraInc.x * CAM_SPEED * Time.getDeltaTime(),

@@ -3,7 +3,10 @@ package dk.sebsa.ironflask.engine.ecs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
+
+import dk.sebsa.ironflask.engine.graph.Transformation;
 
 public class Entity {
 	public static int i;
@@ -18,6 +21,8 @@ public class Entity {
 
 	private List<Component> components = new ArrayList<Component>();
 	private boolean enabled = true;
+	private byte dirty = 1;
+	private Matrix4f modelViewMatrix;
 
 	public Entity() {
 		position = new Vector3f();
@@ -68,6 +73,7 @@ public class Entity {
 
 	public void setPosition(Vector3f position) {
 		this.position = position;
+		dirty = 1;
 	}
 
 	public float getScale() {
@@ -76,6 +82,7 @@ public class Entity {
 
 	public void setScale(float scale) {
 		this.scale = scale;
+		dirty = 1;
 	}
 
 	public Vector3f getRotation() {
@@ -84,5 +91,14 @@ public class Entity {
 
 	public void setRotation(Vector3f rotation) {
 		this.rotation = rotation;
+		dirty = 1;
+	}
+
+	public Matrix4f getModelViewMatrix(Transformation transformation, Matrix4f viewMatrix, boolean newViewMatrix) {
+		if(dirty == 1 || newViewMatrix) {
+			modelViewMatrix = transformation.getModelViewMatrix(this, viewMatrix);
+			dirty = 0;
+		}
+		return modelViewMatrix;
 	}
 }

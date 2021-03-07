@@ -1,6 +1,13 @@
 package dk.sebsa.ironflask.engine.ecs;
 
+import org.joml.Matrix4f;
+
+import dk.sebsa.ironflask.engine.graph.Transformation;
+
 public class CameraEntity extends Entity {
+	public byte camDirty = 1;
+	private Matrix4f viewMatrix;
+	
     public void movePosition(float offsetX, float offsetY, float offsetZ) {
         if ( offsetZ != 0 ) {
             position.x += (float)Math.sin(Math.toRadians(rotation.y)) * -1.0f * offsetZ;
@@ -18,4 +25,12 @@ public class CameraEntity extends Entity {
         rotation.y += offsetY;
         rotation.z += offsetZ;
     }
+	
+	public Matrix4f getViewMatrix(Transformation transformation) {
+		if(camDirty == 1) {
+			viewMatrix = transformation.getViewMatrix(this);
+			camDirty = 0;
+		}
+		return viewMatrix;
+	}
 }

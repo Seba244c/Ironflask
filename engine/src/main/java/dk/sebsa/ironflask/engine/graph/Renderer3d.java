@@ -37,7 +37,9 @@ public class Renderer3d extends Renderer {
 	
 	public void render(CameraEntity camera) {
 		// Update view matrix
-		Matrix4f viewMatrix = transformation.getViewMatrix(camera);
+		boolean newViewMatrix = false;
+		if(camera.camDirty == 1) newViewMatrix = true;
+		Matrix4f viewMatrix = camera.getViewMatrix(transformation);
         for(Shader shader : EntityRenderer.ers.keySet()) {
         	shader.bind();
             shader.setUniform("projectionMatrix", projectionMatrix);
@@ -48,8 +50,7 @@ public class Renderer3d extends Renderer {
 	        	
 	            for(EntityRenderer er : EntityRenderer.ers.get(shader).get(mesh)) {
 	            	// Set world matrix for this item
-	                Matrix4f modelViewMatrix = transformation.getModelViewMatrix(er.entity, viewMatrix);
-	                shader.setUniform("modelViewMatrix", modelViewMatrix);
+	                shader.setUniform("modelViewMatrix", er.entity.getModelViewMatrix(transformation, viewMatrix, newViewMatrix));
 	                renderEntity(er);
 	            }
 	            

@@ -144,7 +144,7 @@ public class GameLayer extends Layer {
 				EntityRenderer er;
 				er = new EntityRenderer(mesh, texture, shader);
 				entity.addComponent(er);
-				entity.addComponent(new Spin());
+				//entity.addComponent(new Spin());
 				WorldManager.entities.add(entity);
 			}
 		} catch (Exception e) { e.printStackTrace(); }
