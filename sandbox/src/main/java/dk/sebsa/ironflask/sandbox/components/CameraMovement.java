@@ -2,12 +2,10 @@ package dk.sebsa.ironflask.sandbox.components;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import dk.sebsa.ironflask.engine.ecs.CameraEntity;
 import dk.sebsa.ironflask.engine.ecs.Component;
-import dk.sebsa.ironflask.engine.graph.Transformation;
 import dk.sebsa.ironflask.engine.math.Time;
 
 public class CameraMovement extends Component {

@@ -18,9 +18,11 @@ public class Application {
 	public LayerStack stack;
 	public Window window;
 	public Input input;
+	public final boolean isDebug;
 	
-	public Application(String name) {
+	public Application(String name, boolean isDebug) {
 		this.name = name;
+		this.isDebug = isDebug;
 		
 		// Window, stack and input
 		stack = new LayerStack(this, name + "-LayerStack");

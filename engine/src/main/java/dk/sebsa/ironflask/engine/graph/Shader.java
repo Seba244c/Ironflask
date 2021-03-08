@@ -18,10 +18,11 @@ public class Shader extends Asset {
 	private final int programId;
 	private int vertexShaderId;
 	private int fragmentShaderId;
+	private final boolean isDebug;
 	
 	private final Map<String, Integer> uniforms;
 	
-	public Shader() throws Exception {
+	public Shader(boolean isDebug) throws Exception {
         programId = glCreateProgram();
         if (programId == 0) {
         	LoggingUtil.coreLog(Severity.Error, "Could not create shader");
@@ -31,9 +32,10 @@ public class Shader extends Asset {
         
         // Uniforms
         uniforms = new HashMap<>();
+        this.isDebug = isDebug;
     }
 	
-	public Shader(String name) throws Exception {
+	public Shader(String name, boolean isDebug) throws Exception {
         programId = glCreateProgram();
         if (programId == 0) {
         	LoggingUtil.coreLog(Severity.Error, "Could not create shader");
@@ -48,6 +50,7 @@ public class Shader extends Asset {
         
         // Uniforms
         uniforms = new HashMap<>();
+        this.isDebug = isDebug;
     }
 	
 	public void createUniform(String uniformName) throws Exception {
@@ -112,7 +115,7 @@ public class Shader extends Asset {
             glDetachShader(programId, fragmentShaderId);
         }
 
-        glValidateProgram(programId);				
+        if(isDebug) glValidateProgram(programId);				
         if (glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) {
             System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(programId, 1024));
         }

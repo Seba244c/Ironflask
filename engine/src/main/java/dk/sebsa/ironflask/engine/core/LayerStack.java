@@ -10,13 +10,25 @@ import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
 public class LayerStack {
 	public String name;
 	public Application app;
-	public List<Layer> stack = new ArrayList<>();
-	public List<Event> queue = new ArrayList<>();
+	private List<Layer> stack = new ArrayList<>();
+	private List<Event> queue = new ArrayList<>();
 	
 	public LayerStack(Application app, String name) {
 		this.app = app;
 		this.name = name;
 		LoggingUtil.appLog(app, Severity.Info, "Created LayerStack: "+name);
+	}
+	
+	public void addLayerToTop(Layer layer) {
+		stack.add(layer);
+	}
+	
+	public void addLayerToBot(Layer layer) {
+		stack.add(0, layer);
+	}
+	
+	public void insertLayer(Layer layer, int index) {
+		stack.add(index, layer);
 	}
 	
 	public void event(Event event) {

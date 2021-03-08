@@ -136,7 +136,7 @@ public class GameLayer extends Layer {
 		try {
 			Mesh mesh = new Mesh(positions, textCoords, indices);
 			Texture texture = new Texture("/textures/grassblock.png");
-			Shader shader = new Shader("default");
+			Shader shader = new Shader("default", application.isDebug);
 			for(int i = 0; i < 10; i++) {
 				Entity entity = new Entity();
 				entity.setScale(0.5f);
@@ -144,7 +144,7 @@ public class GameLayer extends Layer {
 				EntityRenderer er;
 				er = new EntityRenderer(mesh, texture, shader);
 				entity.addComponent(er);
-				//entity.addComponent(new Spin());
+				entity.addComponent(new Spin());
 				WorldManager.entities.add(entity);
 			}
 		} catch (Exception e) { e.printStackTrace(); }
