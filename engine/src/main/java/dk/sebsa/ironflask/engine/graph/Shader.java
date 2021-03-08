@@ -54,6 +54,7 @@ public class Shader extends Asset {
     }
 	
 	public void createUniform(String uniformName) throws Exception {
+		if(uniforms.containsKey(uniformName));
 	    int uniformLocation = glGetUniformLocation(programId,
 	        uniformName);
 	    if (uniformLocation < 0) {

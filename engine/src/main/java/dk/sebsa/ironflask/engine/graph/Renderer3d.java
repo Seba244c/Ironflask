@@ -64,10 +64,11 @@ public class Renderer3d extends Renderer {
     }
 	
 	public void renderEntity(EntityRenderer er) {
-		// Activate first texture unit
-		glActiveTexture(GL_TEXTURE0);
-		// Bind the texture
-		glBindTexture(GL_TEXTURE_2D, er.getTexture().getId());
+		// Texute
+		if (er.getTexture() != null) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, er.getTexture().getId());
+		} else { glBindTexture(GL_TEXTURE_2D, 0); }
 		
 		// Draw the mesh
         glDrawElements(GL_TRIANGLES, er.getMesh().getVertexCount(), GL_UNSIGNED_INT, 0);        

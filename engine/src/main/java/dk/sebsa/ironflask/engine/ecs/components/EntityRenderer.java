@@ -27,6 +27,17 @@ public class EntityRenderer extends Component {
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
+	public EntityRenderer(Mesh mesh, Shader shader) {
+		this.mesh = mesh;
+		this.shader = shader;
+		
+		try {
+			shader.createUniform("projectionMatrix");
+			shader.createUniform("modelViewMatrix");
+			shader.createUniform("texture_sampler");
+		} catch (Exception e) { e.printStackTrace(); }
+	}
+	
 	public void onWillRender() {
 		if(!ers.containsKey(shader)) ers.put(shader, new HashMap<>());
 		if(!ers.get(shader).containsKey(mesh)) ers.get(shader).put(mesh, new ArrayList<>());
