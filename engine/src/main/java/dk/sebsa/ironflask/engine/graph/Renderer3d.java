@@ -49,6 +49,10 @@ public class Renderer3d extends Renderer {
 	        	glBindVertexArray(mesh.getVaoId());
 	        	
 	            for(EntityRenderer er : EntityRenderer.ers.get(shader).get(mesh)) {
+	        		// Color
+	        	    shader.setUniform("colour", er.getColor());
+	        	    shader.setUniform("useColour", er.isTextured() ? 0 : 1);
+	        	    
 	            	// Set world matrix for this item
 	                shader.setUniform("modelViewMatrix", er.entity.getModelViewMatrix(transformation, viewMatrix, newViewMatrix));
 	                renderEntity(er);
@@ -65,7 +69,7 @@ public class Renderer3d extends Renderer {
 	
 	public void renderEntity(EntityRenderer er) {
 		// Texute
-		if (er.getTexture() != null) {
+		if (er.isTextured()) {
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, er.getTexture().getId());
 		} else { glBindTexture(GL_TEXTURE_2D, 0); }

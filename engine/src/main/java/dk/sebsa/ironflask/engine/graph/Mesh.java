@@ -11,6 +11,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
+
 import org.lwjgl.system.MemoryUtil;
 
 public class Mesh extends Asset {
@@ -18,9 +19,10 @@ public class Mesh extends Asset {
 	private final List<Integer> vboIdList;
     private final int vertexCount;
 	
-	public Mesh(float[] positions, float[] textCoords, int[] indices) {
+	public Mesh(float[] positions, float[] textCoords, float[] normals, int[] indices) {
 		FloatBuffer posBuffer = null;
         FloatBuffer textCoordsBuffer = null;
+        FloatBuffer vecNormalsBuffer = null;
         IntBuffer indicesBuffer = null;
         try {
             vertexCount = indices.length;
@@ -48,6 +50,15 @@ public class Mesh extends Asset {
             glBufferData(GL_ARRAY_BUFFER, textCoordsBuffer, GL_STATIC_DRAW);
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
+            
+            // Vertex normals VBO
+            vboId = glGenBuffers();
+            vboIdList.add(vboId);
+            vecNormalsBuffer = MemoryUtil.memAllocFloat(normals.length);
+            vecNormalsBuffer.put(normals).flip();
+            glBindBuffer(GL_ARRAY_BUFFER, vboId);
+            glBufferData(GL_ARRAY_BUFFER, vecNormalsBuffer, GL_STATIC_DRAW);
+            glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, 0);
 
             // Index VBO
             vboId = glGenBuffers();
@@ -68,6 +79,9 @@ public class Mesh extends Asset {
             }
             if (indicesBuffer != null) {
                 MemoryUtil.memFree(indicesBuffer);
+            }
+            if (vecNormalsBuffer != null) {
+                MemoryUtil.memFree(vecNormalsBuffer);
             }
         }
     }

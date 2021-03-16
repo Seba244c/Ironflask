@@ -12,6 +12,7 @@ import dk.sebsa.ironflask.engine.core.Asset;
 import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
+import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.utils.FileUtil;
 
 public class Shader extends Asset {
@@ -70,6 +71,10 @@ public class Shader extends Asset {
             glUniformMatrix4fv(uniforms.get(uniformName), false,
                                value.get(stack.mallocFloat(16)));
         }
+    }
+	
+	public void setUniform(String uniformName, Color value) {
+        glUniform3f(uniforms.get(uniformName), value.r, value.g, value.b);
     }
 	
 	public void setUniform(String uniformName, int value) {

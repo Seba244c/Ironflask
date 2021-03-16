@@ -31,6 +31,7 @@ public class Window {
     private byte isFullscreen;
 	private byte minimized;
 	private byte cursorShown = 1;
+	private byte lineMode = 0;
     
     private int[] posX = new int[1];
     private int[] posY = new int[1];
@@ -307,5 +308,19 @@ public class Window {
 	
 	public boolean isCursorShown() {
 		return cursorShown == 1;
+	}
+
+	public boolean getLineMode() {
+		return lineMode == 1;
+	}
+
+	public void setLineMode(boolean lineMode) {
+		if(lineMode) {
+			this.lineMode = 1;
+			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+		} else {
+			this.lineMode = 0;
+			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+		}
 	}
 }
