@@ -1,6 +1,7 @@
 package dk.sebsa.ironflask.engine.graph;
 
 import dk.sebsa.ironflask.engine.core.Asset;
+import dk.sebsa.ironflask.engine.core.AssetManager;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -24,6 +25,7 @@ public class Mesh extends Asset {
         FloatBuffer textCoordsBuffer = null;
         FloatBuffer vecNormalsBuffer = null;
         IntBuffer indicesBuffer = null;
+        name = "Unnamed Mesh";
         try {
             vertexCount = indices.length;
             vboIdList = new ArrayList<>();
@@ -84,6 +86,7 @@ public class Mesh extends Asset {
                 MemoryUtil.memFree(vecNormalsBuffer);
             }
         }
+        AssetManager.allAssets.add(this);
     }
 
     public int getVaoId() {

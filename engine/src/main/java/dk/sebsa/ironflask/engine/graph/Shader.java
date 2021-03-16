@@ -16,43 +16,41 @@ import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.utils.FileUtil;
 
 public class Shader extends Asset {
-	private final int programId;
+	private int programId;
 	private int vertexShaderId;
 	private int fragmentShaderId;
-	private final boolean isDebug;
+	private boolean isDebug;
 	
-	private final Map<String, Integer> uniforms;
+	private Map<String, Integer> uniforms;
 	
 	public Shader(boolean isDebug) throws Exception {
-        programId = glCreateProgram();
-        if (programId == 0) {
-        	LoggingUtil.coreLog(Severity.Error, "Could not create shader");
-            throw new Exception("Could not create Shader");
-        }
-        AssetManager.allAssets.add(this);
-        
-        // Uniforms
-        uniforms = new HashMap<>();
-        this.isDebug = isDebug;
+		shaderAltConstructor(isDebug);
+		this.name = "Unnamed Shader";
     }
 	
 	public Shader(String name, boolean isDebug) throws Exception {
-        programId = glCreateProgram();
-        if (programId == 0) {
-        	LoggingUtil.coreLog(Severity.Error, "Could not create shader");
-            throw new Exception("Could not create Shader");
-        }
-        AssetManager.allAssets.add(this);
+		shaderAltConstructor(isDebug);
         
         // Create and verify shader
         createVertexShader(FileUtil.loadResource("/shaders/" + name + "_vertex.glsl"));
         createFragmentShader(FileUtil.loadResource("/shaders/" + name + "_fragment.glsl"));
         link();
         
+        this.name = name;
+    }
+	
+	private void shaderAltConstructor(boolean isDebug) throws Exception {
+		programId = glCreateProgram();
+        if (programId == 0) {
+        	LoggingUtil.coreLog(Severity.Error, "Could not create shader");
+            throw new Exception("Could not create Shader");
+        }
+        AssetManager.allAssets.add(this);
+        
         // Uniforms
         uniforms = new HashMap<>();
         this.isDebug = isDebug;
-    }
+	}
 	
 	public void createUniform(String uniformName) throws Exception {
 		if(uniforms.containsKey(uniformName));

@@ -8,6 +8,7 @@ public class AssetManager {
 	
 	public static void cleanup() {
 		for(Asset a : allAssets) {
+			System.out.println(a.name);
 			a.cleanup();
 		}
 	}

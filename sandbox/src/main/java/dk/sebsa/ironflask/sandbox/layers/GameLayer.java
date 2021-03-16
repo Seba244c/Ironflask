@@ -16,7 +16,7 @@ import dk.sebsa.ironflask.engine.graph.Mesh;
 import dk.sebsa.ironflask.engine.graph.Renderer3d;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
-import dk.sebsa.ironflask.engine.utils.FileUtil;
+import dk.sebsa.ironflask.engine.utils.OBJLoader;
 import dk.sebsa.ironflask.sandbox.Main;
 import dk.sebsa.ironflask.sandbox.components.CameraMovement;
 import dk.sebsa.ironflask.sandbox.components.Spin;
@@ -40,7 +40,7 @@ public class GameLayer extends Layer {
 		camera.addComponent(new CameraMovement());
 		WorldManager.entities.add(camera);
 		try {
-			Mesh mesh = FileUtil.loadMesh("/models/cube.obj");;
+			Mesh mesh = OBJLoader.loadMesh("/models/cube.obj");;
 			Texture texture = new Texture("/textures/grassblock.png");
 			Shader shader = new Shader("default", application.isDebug);
 			for(int i = 0; i < 10; i++) {

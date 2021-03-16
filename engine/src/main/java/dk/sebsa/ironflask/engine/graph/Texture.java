@@ -19,6 +19,8 @@ public class Texture extends Asset {
 	
 	public Texture(String fileName) throws Exception {
         this(loadTexture(fileName));
+        String[] split = fileName.split("/");
+        this.name = split[split.length-1].split("\\.")[0];
     }
 	
 	public Texture(int id) {

@@ -2,6 +2,7 @@ package dk.sebsa.ironflask.engine;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.LayerStack;
 import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
@@ -63,5 +64,6 @@ public class Application {
 		input.cleanup();
 		window.cleanup();
 		stack.cleanup();
+		AssetManager.cleanup();
 	}
 }
