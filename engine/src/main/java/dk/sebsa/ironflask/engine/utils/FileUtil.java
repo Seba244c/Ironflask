@@ -1,6 +1,8 @@
 package dk.sebsa.ironflask.engine.utils;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -19,12 +21,21 @@ public class FileUtil {
 	
 	public static List<String> readAllLines(String fileName) throws Exception {
         List<String> list = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(Class.forName(FileUtil.class.getName()).getResourceAsStream(fileName)))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                list.add(line);
-            }
+        BufferedReader br;
+        if(fileName.startsWith("/")) {
+        	br = new BufferedReader(new InputStreamReader(Class.forName(FileUtil.class.getName()).getResourceAsStream(fileName)));
+        } else {
+        	File file = new File(fileName);
+			br = new BufferedReader(new FileReader(file));
         }
+        
+        String line;
+        while ((line = br.readLine()) != null) {
+            list.add(line);
+        }
+        
+        br.close();
+        
         return list;
     }
 }

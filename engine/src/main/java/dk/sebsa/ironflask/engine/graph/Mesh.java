@@ -1,7 +1,7 @@
 package dk.sebsa.ironflask.engine.graph;
 
 import dk.sebsa.ironflask.engine.core.Asset;
-import dk.sebsa.ironflask.engine.core.AssetManager;
+import dk.sebsa.ironflask.engine.utils.OBJLoader;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -16,16 +16,37 @@ import static org.lwjgl.opengl.GL30.*;
 import org.lwjgl.system.MemoryUtil;
 
 public class Mesh extends Asset {
-	private final int vaoId;
-	private final List<Integer> vboIdList;
-    private final int vertexCount;
+	private int vaoId;
+	private List<Integer> vboIdList;
+    private int vertexCount;
+    private static List<Mesh> meshs = new ArrayList<>();
 	
-	public Mesh(float[] positions, float[] textCoords, float[] normals, int[] indices) {
+	public Mesh(String name) {
+		super(name);
+		try { if(name.startsWith("/")) {
+			OBJLoader.loadMesh(this, "/models"+name);
+		} else {
+			OBJLoader.loadMesh(this, name);
+		}} catch (Exception e) {
+			e.printStackTrace();
+		}
+		meshs.add(this);
+    }
+	
+	public static Mesh getMesh(String name) {
+		for(int i = 0; i < meshs.size(); i++) {
+			if(meshs.get(i).name.equals(name)) {
+				return meshs.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public void createMesh(float[] positions, float[] textCoords, float[] normals, int[] indices) {
 		FloatBuffer posBuffer = null;
         FloatBuffer textCoordsBuffer = null;
         FloatBuffer vecNormalsBuffer = null;
         IntBuffer indicesBuffer = null;
-        name = "Unnamed Mesh";
         try {
             vertexCount = indices.length;
             vboIdList = new ArrayList<>();
@@ -86,8 +107,7 @@ public class Mesh extends Asset {
                 MemoryUtil.memFree(vecNormalsBuffer);
             }
         }
-        AssetManager.allAssets.add(this);
-    }
+	}
 
     public int getVaoId() {
         return vaoId;

@@ -2,6 +2,9 @@ package dk.sebsa.ironflask.engine;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+
 import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.LayerStack;
@@ -31,6 +34,11 @@ public class Application {
 		input = new Input(this);
 		input.addCallbacks();
 		Component.assingedInput = input;
+		
+		// Resources
+		try {
+			AssetManager.loadAllResources(Paths.get(".").toAbsolutePath().normalize().toString() + "/resources/");
+		} catch (IOException e) { e.printStackTrace(); }
 		
 		// Time
 		Time.init();

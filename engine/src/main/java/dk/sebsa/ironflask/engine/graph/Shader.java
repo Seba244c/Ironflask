@@ -2,7 +2,9 @@ package dk.sebsa.ironflask.engine.graph;
 
 import static org.lwjgl.opengl.GL20.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.joml.Matrix4f;
@@ -19,27 +21,12 @@ public class Shader extends Asset {
 	private int programId;
 	private int vertexShaderId;
 	private int fragmentShaderId;
-	private boolean isDebug;
 	
+	private static List<Shader> shaders = new ArrayList<>();
 	private Map<String, Integer> uniforms;
 	
-	public Shader(boolean isDebug) throws Exception {
-		shaderAltConstructor(isDebug);
-		this.name = "Unnamed Shader";
-    }
-	
-	public Shader(String name, boolean isDebug) throws Exception {
-		shaderAltConstructor(isDebug);
-        
-        // Create and verify shader
-        createVertexShader(FileUtil.loadResource("/shaders/" + name + "_vertex.glsl"));
-        createFragmentShader(FileUtil.loadResource("/shaders/" + name + "_fragment.glsl"));
-        link();
-        
-        this.name = name;
-    }
-	
-	private void shaderAltConstructor(boolean isDebug) throws Exception {
+	public Shader(String name) throws Exception {
+		super(name);
 		programId = glCreateProgram();
         if (programId == 0) {
         	LoggingUtil.coreLog(Severity.Error, "Could not create shader");
@@ -49,7 +36,23 @@ public class Shader extends Asset {
         
         // Uniforms
         uniforms = new HashMap<>();
-        this.isDebug = isDebug;
+        
+        // Create and verify shader
+        String[] str = FileUtil.loadResource("/shaders" + name + ".glsl").split("///#ENDVERTEX");
+        createVertexShader(str[0]);
+        createFragmentShader(str[1]);
+        link();
+        
+        shaders.add(this);
+    }
+	
+	public static Shader getShader(String name) {
+		for(int i = 0; i < shaders.size(); i++) {
+			if(shaders.get(i).name.equals(name)) {
+				return shaders.get(i);
+			}
+		}
+		return null;
 	}
 	
 	public void createUniform(String uniformName) throws Exception {
@@ -119,7 +122,6 @@ public class Shader extends Asset {
             glDetachShader(programId, fragmentShaderId);
         }
 
-        if(isDebug) glValidateProgram(programId);				
         if (glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) {
             System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(programId, 1024));
         }
