@@ -22,7 +22,7 @@ public class EntityRenderer extends Component {
 	public EntityRenderer(Mesh mesh, Texture texture, Shader shader) {
 		this.mesh = mesh;
 		this.texture = texture;
-		isTextured = texture != null;
+		isTextured = true;
 		this.shader = shader;
 		this.color = defaultColor;
 		
@@ -38,6 +38,7 @@ public class EntityRenderer extends Component {
 	public EntityRenderer(Mesh mesh, Shader shader) {
 		this.mesh = mesh;
 		this.shader = shader;
+		isTextured = false;
 		
 		try {
 			shader.createUniform("projectionMatrix");

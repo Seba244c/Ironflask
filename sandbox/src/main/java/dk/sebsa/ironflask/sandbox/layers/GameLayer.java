@@ -9,6 +9,7 @@ import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
 import dk.sebsa.ironflask.engine.ecs.CameraEntity;
+import dk.sebsa.ironflask.engine.ecs.Component;
 import dk.sebsa.ironflask.engine.ecs.Entity;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.ecs.components.EntityRenderer;
@@ -69,7 +70,8 @@ public class GameLayer extends Layer {
 		} else if(e.type == EventType.WindowResize) {
 			renderer.windowResized();
 		}
-		return false;
+		
+		return Component.assingedInput.onEvent(e);
 	}
 	
 	@Override

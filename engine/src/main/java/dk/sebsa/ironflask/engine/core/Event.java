@@ -6,7 +6,7 @@ import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
 public class Event {
 	public enum EventType {
 		WindowClose, WindowResize, WindowMinimize, WindowUnMinimize, WindowMoved,	// DONE
-		AppUpdate, AppRender,														// DONE
+		AppUpdate, AppLate, AppRender,												// DONE
 		KeyPressed, KeyReleased, CharEvent,											// DONE
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled			// DONE
 	}

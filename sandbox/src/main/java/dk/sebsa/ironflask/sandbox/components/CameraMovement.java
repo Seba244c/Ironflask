@@ -49,6 +49,9 @@ public class CameraMovement extends Component {
 	    } if (Component.assingedInput.isKeyDown(GLFW_KEY_SPACE)) {
 	        cameraInc.y += 1;
 	        ((CameraEntity) entity).camDirty = 1;
+	    } if (Component.assingedInput.isKeyDown(GLFW_KEY_TAB)) {
+	        cameraInc.y += 10;
+	        ((CameraEntity) entity).camDirty = 1;
 	    }
 	    ((CameraEntity) entity).movePosition(
 	    		cameraInc.x * CAM_SPEED * Time.getDeltaTime(),

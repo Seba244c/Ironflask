@@ -11,6 +11,7 @@ import dk.sebsa.ironflask.engine.core.LayerStack;
 import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.ecs.Component;
+import dk.sebsa.ironflask.engine.ecs.ComponentInput;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.Window;
@@ -33,7 +34,7 @@ public class Application {
 		window = new Window(name, 800, 500, true, Color.red(), this);
 		input = new Input(this);
 		input.addCallbacks();
-		Component.assingedInput = input;
+		Component.assingedInput = new ComponentInput(input);
 		
 		// Resources
 		try {
@@ -66,6 +67,9 @@ public class Application {
 
             // Endoff
             input.late();
+            event = new Event(EventType.AppLate, EventCatagory.App);
+			event.oneLayer = false;
+            event.dispatch(stack);
 			glfwSwapBuffers(window.windowId);
 		}
 
