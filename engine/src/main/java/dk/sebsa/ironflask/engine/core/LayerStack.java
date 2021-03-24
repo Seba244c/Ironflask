@@ -35,6 +35,12 @@ public class LayerStack {
 		queue.add(event);
 	}
 	
+	public void init() {
+		for(Layer layer : stack) {
+			layer.init();
+		}
+	}
+	
 	public void handleEvents() {
 		for(int i = 0; i < queue.size(); i++) {
 			Event e = queue.get(i);

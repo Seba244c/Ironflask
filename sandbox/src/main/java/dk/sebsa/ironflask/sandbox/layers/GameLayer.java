@@ -29,30 +29,6 @@ public class GameLayer extends Layer {
 	public GameLayer(Application app) {
 		super();
 		this.application = app;
-		
-		// Set app Shader and renderer
-		try {
-			renderer = new Renderer3d(application);
-		} catch (Exception e) { e.printStackTrace(); }
-		
-		// Entity
-		camera = new CameraEntity();
-		camera.addComponent(new CameraMovement());
-		WorldManager.entities.add(camera);
-		try {
-			Mesh mesh = Mesh.getMesh("cube.obj");
-			Texture texture = Texture.getTexture("grassblock.png");
-			Shader shader = Shader.getShader("default");
-			for(int i = 0; i < 10; i++) {
-				Entity entity = new Entity();
-				entity.setScale(0.5f);
-				entity.setPosition(new Vector3f(i*0.6f, 0, -2));
-				EntityRenderer er = new EntityRenderer(mesh, texture, shader);
-				entity.addComponent(er);
-				entity.addComponent(new Spin());
-				WorldManager.entities.add(entity);
-			}
-		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
 	@Override
@@ -76,11 +52,38 @@ public class GameLayer extends Layer {
 	
 	@Override
 	public void close() {
-		renderer.cleanup();
+		// ee
 	}
 	
 	@Override
 	public void render() {
 		renderer.render(camera);
+	}
+
+	@Override
+	public void init() {
+		// Set app Shader and renderer
+		try {
+			renderer = new Renderer3d(application);
+		} catch (Exception e) { e.printStackTrace(); }
+		
+		// Entity
+		camera = new CameraEntity();
+		camera.addComponent(new CameraMovement());
+		WorldManager.entities.add(camera);
+		try {
+			Mesh mesh = Mesh.getMesh("cube.obj");
+			Texture texture = Texture.getTexture("grassblock.png");
+			Shader shader = Shader.getShader("default");
+			for(int i = 0; i < 10; i++) {
+				Entity entity = new Entity();
+				entity.setScale(0.5f);
+				entity.setPosition(new Vector3f(i*0.6f, 0, -2));
+				EntityRenderer er = new EntityRenderer(mesh, texture, shader);
+				entity.addComponent(er);
+				entity.addComponent(new Spin());
+				WorldManager.entities.add(entity);
+			}
+		} catch (Exception e) { e.printStackTrace(); }
 	}
 }

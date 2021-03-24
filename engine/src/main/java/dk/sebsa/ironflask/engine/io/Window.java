@@ -13,6 +13,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GLCapabilities;
 
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
@@ -37,6 +38,7 @@ public class Window {
     private int[] posY = new int[1];
     
     private Application app;
+	public GLCapabilities capabilities;
 	
 	private int frames;	// Frames this seconds
 	private int fps;	// Last seconds FPS
@@ -73,7 +75,7 @@ public class Window {
 		// Configure GLFW
 		glfwDefaultWindowHints(); // optional, the current window hints are already the default
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be temporaraly not be resizable
 		
 		// OSX Sipport
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -95,26 +97,32 @@ public class Window {
         	if(w == 0 && h == 0) {
         		minimized = 1;
 
-                Event event = new Event(EventType.WindowMinimize, EventCatagory.Window);
-                event.oneLayer = false;
-                event.name = title + " was minimized";
-                event.dispatch(app.stack);
+                if(app != null) {
+                	Event event = new Event(EventType.WindowMinimize, EventCatagory.Window);
+                    event.oneLayer = false;
+                    event.name = title + " was minimized";
+                    event.dispatch(app.stack);
+                }
         	}
     		else if(isMinimized()) {
     			minimized = 0;
     			
-    			Event event = new Event(EventType.WindowUnMinimize, EventCatagory.Window);
-    			event.oneLayer = false;
-                event.name = title + " was un-minimized";
-                event.dispatch(app.stack);
+    			if(app != null) {
+        			Event event = new Event(EventType.WindowUnMinimize, EventCatagory.Window);
+        			event.oneLayer = false;
+                    event.name = title + " was un-minimized";
+                    event.dispatch(app.stack);
+    			}
     		}
                         
             glViewport(0, 0, w, h);
             
-            Event event = new Event(EventType.WindowResize, EventCatagory.Window);
-            event.oneLayer = false;
-            event.name = title + " was resized";
-            event.dispatch(app.stack);
+            if(app != null) {
+                Event event = new Event(EventType.WindowResize, EventCatagory.Window);
+                event.oneLayer = false;
+                event.name = title + " was resized";
+                event.dispatch(app.stack);
+            }
         });
 		
 		// Get the thread stack and push a new frame
@@ -147,7 +155,7 @@ public class Window {
 		// creates the GLCapabilities instance and makes the OpenGL
 		// bindings available for use.
 		LoggingUtil.coreLog(Severity.Info, "Setting up OpenGL");
-		GL.createCapabilities();
+		capabilities = GL.createCapabilities();
 		
 		// Culling
 		glEnable(GL_CULL_FACE);
@@ -201,10 +209,12 @@ public class Window {
 	
 	@SuppressWarnings("resource")
 	public void cleanup() {
-		Event event = new Event(EventType.WindowClose, EventCatagory.Window);
-		event.oneLayer = false;
-        event.name = title + " is closing";
-        event.dispatch(app.stack);
+		if(app != null) {
+			Event event = new Event(EventType.WindowClose, EventCatagory.Window);
+			event.oneLayer = false;
+	        event.name = title + " is closing";
+	        event.dispatch(app.stack);
+		}
         
 		LoggingUtil.coreLog(Severity.Info, "Destorying window");
 		// Free the window callbacks and destroy the window

@@ -2,18 +2,20 @@ package dk.sebsa.ironflask.engine;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-import java.io.IOException;
-import java.nio.file.Paths;
+import org.lwjgl.system.MemoryUtil;
 
 import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.LayerStack;
+import dk.sebsa.ironflask.engine.core.LoadingThread;
 import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.ecs.Component;
 import dk.sebsa.ironflask.engine.ecs.ComponentInput;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.enums.AppState;
+import dk.sebsa.ironflask.engine.graph.Shader;
+import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Color;
@@ -27,6 +29,8 @@ public class Application {
 	public final boolean isDebug;
 	public AppState state = AppState.Loading;
 	
+	public LoadingThread loadingThread;
+	
 	public Application(String name, boolean isDebug) {
 		this.name = name;
 		this.isDebug = isDebug;
@@ -38,46 +42,75 @@ public class Application {
 		input.addCallbacks();
 		Component.assingedInput = new ComponentInput(input);
 		
-		// Resources
-		try {
-			AssetManager.loadAllResources(Paths.get(".").toAbsolutePath().normalize().toString() + "/resources/");
-		} catch (IOException e) { e.printStackTrace(); }
-		
-		// Time
-		Time.init();
+		renderLoadingScreen();
+		glfwMakeContextCurrent(MemoryUtil.NULL);
+		loadingThread = new LoadingThread(stack, window);
+		loadingThread.start();
 	}
 	
 	public void run() {
 		while(!window.shouldClose()) {
-			// Window stuff
-			glfwPollEvents();
-			stack.handleEvents();
-			window.update();
-			input.update();
-			Time.process();
-			
-			// Logic
-			WorldManager.updateAll();
-			Event event = new Event(EventType.AppUpdate, EventCatagory.App);
-			event.oneLayer = false;
-            event.dispatch(stack);
-            WorldManager.lateUpdateAll();
-            
-            // Render
-            WorldManager.onWillRenderAll();
-            stack.render();
-
-            // Endoff
-            input.late();
-            event = new Event(EventType.AppLate, EventCatagory.App);
-			event.oneLayer = false;
-            event.dispatch(stack);
-			glfwSwapBuffers(window.windowId);
+			if(state == AppState.Loading) {
+				loadingState();
+				if(loadingThread.done) {
+					state = AppState.Running;
+					glfwMakeContextCurrent(window.windowId);
+				}
+			} else runningState();
 		}
-
 		input.cleanup();
 		window.cleanup();
 		stack.cleanup();
 		AssetManager.cleanup();
+	}
+	
+	public void renderLoadingScreen() {
+		try {
+			new Texture("/Splash.png");
+		} catch (Exception e) { e.printStackTrace(); }
+		Texture splashTexture = Texture.getTexture("Splash.png");
+		
+		//// RENDER
+		// Window
+		window.update();
+		glfwSwapBuffers(window.windowId);
+		// Texture
+		
+		
+		// Clean up
+		splashTexture.cleanup();
+		AssetManager.allAssets.remove(splashTexture);
+	}
+	
+	public void loadingState() {
+		// Window stuff
+		glfwPollEvents();
+	}
+	
+	public void runningState() {
+		// Window stuff
+		glfwPollEvents();
+		stack.handleEvents();
+		window.update();
+		input.update();
+		Time.process();
+		
+		// Logic
+		WorldManager.updateAll();
+		Event event = new Event(EventType.AppUpdate, EventCatagory.App);
+		event.oneLayer = false;
+        event.dispatch(stack);
+        WorldManager.lateUpdateAll();
+        
+        // Render
+        WorldManager.onWillRenderAll();
+        stack.render();
+
+        // Endoff
+        input.late();
+        event = new Event(EventType.AppLate, EventCatagory.App);
+		event.oneLayer = false;
+        event.dispatch(stack);
+		glfwSwapBuffers(window.windowId);
 	}
 }

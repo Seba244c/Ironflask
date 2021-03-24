@@ -7,4 +7,5 @@ public abstract class Layer {
 	public abstract boolean handleEvent(Event e);
 	public abstract void render();
 	public abstract void close();
+	public abstract void init();
 }

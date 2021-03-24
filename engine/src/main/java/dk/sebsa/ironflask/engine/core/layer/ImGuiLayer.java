@@ -35,10 +35,13 @@ public abstract class ImGuiLayer extends Layer {
 	public ImGuiLayer(Application app) {
 		super();
 		this.application = app;
-		
+	}
+	
+	@Override
+	public void init() {
 		ImGui.createContext();
 		imGuiImp = new BetterImGuiImplGlfw();
-		imGuiImp.init(app.window.windowId, false);
+		imGuiImp.init(application.window.windowId, false);
 		imGuiGlImp = new ImGuiImplGl3();
 		imGuiGlImp.init("#version 150");
         ImGui.init();

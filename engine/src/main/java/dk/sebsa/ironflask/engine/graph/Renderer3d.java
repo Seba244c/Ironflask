@@ -15,7 +15,7 @@ import dk.sebsa.ironflask.engine.ecs.CameraEntity;
 import dk.sebsa.ironflask.engine.ecs.components.EntityRenderer;
 
 
-public class Renderer3d extends Renderer {
+public class Renderer3d {
 	private Transformation transformation;
 	private Matrix4f projectionMatrix;
 	
@@ -76,11 +76,5 @@ public class Renderer3d extends Renderer {
 		
 		// Draw the mesh
         glDrawElements(GL_TRIANGLES, er.getMesh().getVertexCount(), GL_UNSIGNED_INT, 0);        
-	}
-
-	@Override
-	public void cleanup() {
-		// TODO Auto-generated method stub
-		
 	}
 }
