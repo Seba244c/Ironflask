@@ -10,11 +10,8 @@ import dk.sebsa.ironflask.engine.core.LayerStack;
 import dk.sebsa.ironflask.engine.core.LoadingThread;
 import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
-import dk.sebsa.ironflask.engine.ecs.Component;
-import dk.sebsa.ironflask.engine.ecs.ComponentInput;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.enums.AppState;
-import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.Window;
@@ -37,14 +34,11 @@ public class Application {
 		
 		// Window, stack and input
 		stack = new LayerStack(this, name + "-LayerStack");
-		window = new Window(name, 800, 500, true, Color.red(), this);
-		input = new Input(this);
-		input.addCallbacks();
-		Component.assingedInput = new ComponentInput(input);
+		window = new Window(name, 800, 500, true, Color.cyan(), this);
 		
 		renderLoadingScreen();
 		glfwMakeContextCurrent(MemoryUtil.NULL);
-		loadingThread = new LoadingThread(stack, window);
+		loadingThread = new LoadingThread(stack, this);
 		loadingThread.start();
 	}
 	
