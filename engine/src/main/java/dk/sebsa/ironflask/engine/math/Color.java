@@ -12,6 +12,7 @@ public class Color {
 		this.b = Mathf.clamp(b, 0, 1);
 		this.a = Mathf.clamp(a, 0, 1);
 	}
+	
 	public Color(float r, float g, float b) {
 		this.r = Mathf.clamp(r, 0, 1);
 		this.g = Mathf.clamp(g, 0, 1);
@@ -31,6 +32,11 @@ public class Color {
 	public static final Color cyan() {return new Color(0, 1, 1);}
 	public static final Color magenta() {return new Color(1, 0, 1);}
 	public static final Color transparent() {return new Color(0, 0, 0, 0);}
+	
+	public static final Color logTrace() {return white();}
+	public static final Color logInfo() {return new Color(0.4078f, 1, 0.2f, 1);}
+	public static final Color logWarning() {return new Color(1, 0.7921f, 0.2f, 1);}
+	public static final Color logError() {return new Color(1, 0.3921f, 0.2f, 1);}
 	
 	public String toString() {
 		return "("+String.valueOf(r)+", "+String.valueOf(g)+", "+String.valueOf(b)+", "+String.valueOf(a)+")";

@@ -52,9 +52,7 @@ public class LayerStack {
 		queue.clear();
 	}
 	
-	public void render() {
-		LoggingUtil.coreLog(Severity.Trace, name + " | Recived render call");
-		
+	public void render() {		
 		for(int i = 0; i < stack.size(); i++) {
 			// Disabled Stacks
 			if(!stack.get(i).enabled) return;

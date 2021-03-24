@@ -18,6 +18,7 @@ import dk.sebsa.ironflask.engine.debug.BetterImGuiImplGlfw;
 import dk.sebsa.ironflask.engine.io.Log;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
+import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.utils.CommandUtils;
 import imgui.ImGui;
 import imgui.ImGuiIO;
@@ -105,7 +106,7 @@ public abstract class ImGuiLayer extends Layer {
 		ImGui.text("Memory Allocated: " + Math.round(maxMem) + "MB");
 		ImGui.text("Memory Used: " + Math.round(usedMem) + "/" + Math.round(maxMem) + "MB");
 		ImGui.text("Memory Free: " + Math.round(freMem) + "MB");
-		
+
 		ImGui.end();
 		
 		// Engine settings
@@ -131,7 +132,12 @@ public abstract class ImGuiLayer extends Layer {
 		ImGui.beginChild("Log");
 		
 		for(Log log : Log.logs) {
-			ImGui.text(log.toString());
+			Color textColor;
+			if(log.severity == Severity.Error) 			textColor = Color.logError();
+			else if(log.severity == Severity.Warning) 	textColor = Color.logWarning();
+			else if(log.severity == Severity.Info) 		textColor = Color.logInfo();
+			else 										textColor = Color.logTrace();
+			ImGui.textColored(textColor.r, textColor.g, textColor.b, 1f, log.toString());
 		}
 		ImGui.endChild();
 		

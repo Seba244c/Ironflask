@@ -18,6 +18,8 @@ import java.util.jar.JarFile;
 import dk.sebsa.ironflask.engine.graph.Mesh;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
+import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
 
 public class AssetManager {
 	public static List<Asset> allAssets = new ArrayList<>();
@@ -115,6 +117,10 @@ public class AssetManager {
 	private static List<String> importFromLocalDir(String path, int useExt) throws IOException {
 		List<String> paths = new ArrayList<String>();
 		InputStream in = cl.getResourceAsStream(path);
+		if(in == null) {
+			LoggingUtil.coreLog(Severity.Warning, "When importing assets from jar folder was not found: " + path);
+			return paths;
+		}
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		String line;
 		

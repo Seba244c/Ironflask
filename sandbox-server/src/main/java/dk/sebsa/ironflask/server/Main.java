@@ -16,7 +16,7 @@ public class Main {
 		// Init server
 		server = new GameServer();
 		Thread thread = new Thread(server);
-		server.init(0, Main::isRunning);
+		server.init(56636, Main::isRunning);
 		thread.start();
 		
 		test();
