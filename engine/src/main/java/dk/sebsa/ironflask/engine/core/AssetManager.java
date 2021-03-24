@@ -19,7 +19,7 @@ import dk.sebsa.ironflask.engine.graph.Mesh;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
-import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
+import dk.sebsa.ironflask.engine.enums.*;
 
 public class AssetManager {
 	public static List<Asset> allAssets = new ArrayList<>();
@@ -27,12 +27,6 @@ public class AssetManager {
 	private static ClassLoader cl = clazz.getClassLoader();
 	
 	private static HashMap<AssetTypes, List<String>> fileLists = new HashMap<>();
-	
-	public enum AssetTypes {
-		Shader,
-		Texture,
-		Mesh
-	}
 	
 	public static void cleanup() {
 		for(Asset a : allAssets) {

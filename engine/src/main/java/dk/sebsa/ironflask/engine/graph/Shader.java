@@ -13,7 +13,7 @@ import org.lwjgl.system.MemoryStack;
 import dk.sebsa.ironflask.engine.core.Asset;
 import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
-import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
+import dk.sebsa.ironflask.engine.enums.*;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.utils.FileUtil;
 

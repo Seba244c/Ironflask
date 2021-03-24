@@ -21,7 +21,7 @@ import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
 import dk.sebsa.ironflask.engine.core.events.KeyReleasedEvent;
 import dk.sebsa.ironflask.engine.core.events.MouseMoveEvent;
 import dk.sebsa.ironflask.engine.core.events.MouseScrolledEvent;
-import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
+import dk.sebsa.ironflask.engine.enums.*;
 import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class Input {

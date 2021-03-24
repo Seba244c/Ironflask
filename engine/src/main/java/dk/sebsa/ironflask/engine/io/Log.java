@@ -3,7 +3,7 @@ package dk.sebsa.ironflask.engine.io;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
+import dk.sebsa.ironflask.engine.enums.*;
 
 public class Log {
 	public String text;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
-import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
+import dk.sebsa.ironflask.engine.enums.*;
 
 public class LayerStack {
 	public String name;

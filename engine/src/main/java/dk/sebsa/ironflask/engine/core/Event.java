@@ -1,7 +1,7 @@
 package dk.sebsa.ironflask.engine.core;
 
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
-import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
+import dk.sebsa.ironflask.engine.enums.*;
 
 public class Event {
 	public enum EventType {

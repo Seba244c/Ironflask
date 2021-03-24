@@ -17,7 +17,7 @@ import dk.sebsa.ironflask.engine.core.events.MouseScrolledEvent;
 import dk.sebsa.ironflask.engine.debug.BetterImGuiImplGlfw;
 import dk.sebsa.ironflask.engine.io.Log;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
-import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
+import dk.sebsa.ironflask.engine.enums.*;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.utils.CommandUtils;
 import imgui.ImGui;

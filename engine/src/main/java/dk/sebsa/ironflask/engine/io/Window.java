@@ -18,8 +18,8 @@ import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
-import dk.sebsa.ironflask.engine.io.LoggingUtil.Severity;
 import dk.sebsa.ironflask.engine.math.Color;
+import dk.sebsa.ironflask.engine.enums.*;
 
 public class Window {
 	public long windowId;

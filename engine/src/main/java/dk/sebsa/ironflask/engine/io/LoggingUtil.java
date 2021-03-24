@@ -4,16 +4,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.enums.*;
 
 public class LoggingUtil {
 	public static boolean traceLog = false;
 	private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");  
-	public enum Severity {
-		Trace,
-		Info,
-		Warning,
-		Error
-	}
 	
 	private static String getTime() {
 		return dtf.format(LocalDateTime.now());

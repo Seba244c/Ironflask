@@ -13,6 +13,7 @@ import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.ecs.Component;
 import dk.sebsa.ironflask.engine.ecs.ComponentInput;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
+import dk.sebsa.ironflask.engine.enums.AppState;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Color;
@@ -24,6 +25,7 @@ public class Application {
 	public Window window;
 	public Input input;
 	public final boolean isDebug;
+	public AppState state = AppState.Loading;
 	
 	public Application(String name, boolean isDebug) {
 		this.name = name;
