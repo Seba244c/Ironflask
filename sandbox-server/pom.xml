@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>dk.sebsa.ironflask</groupId>
-  <artifactId>sandbox</artifactId>
+  <artifactId>sandbox-server</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Sandbox</name>
+  <name>Sandbox Server</name>
   
   <developers>
         <developer>
@@ -22,7 +22,20 @@
 		<maven.compiler.target>11</maven.compiler.target>
    </properties>
    
-   <build>
+  <dependencies>
+  	<dependency>
+  		<groupId>dk.sebsa.ironflask</groupId>
+  		<artifactId>engine</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>dk.sebsa.ironflask</groupId>
+  		<artifactId>networking</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+  
+  <build>
 	    <plugins>
 		    <plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
@@ -37,7 +50,7 @@
 			                <archive>
 			                <manifest>
 			                    <mainClass>
-			                        dk.sebsa.ironflask.sandbox.Main
+			                        dk.sebsa.ironflask.server.Main
 			                    </mainClass>
 			                    <addClasspath>true</addClasspath>
 			                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -53,17 +66,4 @@
 			</plugin>
 		  </plugins>
     </build>
-  
-  <dependencies>
-  	<dependency>
-  		<groupId>dk.sebsa.ironflask</groupId>
-  		<artifactId>engine</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>dk.sebsa.ironflask</groupId>
-  		<artifactId>networking</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
 </project>
