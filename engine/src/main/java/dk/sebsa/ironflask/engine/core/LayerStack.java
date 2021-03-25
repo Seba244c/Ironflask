@@ -36,6 +36,7 @@ public class LayerStack {
 	}
 	
 	public void init() {
+		LoggingUtil.coreLog(Severity.Info, "Initlializing LayerStack: "+name);
 		for(Layer layer : stack) {
 			layer.init();
 		}

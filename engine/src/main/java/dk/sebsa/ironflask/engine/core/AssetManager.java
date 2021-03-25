@@ -37,6 +37,7 @@ public class AssetManager {
 	}
 	
 	public static void loadAllResources(String externalDir) throws IOException {
+		LoggingUtil.coreLog(Severity.Info, "Loading all resources");
 		for(AssetTypes type : AssetTypes.values()) {
 			fileLists.put(type, new ArrayList<String>());
 		}
@@ -61,6 +62,7 @@ public class AssetManager {
 	
 	private static void createList(AssetTypes type) throws Exception {
 		List<String> list = fileLists.get(type);
+		
 		for(String name : list) {
 			try {
 				if(type.equals(AssetTypes.Texture)) new Texture(name);

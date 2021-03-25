@@ -2,6 +2,9 @@ package dk.sebsa.ironflask.engine.math;
 
 import java.util.concurrent.TimeUnit;
 
+import dk.sebsa.ironflask.engine.enums.Severity;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
+
 public class Time {
 public static float timeScale = 1;
 	
@@ -18,6 +21,7 @@ public static float timeScale = 1;
 	private static long framePassedTime;
 	
 	public static void init() {
+		LoggingUtil.coreLog(Severity.Info, "Initliliazing Time system");
 		 lastFrameTime = System.nanoTime();
 		 startTime = lastFrameTime;
 	}

@@ -1,4 +1,4 @@
-package dk.sebsa.ironflask.engine.core;
+package dk.sebsa.ironflask.engine.threading;
 
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 
@@ -11,13 +11,17 @@ import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.system.MemoryUtil;
 
 import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.core.AssetManager;
+import dk.sebsa.ironflask.engine.core.LayerStack;
 import dk.sebsa.ironflask.engine.ecs.Component;
 import dk.sebsa.ironflask.engine.ecs.ComponentInput;
+import dk.sebsa.ironflask.engine.enums.Severity;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.graph.renderers.Renderer2d;
 import dk.sebsa.ironflask.engine.io.Input;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.math.Time;
 
 public class LoadingThread extends Thread {
@@ -33,6 +37,7 @@ public class LoadingThread extends Thread {
 	}
 	
 	public void renderLoadScreen(boolean createAssets) {
+		LoggingUtil.coreLog(Severity.Info, "Rendering Splash Screen");
 		if(createAssets) {
 			// Create shader and texture
 			try {
@@ -53,6 +58,7 @@ public class LoadingThread extends Thread {
 
 	@Override
 	public void run() {
+		LoggingUtil.coreLog(Severity.Info, "Starting LoadingThread");
 		GLFW.glfwMakeContextCurrent(app.window.windowId);
 		GL.setCapabilities(capabilities);
 		
@@ -75,5 +81,6 @@ public class LoadingThread extends Thread {
 		// Done
 		GLFW.glfwMakeContextCurrent(MemoryUtil.NULL);
 		done = true;
+		LoggingUtil.coreLog(Severity.Info, "Closing LoadingThread");
 	}
 }

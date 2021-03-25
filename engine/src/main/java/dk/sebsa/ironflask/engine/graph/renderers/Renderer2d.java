@@ -1,9 +1,11 @@
 package dk.sebsa.ironflask.engine.graph.renderers;
 
+import dk.sebsa.ironflask.engine.enums.Severity;
 import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Matrix4x4;
 import dk.sebsa.ironflask.engine.math.Vector2f;
@@ -18,6 +20,7 @@ public class Renderer2d {
 	public static Shader shader;
 	
 	public static void init(Window win, Shader s) {
+		LoggingUtil.coreLog(Severity.Info, "Initiliazing Renderer2d");
 		float[] square = new float[] {
 				0, 1, 1, 1, 1, 0,
 				1, 0, 0, 0, 0, 1

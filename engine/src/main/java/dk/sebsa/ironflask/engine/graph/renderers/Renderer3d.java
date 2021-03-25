@@ -13,9 +13,11 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.ecs.CameraEntity;
 import dk.sebsa.ironflask.engine.ecs.components.EntityRenderer;
+import dk.sebsa.ironflask.engine.enums.Severity;
 import dk.sebsa.ironflask.engine.graph.Mesh;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Transformation;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
 
 
 public class Renderer3d {
@@ -28,6 +30,7 @@ public class Renderer3d {
     private final Application app;
 	
 	public Renderer3d(Application app) {
+		LoggingUtil.coreLog(Severity.Info, "Initiliazing Renderer3d");
 		this.app = app;
 		
 		// Crate transformation

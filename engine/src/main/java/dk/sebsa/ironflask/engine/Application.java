@@ -7,7 +7,6 @@ import org.lwjgl.system.MemoryUtil;
 import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.LayerStack;
-import dk.sebsa.ironflask.engine.core.LoadingThread;
 import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
@@ -16,6 +15,7 @@ import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.math.Time;
+import dk.sebsa.ironflask.engine.threading.LoadingThread;
 
 public class Application {
 	public String name;
