@@ -1,2 +1,6 @@
-mvn build dk.sebsa.ironflask:sandbox:jar-with-dependencies
+cd ..
+call compile_libs.cmd
+cd sandbox
+call mvn clean install
+call Xcopy /E /I .\resources\ .\target\resources\
 pause
