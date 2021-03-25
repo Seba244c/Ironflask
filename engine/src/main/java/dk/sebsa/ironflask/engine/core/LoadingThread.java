@@ -32,12 +32,14 @@ public class LoadingThread extends Thread {
 		this.capabilities = app.window.capabilities;
 	}
 	
-	public void renderLoadScreen() {
-		// Create shader and texture
-		try {
-			Renderer2d.init(app.window, new Shader("/2d"));
-			new Texture("/Splash.png");
-		} catch (Exception e) { e.printStackTrace(); }
+	public void renderLoadScreen(boolean createAssets) {
+		if(createAssets) {
+			// Create shader and texture
+			try {
+				Renderer2d.init(app.window, new Shader("/2d"));
+				new Texture("/Splash.png");
+			} catch (Exception e) { e.printStackTrace(); }
+		}
 		
 		//// RENDER
 		// Window
@@ -54,7 +56,7 @@ public class LoadingThread extends Thread {
 		GLFW.glfwMakeContextCurrent(app.window.windowId);
 		GL.setCapabilities(capabilities);
 		
-		renderLoadScreen();
+		renderLoadScreen(true);
 		
 		// Input
 		app.input = new Input(app);

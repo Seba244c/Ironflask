@@ -50,10 +50,15 @@ public class Application {
 				}
 			} else runningState();
 		}
+		cleanupScreen();
+		AssetManager.cleanup();
 		input.cleanup();
 		window.cleanup();
 		stack.cleanup();
-		AssetManager.cleanup();
+	}
+	
+	public void cleanupScreen() {
+		loadingThread.renderLoadScreen(false);
 	}
 	
 	public void loadingState() {
