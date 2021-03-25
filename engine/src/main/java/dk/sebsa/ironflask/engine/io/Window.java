@@ -229,6 +229,10 @@ public class Window {
 	public boolean shouldClose() {
 		return glfwWindowShouldClose(windowId);
 	}
+	
+	public void setShouldClose(boolean shouldClose) {
+		glfwSetWindowShouldClose(windowId, shouldClose);
+	}
 
 	public void setTitle(String title) {
 		LoggingUtil.coreLog(Severity.Info, "Setting title of window("+title+") to: " + title);

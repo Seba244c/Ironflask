@@ -42,6 +42,9 @@ public class GameLayer extends Layer {
 			} else if(e2.key == GLFW.GLFW_KEY_F7) {
 				application.window.setLineMode(!application.window.getLineMode());
 				return true;
+			} else if(e2.key == GLFW.GLFW_KEY_ESCAPE) {
+				application.close();
+				return true;
 			}
 		} else if(e.type == EventType.WindowResize) {
 			renderer.windowResized();

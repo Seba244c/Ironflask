@@ -87,4 +87,8 @@ public class Application {
         event.dispatch(stack);
 		glfwSwapBuffers(window.windowId);
 	}
+	
+	public void close() {
+		window.setShouldClose(true);
+	}
 }
