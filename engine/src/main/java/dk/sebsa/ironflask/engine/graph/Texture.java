@@ -1,6 +1,7 @@
 package dk.sebsa.ironflask.engine.graph;
 
 import dk.sebsa.ironflask.engine.core.Asset;
+import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class Texture extends Asset {
 		this(fileName, loadTexture(fileName));
     }
 	
-	public Texture(String name, int id) {
+	public Texture(String name, int id) throws AssetExistsException {
 		super(name);
         this.id = id;
         textures.add(this);

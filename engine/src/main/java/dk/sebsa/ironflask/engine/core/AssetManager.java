@@ -19,6 +19,7 @@ import dk.sebsa.ironflask.engine.graph.Mesh;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
+import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 import dk.sebsa.ironflask.engine.enums.*;
 
 public class AssetManager {
@@ -30,7 +31,7 @@ public class AssetManager {
 	
 	public static void cleanup() {
 		for(Asset a : allAssets) {
-			System.out.println(a.name);
+			LoggingUtil.coreLog(Severity.Trace, "Deleteing asset: " + a.name);
 			a.cleanup();
 		}
 	}
@@ -49,12 +50,25 @@ public class AssetManager {
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
+	public static boolean exists(String name) {
+		for(Asset a : allAssets) {
+			if(a.name.equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private static void createList(AssetTypes type) throws Exception {
 		List<String> list = fileLists.get(type);
 		for(String name : list) {
-			if(type.equals(AssetTypes.Texture)) new Texture(name);
-			else if(type.equals(AssetTypes.Shader)) new Shader(name);
-			else if(type.equals(AssetTypes.Mesh)) new Mesh(name);
+			try {
+				if(type.equals(AssetTypes.Texture)) new Texture(name);
+				else if(type.equals(AssetTypes.Shader)) new Shader(name);
+				else if(type.equals(AssetTypes.Mesh)) new Mesh(name);
+			} catch (AssetExistsException e) {
+				LoggingUtil.coreLog(Severity.Warning, "Asset already exists: " + name);
+			}
 		}
 	}
 	

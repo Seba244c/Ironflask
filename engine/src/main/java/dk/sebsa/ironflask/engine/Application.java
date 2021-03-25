@@ -12,7 +12,10 @@ import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.enums.AppState;
+import dk.sebsa.ironflask.engine.graph.Rect;
+import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
+import dk.sebsa.ironflask.engine.graph.renderers.Renderer2d;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Color;
@@ -59,6 +62,11 @@ public class Application {
 	}
 	
 	public void renderLoadingScreen() {
+		// Renderer 2d
+		try {
+			Renderer2d.init(window, new Shader("/2d"));
+		} catch (Exception e1) { e1.printStackTrace(); }
+		
 		try {
 			new Texture("/Splash.png");
 		} catch (Exception e) { e.printStackTrace(); }
@@ -67,9 +75,11 @@ public class Application {
 		//// RENDER
 		// Window
 		window.update();
+		// Splash icon
+		Renderer2d.prepare();
+		Renderer2d.drawTextureWithTextCoords(splashTexture, new Rect(0, 0, window.getWidth(), window.getHeight()), new Rect(0, 0, 1,1));
+		Renderer2d.unprepare();
 		glfwSwapBuffers(window.windowId);
-		// Texture
-		
 		
 		// Clean up
 		splashTexture.cleanup();

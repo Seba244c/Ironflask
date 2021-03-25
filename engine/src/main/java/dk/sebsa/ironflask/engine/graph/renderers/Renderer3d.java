@@ -1,4 +1,4 @@
-package dk.sebsa.ironflask.engine.graph;
+package dk.sebsa.ironflask.engine.graph.renderers;
 
 import org.joml.Matrix4f;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
@@ -13,6 +13,9 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.ecs.CameraEntity;
 import dk.sebsa.ironflask.engine.ecs.components.EntityRenderer;
+import dk.sebsa.ironflask.engine.graph.Mesh;
+import dk.sebsa.ironflask.engine.graph.Shader;
+import dk.sebsa.ironflask.engine.graph.Transformation;
 
 
 public class Renderer3d {

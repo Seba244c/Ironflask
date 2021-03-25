@@ -2,6 +2,7 @@ package dk.sebsa.ironflask.engine.graph;
 
 import dk.sebsa.ironflask.engine.core.Asset;
 import dk.sebsa.ironflask.engine.core.AssetManager;
+import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 import dk.sebsa.ironflask.engine.utils.OBJLoader;
 
 import java.nio.FloatBuffer;
@@ -22,7 +23,7 @@ public class Mesh extends Asset {
     private int vertexCount;
     private static List<Mesh> meshs = new ArrayList<>();
 	
-	public Mesh(String name) {
+	public Mesh(String name) throws AssetExistsException {
 		super(name);
 		try { if(name.startsWith("/")) {
 			OBJLoader.loadMesh(this, "/models"+name);
@@ -34,7 +35,7 @@ public class Mesh extends Asset {
 		meshs.add(this);
     }
 	
-	public Mesh() {
+	public Mesh() throws AssetExistsException {
 		super("Unnamed Mesh");
 		AssetManager.allAssets.remove(this);
     }

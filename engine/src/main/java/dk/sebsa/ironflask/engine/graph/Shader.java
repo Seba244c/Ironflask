@@ -2,19 +2,22 @@ package dk.sebsa.ironflask.engine.graph;
 
 import static org.lwjgl.opengl.GL20.*;
 
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MemoryStack;
 
 import dk.sebsa.ironflask.engine.core.Asset;
-import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.enums.*;
 import dk.sebsa.ironflask.engine.math.Color;
+import dk.sebsa.ironflask.engine.math.Matrix4x4;
+import dk.sebsa.ironflask.engine.math.Vector2f;
 import dk.sebsa.ironflask.engine.utils.FileUtil;
 
 public class Shader extends Asset {
@@ -32,7 +35,6 @@ public class Shader extends Asset {
         	LoggingUtil.coreLog(Severity.Error, "Could not create shader");
             throw new Exception("Could not create Shader");
         }
-        AssetManager.allAssets.add(this);
         
         // Uniforms
         uniforms = new HashMap<>();
@@ -80,6 +82,14 @@ public class Shader extends Asset {
 	
 	public void setUniform(String uniformName, int value) {
 	    glUniform1i(uniforms.get(uniformName), value);
+	}
+	
+	public void setUniform(String uniformName, float x, float y, float z, float w) {
+		glUniform4f(uniforms.get(uniformName), x, y, z, w);
+	}
+	
+	public void setUniform(String uniformName, Vector2f value) {
+		glUniform2f(uniforms.get(uniformName), value.x, value.y);
 	}
 
 
@@ -142,4 +152,14 @@ public class Shader extends Asset {
             glDeleteProgram(programId);
         }
     }
+
+    public void setUniform(String name, Matrix4x4 value) {
+		int location = glGetUniformLocation(programId, name);
+		
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
+		value.getBuffer(buffer);
+		
+		if(location != -1) glUniformMatrix4fv(location, false, buffer);
+		buffer.flip();
+	}
 }
