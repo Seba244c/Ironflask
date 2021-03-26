@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.system.MemoryUtil;
 
 import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.audio.AudioManager;
 import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.core.LayerStack;
 import dk.sebsa.ironflask.engine.ecs.Component;
@@ -68,6 +69,10 @@ public class LoadingThread extends Thread {
 		app.input = new Input(app);
 		app.input.addCallbacks();
 		Component.assingedInput = new ComponentInput(app.input);
+		
+		// Audio
+		app.audioManager = new AudioManager();
+		app.audioManager.setInstance();
 		
 		// Assets
 		try {

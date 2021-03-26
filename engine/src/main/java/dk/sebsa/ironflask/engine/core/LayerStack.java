@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.enums.*;
 
@@ -54,7 +55,7 @@ public class LayerStack {
 				e.handled = layer.handleEvent(e);
 				if(e.handled && e.oneLayer) break;
 			}
-			if(!e.handled && e.oneLayer) LoggingUtil.coreLog(Severity.Trace, name + " | "+"Unhandled event: " + e.toString());
+			if(!e.handled && e.oneLayer && e.type != EventType.MouseMoved) LoggingUtil.coreLog(Severity.Trace, name + " | "+"Unhandled event: " + e.toString());
 		}
 		queue.clear();
 	}

@@ -4,6 +4,8 @@ import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.audio.AudioClip;
+import dk.sebsa.ironflask.engine.audio.AudioSource;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
@@ -12,6 +14,7 @@ import dk.sebsa.ironflask.engine.ecs.CameraEntity;
 import dk.sebsa.ironflask.engine.ecs.Component;
 import dk.sebsa.ironflask.engine.ecs.Entity;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
+import dk.sebsa.ironflask.engine.ecs.components.AudioListener;
 import dk.sebsa.ironflask.engine.ecs.components.EntityRenderer;
 import dk.sebsa.ironflask.engine.graph.Mesh;
 import dk.sebsa.ironflask.engine.graph.Shader;
@@ -25,6 +28,7 @@ public class GameLayer extends Layer {
 	private Application application;
 	private Renderer3d renderer;
 	private CameraEntity camera;
+	private AudioSource musicSource;
 	
 	public GameLayer(Application app) {
 		super();
@@ -44,6 +48,10 @@ public class GameLayer extends Layer {
 				return true;
 			} else if(e2.key == GLFW.GLFW_KEY_ESCAPE) {
 				application.close();
+				return true;
+			} else if(e2.key == GLFW.GLFW_KEY_P) {
+				if(musicSource.isPlaying()) musicSource.stop();
+				else musicSource.play();
 				return true;
 			}
 		} else if(e.type == EventType.WindowResize) {
@@ -70,10 +78,15 @@ public class GameLayer extends Layer {
 			renderer = new Renderer3d(application);
 		} catch (Exception e) { e.printStackTrace(); }
 		
-		// Entity
+		// Player
 		camera = new CameraEntity();
 		camera.addComponent(new CameraMovement());
+		camera.addComponent(new AudioListener(application.audioManager));
 		WorldManager.entities.add(camera);
+		// Music
+		musicSource = new AudioSource(true, false);
+		musicSource.setClip(AudioClip.getClip("RememberTheHeroes"));
+		// Cubes
 		try {
 			Mesh mesh = Mesh.getMesh("cube.obj");
 			Texture texture = Texture.getTexture("grassblock.png");

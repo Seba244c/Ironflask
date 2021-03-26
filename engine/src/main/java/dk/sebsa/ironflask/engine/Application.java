@@ -1,9 +1,12 @@
 package dk.sebsa.ironflask.engine;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.openal.ALC10.alcMakeContextCurrent;
 
+import org.lwjgl.openal.AL;
 import org.lwjgl.system.MemoryUtil;
 
+import dk.sebsa.ironflask.engine.audio.AudioManager;
 import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.LayerStack;
@@ -11,7 +14,9 @@ import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.enums.AppState;
+import dk.sebsa.ironflask.engine.enums.Severity;
 import dk.sebsa.ironflask.engine.io.Input;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.math.Time;
@@ -21,6 +26,7 @@ public class Application {
 	public String name;
 	public LayerStack stack;
 	public Window window;
+	public AudioManager audioManager;
 	public Input input;
 	public final boolean isDebug;
 	public AppState state = AppState.Loading;
@@ -46,12 +52,18 @@ public class Application {
 				loadingState();
 				if(loadingThread.done) {
 					state = AppState.Running;
+					
+					LoggingUtil.coreLog(Severity.Info, "Stealing back GLFW and AL capabalities");
 					glfwMakeContextCurrent(window.windowId);
+					AL.createCapabilities(audioManager.deviceCaps);
+			        alcMakeContextCurrent(audioManager.context);
 				}
 			} else runningState();
 		}
+		LoggingUtil.coreLog(Severity.Info, "##--## Beginning cleanup procsess ##--##");
 		cleanupScreen();
 		AssetManager.cleanup();
+		audioManager.cleanup();
 		input.cleanup();
 		window.cleanup();
 		stack.cleanup();

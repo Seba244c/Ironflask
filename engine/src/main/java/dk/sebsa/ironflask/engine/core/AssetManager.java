@@ -20,6 +20,7 @@ import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
+import dk.sebsa.ironflask.engine.audio.AudioClip;
 import dk.sebsa.ironflask.engine.enums.*;
 
 public class AssetManager {
@@ -68,6 +69,7 @@ public class AssetManager {
 				if(type.equals(AssetTypes.Texture)) new Texture(name);
 				else if(type.equals(AssetTypes.Shader)) new Shader(name);
 				else if(type.equals(AssetTypes.Mesh)) new Mesh(name);
+				else if(type.equals(AssetTypes.AudioClip)) new AudioClip(name);
 			} catch (AssetExistsException e) {
 				LoggingUtil.coreLog(Severity.Warning, "Asset already exists: " + name);
 			}
@@ -101,6 +103,7 @@ public class AssetManager {
 				else if(name.startsWith("textures")) { fileLists.get(AssetTypes.Texture).add("/" +name.split("/")[1]); }
 				else if(name.startsWith("shaders")) { fileLists.get(AssetTypes.Shader).add("/" + name.split("/")[1].split("\\.")[0]); }
 				else if(name.startsWith("models")) { fileLists.get(AssetTypes.Mesh).add("/" +name.split("/")[1].split("\\.")[0]); }
+				else if(name.startsWith("audio")) { fileLists.get(AssetTypes.AudioClip).add("/" + name.split("/")[1].split("\\.")[0]); }
 			}
 			jar.close();
 		}
@@ -108,6 +111,7 @@ public class AssetManager {
 		if(externalDir == null) return;
 		fileLists.get(AssetTypes.Texture).addAll(importFromExternalDir("textures", 1, externalDir));
 		fileLists.get(AssetTypes.Shader).addAll(importFromExternalDir("shaders", 0, externalDir));
+		fileLists.get(AssetTypes.AudioClip).addAll(importFromExternalDir("audio", 0, externalDir));
 		fileLists.get(AssetTypes.Mesh).addAll(importFromExternalDir("models", 1, externalDir));
 	}
 
@@ -115,12 +119,14 @@ public class AssetManager {
 		// Loads engine resources from folders
 		fileLists.get(AssetTypes.Texture).addAll(importFromLocalDir("textures", 1));
 		fileLists.get(AssetTypes.Shader).addAll(importFromLocalDir("shaders", 0));
+		fileLists.get(AssetTypes.AudioClip).addAll(importFromLocalDir("audio", 0));
 		fileLists.get(AssetTypes.Mesh).addAll(importFromLocalDir("models", 1));
 		
 		// Load other assets from external folders
 		if(externalDir == null) return;
 		fileLists.get(AssetTypes.Texture).addAll(importFromExternalDir("textures", 1, externalDir));
 		fileLists.get(AssetTypes.Shader).addAll(importFromExternalDir("shaders", 0, externalDir));
+		fileLists.get(AssetTypes.AudioClip).addAll(importFromExternalDir("audio", 0, externalDir));
 		fileLists.get(AssetTypes.Mesh).addAll(importFromExternalDir("models", 1, externalDir));
 	}
 	
