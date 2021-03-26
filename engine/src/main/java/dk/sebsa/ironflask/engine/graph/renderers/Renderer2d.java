@@ -40,6 +40,7 @@ public class Renderer2d {
 	}
 	
 	public static void cleanup() {
+    	LoggingUtil.coreLog(Severity.Info, "Cleanup Renderer2d");
 		guiMesh.cleanup();
 	}
 	

@@ -7,7 +7,9 @@ import java.util.UUID;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import dk.sebsa.ironflask.engine.enums.Severity;
 import dk.sebsa.ironflask.engine.graph.Transformation;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
 
 public class Entity {
 	public static int i;
@@ -31,6 +33,7 @@ public class Entity {
 		position = new Vector3f();
         scale = 1;
         rotation = new Vector3f();
+    	LoggingUtil.coreLog(Severity.Trace, "New entity entity "+name+"("+id+")");
 	}
 	
 	public Entity(String name) {
@@ -39,6 +42,7 @@ public class Entity {
 		position = new Vector3f();
         scale = 1;
         rotation = new Vector3f();
+    	LoggingUtil.coreLog(Severity.Trace, "New entity entity "+name+"("+id+")");
 	}
 
 	public void setEnabled(boolean e) {

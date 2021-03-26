@@ -12,7 +12,6 @@ import org.lwjgl.openal.ALCCapabilities;
 import dk.sebsa.ironflask.engine.ecs.components.AudioListener;
 import dk.sebsa.ironflask.engine.enums.Severity;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
-import dk.sebsa.ironflask.engine.math.Vector2f;
 
 import org.lwjgl.openal.ALC;
 import static org.lwjgl.openal.ALC10.*;
@@ -40,6 +39,7 @@ public class AudioManager {
     }
     
     public void setInstance() {
+    	LoggingUtil.coreLog(Severity.Info, "Setting AudioManager instance");
     	instance = this;
     }
     
@@ -62,6 +62,7 @@ public class AudioManager {
     }
     
     public void addSoundSource(String name, AudioSource soundSource) {
+    	LoggingUtil.coreLog(Severity.Trace, "Adding SoundSource: "+name);
         this.soundSourceMap.put(name, soundSource);
     }
 
@@ -70,6 +71,7 @@ public class AudioManager {
     }
 
     public void playSoundSource(String name) {
+    	LoggingUtil.coreLog(Severity.Trace, "Playing SoundSource(from Am): "+name);
         AudioSource soundSource = this.soundSourceMap.get(name);
         if (soundSource != null && !soundSource.isPlaying()) {
             soundSource.play();
@@ -92,8 +94,8 @@ public class AudioManager {
         this.listener = listener;
     }
 
-    public void updateListenerPosition(Vector2f p) {        
-        listener.setPosition(new Vector3f(p.x, p.y, 0));
+    public void updateListenerPosition(Vector3f p) {        
+        listener.setPosition(new Vector3f(p.x, p.y, p.z));
     }
     
 	public void cleanup() {
@@ -109,6 +111,7 @@ public class AudioManager {
     }
 	
 	public void stopAll() {
+    	LoggingUtil.coreLog(Severity.Trace, "Stopping all SoundSources");
     	for(AudioSource source : soundSourceMap.values()) {
     		source.stop();
     	}

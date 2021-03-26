@@ -47,6 +47,7 @@ public class AssetManager {
 		
 		try {
 			for(AssetTypes type : AssetTypes.values()) {
+		    	LoggingUtil.coreLog(Severity.Info, "Creating asset list: "+type);
 				createList(type);
 			}
 		} catch (Exception e) { e.printStackTrace(); }
@@ -77,6 +78,7 @@ public class AssetManager {
 	}
 	
 	private static void initResourcePaths(String externalDir) {
+    	LoggingUtil.coreLog(Severity.Trace, "Init resource paths");
 		URL dirUrl = cl.getResource("dk/sebsa/ironflask/engine");
 		String protocol = dirUrl.getProtocol();
 		
@@ -87,6 +89,7 @@ public class AssetManager {
 	}
 	
 	private static void importFromJar(String externalDir) throws UnsupportedEncodingException, IOException {
+    	LoggingUtil.coreLog(Severity.Trace, "Import from jar");
 		// Loads the engine resources from a jar
 		String me = clazz.getName().replace(".", "/") + ".class";
 		URL dirUrl = cl.getResource(me);
@@ -116,6 +119,7 @@ public class AssetManager {
 	}
 
 	private static void importFromDir(String externalDir) throws IOException {
+    	LoggingUtil.coreLog(Severity.Trace, "Import from dir/eclipse: ");
 		// Loads engine resources from folders
 		fileLists.get(AssetTypes.Texture).addAll(importFromLocalDir("textures", 1));
 		fileLists.get(AssetTypes.Shader).addAll(importFromLocalDir("shaders", 0));
@@ -131,6 +135,7 @@ public class AssetManager {
 	}
 	
 	private static List<String> importFromLocalDir(String path, int useExt) throws IOException {
+    	LoggingUtil.coreLog(Severity.Trace, "Import local dir: " + path);
 		List<String> paths = new ArrayList<String>();
 		InputStream in = cl.getResourceAsStream(path);
 		if(in == null) {
@@ -153,6 +158,7 @@ public class AssetManager {
 	}
 	
 	private static List<String> importFromExternalDir(String path, int useExt, String externalDir) {
+    	LoggingUtil.coreLog(Severity.Trace, "Import external dir: " + path);
 		List<String> paths = new ArrayList<String>();
 		File dir = new File(externalDir + path);
 		File[] files = dir.listFiles();

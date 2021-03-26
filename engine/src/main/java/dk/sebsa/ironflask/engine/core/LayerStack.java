@@ -17,18 +17,21 @@ public class LayerStack {
 	public LayerStack(Application app, String name) {
 		this.app = app;
 		this.name = name;
-		LoggingUtil.appLog(app, Severity.Info, "Created LayerStack: "+name);
+		LoggingUtil.coreLog(Severity.Info, "Created LayerStack: "+name);
 	}
 	
 	public void addLayerToTop(Layer layer) {
+    	LoggingUtil.coreLog(Severity.Info, "Add layer on top: " + layer.name);
 		stack.add(layer);
 	}
 	
 	public void addLayerToBot(Layer layer) {
+    	LoggingUtil.coreLog(Severity.Info, "Add layer on bot: " + layer.name);
 		stack.add(0, layer);
 	}
 	
 	public void insertLayer(Layer layer, int index) {
+    	LoggingUtil.coreLog(Severity.Info, "Inserted layer: " + layer.name);
 		stack.add(index, layer);
 	}
 	
@@ -70,7 +73,7 @@ public class LayerStack {
 	
 	public void cleanup() {
 		handleEvents();
-		LoggingUtil.appLog(app, Severity.Info, "Cleanup LayerStack: "+name);
+		LoggingUtil.coreLog(Severity.Info, "Cleanup LayerStack: "+name);
 		for(Layer l : stack) {
 			l.close();
 		}

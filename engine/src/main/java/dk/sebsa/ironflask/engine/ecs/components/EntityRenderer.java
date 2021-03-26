@@ -17,6 +17,7 @@ public class EntityRenderer extends Component {
     private Color color;
     private static Color defaultColor = Color.marine();
     private boolean isTextured;
+    private static boolean first = true;
 	public static HashMap<Shader, HashMap<Mesh, List<EntityRenderer>>> ers = new HashMap<>();
 	
 	public EntityRenderer(Mesh mesh, Texture texture, Shader shader) {
@@ -25,7 +26,8 @@ public class EntityRenderer extends Component {
 		isTextured = true;
 		this.shader = shader;
 		this.color = defaultColor;
-		
+		if(!first) return;
+		first = false;
 		try {
 			shader.createUniform("projectionMatrix");
 			shader.createUniform("modelViewMatrix");
@@ -40,6 +42,8 @@ public class EntityRenderer extends Component {
 		this.shader = shader;
 		isTextured = false;
 		
+		if(!first) return;
+		first = false;
 		try {
 			shader.createUniform("projectionMatrix");
 			shader.createUniform("modelViewMatrix");

@@ -15,6 +15,8 @@ import org.lwjgl.stb.STBVorbisInfo;
 import org.lwjgl.system.MemoryStack;
 
 import dk.sebsa.ironflask.engine.core.Asset;
+import dk.sebsa.ironflask.engine.enums.Severity;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 import dk.sebsa.ironflask.engine.utils.FileUtil;
 
@@ -55,6 +57,7 @@ public class AudioClip extends Asset {
     
     @SuppressWarnings("resource")
 	private ShortBuffer readVorbis(String resource, int bufferSize, STBVorbisInfo info, boolean jarFile) throws IOException {
+    	LoggingUtil.coreLog(Severity.Trace, "Reading vorbis: "+resource);
     	ByteBuffer vorbis = FileUtil.ioResourceToByteBuffer(resource, bufferSize);
         
         try (MemoryStack stack = MemoryStack.stackPush()) {
@@ -80,9 +83,11 @@ public class AudioClip extends Asset {
     }
     
     public static AudioClip getClip(String name) {
+    	LoggingUtil.coreLog(Severity.Trace, "Searcing for AudioClip named: "+name);
     	for(i = 0; i < audioClips.size(); i++) {
     		if(audioClips.get(i).name.equals(name)) return audioClips.get(i);
     	}
+    	LoggingUtil.coreLog(Severity.Trace, "Didn't find a AudioClip named: "+ name);
     	return null;
     }
     

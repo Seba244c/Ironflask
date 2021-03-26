@@ -39,6 +39,7 @@ public abstract class ImGuiLayer extends Layer {
 	
 	@Override
 	public void init() {
+    	LoggingUtil.coreLog(Severity.Info, "Initlization ImGui");
 		ImGui.createContext();
 		imGuiImp = new BetterImGuiImplGlfw();
 		imGuiImp.init(application.window.windowId, false);
@@ -135,6 +136,7 @@ public abstract class ImGuiLayer extends Layer {
 		ImGui.beginChild("Log");
 		
 		for(Log log : Log.logs) {
+			if(log.severity == Severity.Trace && LoggingUtil.traceLog == false) continue;
 			Color textColor;
 			if(log.severity == Severity.Error) 			textColor = Color.logError();
 			else if(log.severity == Severity.Warning) 	textColor = Color.logWarning();

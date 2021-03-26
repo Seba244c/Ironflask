@@ -9,7 +9,9 @@ import dk.sebsa.ironflask.engine.core.events.ButtonPressedEvent;
 import dk.sebsa.ironflask.engine.core.events.ButtonReleasedEvent;
 import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
 import dk.sebsa.ironflask.engine.core.events.KeyReleasedEvent;
+import dk.sebsa.ironflask.engine.enums.Severity;
 import dk.sebsa.ironflask.engine.io.Input;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Vector2f;
 
@@ -25,6 +27,7 @@ public class ComponentInput {
 	private byte[] buttonsReleased;
 	
 	public ComponentInput(Input input) {
+    	LoggingUtil.coreLog(Severity.Trace, "Creating ComponentInput");
 		this.input = input;
 		this.window = input.window;
 		

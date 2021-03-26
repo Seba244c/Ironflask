@@ -8,11 +8,14 @@ import org.joml.Vector3f;
 
 import dk.sebsa.ironflask.engine.audio.AudioManager;
 import dk.sebsa.ironflask.engine.ecs.Component;
+import dk.sebsa.ironflask.engine.enums.Severity;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
 
 public class AudioListener extends Component {
 	private Vector3f lastPosistion = new Vector3f(0, 0, 0);
 	
 	public AudioListener(AudioManager am) {
+    	LoggingUtil.coreLog(Severity.Trace, "Creating AudioListener");
 		am.setListener(this);
         alListener3f(AL_POSITION, 0, 0, 0);
         alListener3f(AL_VELOCITY, 0, 0, 0);

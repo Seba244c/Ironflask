@@ -67,6 +67,7 @@ public class Application {
 		input.cleanup();
 		window.cleanup();
 		stack.cleanup();
+		LoggingUtil.saveToFile();
 	}
 	
 	public void cleanupScreen() {

@@ -4,12 +4,15 @@ import static org.lwjgl.openal.AL10.*;
 
 import org.joml.Vector3f;
 
+import dk.sebsa.ironflask.engine.enums.Severity;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class AudioSource {
 	private final int sourceId;
 	
 	public AudioSource(boolean loop, boolean relative) {
+    	LoggingUtil.coreLog(Severity.Trace, "Creating sound source, Realaitive: "+ relative +", Loop: "+loop);
         this.sourceId = alGenSources();
         if (loop) {
             alSourcei(sourceId, AL_LOOPING, AL_TRUE);
