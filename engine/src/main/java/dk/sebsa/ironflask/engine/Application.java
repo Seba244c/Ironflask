@@ -4,10 +4,10 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.openal.ALC10.alcMakeContextCurrent;
 
 import org.lwjgl.openal.AL;
+import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 
 import dk.sebsa.ironflask.engine.audio.AudioManager;
-import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.LayerStack;
 import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
@@ -20,6 +20,7 @@ import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.math.Time;
+import dk.sebsa.ironflask.engine.threading.CleanUpThread;
 import dk.sebsa.ironflask.engine.threading.LoadingThread;
 
 public class Application {
@@ -62,12 +63,23 @@ public class Application {
 		}
 		LoggingUtil.coreLog(Severity.Info, "##--## Beginning cleanup procsess ##--##");
 		cleanupScreen();
-		AssetManager.cleanup();
-		audioManager.cleanup();
-		input.cleanup();
-		window.cleanup();
-		stack.cleanup();
-		LoggingUtil.saveToFile();
+		
+		// clean up thread
+		glfwMakeContextCurrent(MemoryUtil.NULL);
+		GL.setCapabilities(null);
+		
+		CleanUpThread thread = new CleanUpThread(stack, this);
+		thread.start();
+		
+		while(thread.state == 0) {
+			glfwPollEvents();
+		}
+		
+		while(thread.state == 1) {
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) { e.printStackTrace(); }
+		}
 	}
 	
 	public void cleanupScreen() {

@@ -50,7 +50,7 @@ public class GameLayer extends Layer {
 				application.close();
 				return true;
 			} else if(e2.key == GLFW.GLFW_KEY_P) {
-				if(musicSource.isPlaying()) musicSource.stop();
+				if(musicSource.isPlaying()) musicSource.pause();
 				else musicSource.play();
 				return true;
 			}
@@ -92,13 +92,15 @@ public class GameLayer extends Layer {
 			Texture texture = Texture.getTexture("grassblock.png");
 			Shader shader = Shader.getShader("default");
 			for(int i = 0; i < 10; i++) {
-				Entity entity = new Entity();
-				entity.setScale(0.5f);
-				entity.setPosition(new Vector3f(i*0.6f, 0, -2));
-				EntityRenderer er = new EntityRenderer(mesh, texture, shader);
-				entity.addComponent(er);
-				entity.addComponent(new Spin());
-				WorldManager.entities.add(entity);
+				for(int e = 0; e < 10; e++) {
+					Entity entity = new Entity();
+					entity.setScale(0.5f);
+					entity.setPosition(new Vector3f(i*1f, 0, e*1f));
+					EntityRenderer er = new EntityRenderer(mesh, texture, shader);
+					entity.addComponent(er);
+					entity.addComponent(new Spin());
+					WorldManager.entities.add(entity);
+				}
 			}
 		} catch (Exception e) { e.printStackTrace(); }
 	}

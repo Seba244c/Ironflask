@@ -58,7 +58,7 @@ public class LayerStack {
 				e.handled = layer.handleEvent(e);
 				if(e.handled && e.oneLayer) break;
 			}
-			if(!e.handled && e.oneLayer && e.type != EventType.MouseMoved) LoggingUtil.coreLog(Severity.Trace, name + " | "+"Unhandled event: " + e.toString());
+			if(!e.handled && e.oneLayer && e.type != EventType.MouseMoved && e.type != EventType.CharEvent) LoggingUtil.coreLog(Severity.Trace, name + " | "+"Unhandled event: " + e.toString());
 		}
 		queue.clear();
 	}

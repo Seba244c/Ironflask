@@ -12,6 +12,7 @@ public class LoggingUtil {
 	public static boolean traceLog = false;
 	private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 	private static DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("d/MM-u");
+	private static String logString = "";
 	public static final String editorVersion = LoggingUtil.class.getPackage().getImplementationVersion();
 	
 	private static String getTime() {
@@ -19,20 +20,22 @@ public class LoggingUtil {
 	}
 	
 	public static void appLog(Application a, Severity s, Object o) {
-		System.out.println(new Log(o.toString(), getTime(), s, false).toString());
+		Log log = new Log(o.toString(), getTime(), s, false);
+		System.out.println(log.toString());
+		logString += log.toString() + "\n";
 	}
 	
 	public static void coreLog(Severity s, Object o) {
-		System.out.println(new Log(o.toString(), getTime(), s, true).toString());
+		Log log = new Log(o.toString(), getTime(), s, true);
+		System.out.println(log.toString());
+		logString += log.toString() + "\n";
 	}
 	
 	public static void saveToFile() {
 		String fullLog = "# Log from ironflask\n";
 		fullLog += "# "+dtf2.format(LocalDateTime.now());
 		fullLog += "\n# V: " + editorVersion + "\n";
-		for(Log log : Log.logs) {
-			fullLog += log.toString() + "\n";
-		}
+		fullLog += logString;
 		
 		try {
 			FileWriter myWriter = new FileWriter("./latest.log", false);
