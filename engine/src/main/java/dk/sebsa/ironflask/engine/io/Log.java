@@ -19,7 +19,6 @@ public class Log {
 		this.severity = severity;
 		this.core = isCore;
 		
-		if(logs.size() >= 150) logs.remove(149);
 		logs.add(0, this);
 	}
 	
