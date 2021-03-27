@@ -43,7 +43,7 @@ public class LoggingUtil {
 			FileWriter myWriter = new FileWriter("./latest.log", false);
 			myWriter.write(fullLog);
 			myWriter.close();
-			FileUtil.zipSingleFile(Paths.get("./latest.log"), "log.zip");
+			FileUtil.zipSingleFile(Paths.get("./latest.log"), "log.zip", true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

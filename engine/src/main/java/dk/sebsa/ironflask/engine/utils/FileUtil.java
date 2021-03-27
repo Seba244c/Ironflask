@@ -33,7 +33,7 @@ public class FileUtil {
         return result;
     }
 	
-	public static void zipSingleFile(Path source, String zipFileName) throws IOException {
+	public static void zipSingleFile(Path source, String zipFileName, boolean deleteSource) throws IOException {
 
         try (
             ZipOutputStream zos = new ZipOutputStream(
@@ -51,7 +51,7 @@ public class FileUtil {
             }
             zos.closeEntry();
         }
-
+        if(deleteSource) source.toFile().delete();
     }
 	
 	public static List<String> readAllLines(String fileName) throws Exception {
