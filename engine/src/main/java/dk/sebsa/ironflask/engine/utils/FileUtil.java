@@ -2,13 +2,16 @@ package dk.sebsa.ironflask.engine.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
@@ -28,6 +31,27 @@ public class FileUtil {
             result = scanner.useDelimiter("\\A").next();
         }
         return result;
+    }
+	
+	public static void zipSingleFile(Path source, String zipFileName) throws IOException {
+
+        try (
+            ZipOutputStream zos = new ZipOutputStream(
+                new FileOutputStream(zipFileName));
+            FileInputStream fis = new FileInputStream(source.toFile());
+        ) {
+
+            ZipEntry zipEntry = new ZipEntry(source.getFileName().toString());
+            zos.putNextEntry(zipEntry);
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fis.read(buffer)) > 0) {
+                zos.write(buffer, 0, len);
+            }
+            zos.closeEntry();
+        }
+
     }
 	
 	public static List<String> readAllLines(String fileName) throws Exception {

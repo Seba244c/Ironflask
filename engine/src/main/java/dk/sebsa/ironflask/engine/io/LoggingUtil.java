@@ -2,11 +2,13 @@ package dk.sebsa.ironflask.engine.io;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.enums.*;
+import dk.sebsa.ironflask.engine.utils.FileUtil;
 
 public class LoggingUtil {
 	public static boolean traceLog = false;
@@ -41,8 +43,10 @@ public class LoggingUtil {
 			FileWriter myWriter = new FileWriter("./latest.log", false);
 			myWriter.write(fullLog);
 			myWriter.close();
+			FileUtil.zipSingleFile(Paths.get("./latest.log"), "log.zip");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 }

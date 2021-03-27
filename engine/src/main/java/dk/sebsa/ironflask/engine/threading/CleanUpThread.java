@@ -35,8 +35,8 @@ public class CleanUpThread extends Thread {
 		// Done
 		state = 1;
 		LoggingUtil.coreLog(Severity.Info, "Cleanup state: 1");
-		app.window.cleanup();
 		LoggingUtil.saveToFile();
+		app.window.cleanup();
 		state = 2;
 		LoggingUtil.coreLog(Severity.Info, "Closing CleanUpThread");
 	}
