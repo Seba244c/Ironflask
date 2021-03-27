@@ -2,7 +2,6 @@ package dk.sebsa.ironflask.engine.threading;
 
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 
 import org.lwjgl.glfw.GLFW;
@@ -17,6 +16,7 @@ import dk.sebsa.ironflask.engine.core.LayerStack;
 import dk.sebsa.ironflask.engine.ecs.Component;
 import dk.sebsa.ironflask.engine.ecs.ComponentInput;
 import dk.sebsa.ironflask.engine.enums.Severity;
+import dk.sebsa.ironflask.engine.enums.ThreadState;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
@@ -27,7 +27,7 @@ import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.math.Time;
 
 public class LoadingThread extends Thread {
-	public boolean done = false;
+	public ThreadState state = ThreadState.Doing;
 	private GLCapabilities capabilities;
 	private Application app;
 	private LayerStack stack;
@@ -78,7 +78,7 @@ public class LoadingThread extends Thread {
 		// Assets
 		try {
 			AssetManager.loadAllResources(Paths.get(".").toAbsolutePath().normalize().toString() + "/resources/");
-		} catch (IOException e) { e.printStackTrace(); }
+		} catch (Exception e) { state = ThreadState.Failed; e.printStackTrace(); return; }
 		
 		// Skybox renderer
 		app.skyboxRenderer = new SkyboxRenderer(app);
@@ -89,7 +89,7 @@ public class LoadingThread extends Thread {
 		
 		// Done
 		GLFW.glfwMakeContextCurrent(MemoryUtil.NULL);
-		done = true;
+		state = ThreadState.Done;
 		LoggingUtil.coreLog(Severity.Info, "Closing LoadingThread");
 	}
 }
