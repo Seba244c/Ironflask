@@ -56,8 +56,8 @@ public class Renderer3d {
 	        	
 	            for(EntityRenderer er : EntityRenderer.ers.get(shader).get(mesh)) {
 	        		// Color
-	        	    shader.setUniform("colour", er.getColor());
-	        	    shader.setUniform("useColour", er.isTextured() ? 0 : 1);
+	        	    shader.setUniform("colour", er.getMaterial().getColor());
+	        	    shader.setUniform("useColour", er.getMaterial().isTextured() ? 0 : 1);
 	        	    
 	            	// Set world matrix for this item
 	                shader.setUniform("modelViewMatrix", er.entity.getModelViewMatrix(transformation, viewMatrix, newViewMatrix));
@@ -75,9 +75,9 @@ public class Renderer3d {
 	
 	public void renderEntity(EntityRenderer er) {
 		// Texute
-		if (er.isTextured()) {
+		if (er.getMaterial().isTextured()) {
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, er.getTexture().getId());
+			glBindTexture(GL_TEXTURE_2D, er.getMaterial().getTexture().getId());
 		} else { glBindTexture(GL_TEXTURE_2D, 0); }
 		
 		// Draw the mesh

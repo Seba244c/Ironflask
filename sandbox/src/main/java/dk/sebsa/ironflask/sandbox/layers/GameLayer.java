@@ -16,8 +16,10 @@ import dk.sebsa.ironflask.engine.ecs.Entity;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.ecs.components.AudioListener;
 import dk.sebsa.ironflask.engine.ecs.components.EntityRenderer;
+import dk.sebsa.ironflask.engine.graph.Material;
 import dk.sebsa.ironflask.engine.graph.Mesh;
 import dk.sebsa.ironflask.engine.graph.Shader;
+import dk.sebsa.ironflask.engine.graph.SkyBox;
 import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.graph.renderers.Renderer3d;
 import dk.sebsa.ironflask.sandbox.Main;
@@ -56,6 +58,7 @@ public class GameLayer extends Layer {
 			}
 		} else if(e.type == EventType.WindowResize) {
 			renderer.windowResized();
+			application.skyboxRenderer.windowResized();
 		}
 		
 		return Component.assingedInput.onEvent(e);
@@ -68,6 +71,7 @@ public class GameLayer extends Layer {
 	
 	@Override
 	public void render() {
+		application.skyboxRenderer.render(camera);
 		renderer.render(camera);
 	}
 
@@ -82,7 +86,7 @@ public class GameLayer extends Layer {
 		camera = new CameraEntity();
 		camera.addComponent(new CameraMovement());
 		camera.addComponent(new AudioListener(application.audioManager));
-		WorldManager.entities.add(camera);
+		WorldManager.getWorld().entities.add(camera);
 		// Music
 		musicSource = new AudioSource(true, false);
 		musicSource.setClip(AudioClip.getClip("RememberTheHeroes"));
@@ -99,9 +103,12 @@ public class GameLayer extends Layer {
 					EntityRenderer er = new EntityRenderer(mesh, texture, shader);
 					entity.addComponent(er);
 					entity.addComponent(new Spin());
-					WorldManager.entities.add(entity);
+					WorldManager.getWorld().entities.add(entity);
 				}
 			}
 		} catch (Exception e) { e.printStackTrace(); }
+		
+		// Skybox
+		WorldManager.getWorld().skyBox = new SkyBox(new Material(Texture.getTexture("default_skybox.png")));
 	}
 }

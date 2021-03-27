@@ -21,6 +21,7 @@ import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.graph.renderers.Renderer2d;
+import dk.sebsa.ironflask.engine.graph.renderers.SkyboxRenderer;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.math.Time;
@@ -78,6 +79,9 @@ public class LoadingThread extends Thread {
 		try {
 			AssetManager.loadAllResources(Paths.get(".").toAbsolutePath().normalize().toString() + "/resources/");
 		} catch (IOException e) { e.printStackTrace(); }
+		
+		// Skybox renderer
+		app.skyboxRenderer = new SkyboxRenderer(app);
 		
 		// Other
 		stack.init();

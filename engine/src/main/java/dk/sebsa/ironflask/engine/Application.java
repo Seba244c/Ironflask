@@ -15,6 +15,7 @@ import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.enums.AppState;
 import dk.sebsa.ironflask.engine.enums.Severity;
+import dk.sebsa.ironflask.engine.graph.renderers.SkyboxRenderer;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.Window;
@@ -31,6 +32,7 @@ public class Application {
 	public Input input;
 	public final boolean isDebug;
 	public AppState state = AppState.Loading;
+	public SkyboxRenderer skyboxRenderer;
 	
 	public LoadingThread loadingThread;
 	

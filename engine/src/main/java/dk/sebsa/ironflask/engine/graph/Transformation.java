@@ -32,6 +32,17 @@ public class Transformation {
         return viewCurr.mul(modelViewMatrix);
     }
     
+    public Matrix4f getModelViewMatrix(SkyBox skyBox, Matrix4f viewMatrix) {
+        Vector3f rotation = skyBox.rotation;
+        modelViewMatrix.identity().translate(skyBox.position).
+                rotateX((float)Math.toRadians(-rotation.x)).
+                rotateY((float)Math.toRadians(-rotation.y)).
+                rotateZ((float)Math.toRadians(-rotation.z)).
+                scale(skyBox.scale);
+        Matrix4f viewCurr = new Matrix4f(viewMatrix);
+        return viewCurr.mul(modelViewMatrix);
+    }
+    
     public Matrix4f getViewMatrix(CameraEntity camera) {
         Vector3f cameraPos = camera.getPosition();
         Vector3f rotation = camera.getRotation();

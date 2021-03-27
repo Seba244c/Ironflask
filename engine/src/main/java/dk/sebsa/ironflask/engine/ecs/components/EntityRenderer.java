@@ -5,27 +5,22 @@ import java.util.HashMap;
 import java.util.List;
 
 import dk.sebsa.ironflask.engine.ecs.Component;
+import dk.sebsa.ironflask.engine.graph.Material;
 import dk.sebsa.ironflask.engine.graph.Mesh;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
-import dk.sebsa.ironflask.engine.math.Color;
 
 public class EntityRenderer extends Component {
 	private Mesh mesh;
 	private Shader shader;
-	private Texture texture;
-    private Color color;
-    private static Color defaultColor = Color.marine();
-    private boolean isTextured;
+	private Material material;
     private static boolean first = true;
 	public static HashMap<Shader, HashMap<Mesh, List<EntityRenderer>>> ers = new HashMap<>();
 	
 	public EntityRenderer(Mesh mesh, Texture texture, Shader shader) {
 		this.mesh = mesh;
-		this.texture = texture;
-		isTextured = true;
+		material = new Material(texture);
 		this.shader = shader;
-		this.color = defaultColor;
 		if(!first) return;
 		first = false;
 		try {
@@ -40,7 +35,7 @@ public class EntityRenderer extends Component {
 	public EntityRenderer(Mesh mesh, Shader shader) {
 		this.mesh = mesh;
 		this.shader = shader;
-		isTextured = false;
+		material = new Material();
 		
 		if(!first) return;
 		first = false;
@@ -67,25 +62,8 @@ public class EntityRenderer extends Component {
 	public void setMesh(Mesh mesh) {
 		this.mesh = mesh;
 	}
-
-	public Texture getTexture() {
-		isTextured = texture != null;
-		return texture;
-	}
-
-	public void setTexture(Texture texture) {
-		this.texture = texture;
-	}
-
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
-	public boolean isTextured() {
-		return isTextured;
+	
+	public Material getMaterial() {
+		return material;
 	}
 }
