@@ -63,12 +63,11 @@ public class SkyboxRenderer {
 	    shader.setUniform("projectionMatrix", projectionMatrix);
 	    SkyBox skyBox = WorldManager.getWorld().skyBox;
 	    Matrix4f viewMatrix = transformation.getViewMatrix(camera);
+	    
 	    viewMatrix.m30(0);
 	    viewMatrix.m31(0);
 	    viewMatrix.m32(0);
-	    boolean force = false;
-	    if(camera.camDirty == 1) force = true;
-	    shader.setUniform("modelViewMatrix", skyBox.getModelViewMatrix(transformation, viewMatrix, force));
+	    shader.setUniform("modelViewMatrix", skyBox.getModelViewMatrix(transformation, viewMatrix, camera.wasDirty()));
 
 	    render(skyBox.mat, skyBox.mesh);
 

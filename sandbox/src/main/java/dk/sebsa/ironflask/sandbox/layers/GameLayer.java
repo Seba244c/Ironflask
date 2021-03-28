@@ -59,6 +59,8 @@ public class GameLayer extends Layer {
 		} else if(e.type == EventType.WindowResize) {
 			renderer.windowResized();
 			application.skyboxRenderer.windowResized();
+		} else if(e.type == EventType.AppLate) {
+			camera.lateUpdate();
 		}
 		
 		return Component.assingedInput.onEvent(e);

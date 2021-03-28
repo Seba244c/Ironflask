@@ -5,7 +5,9 @@ import org.joml.Matrix4f;
 import dk.sebsa.ironflask.engine.graph.Transformation;
 
 public class CameraEntity extends Entity {
-	public byte camDirty = 1;
+	private byte camDirty = 1;
+	private boolean wasDirty;
+	
 	private Matrix4f viewMatrix;
 	
     public void movePosition(float offsetX, float offsetY, float offsetZ) {
@@ -18,12 +20,19 @@ public class CameraEntity extends Entity {
             position.z += (float)Math.cos(Math.toRadians(rotation.y - 90)) * offsetX;
         }
         position.y += offsetY;
+        
+        if(offsetX != 0 || offsetY != 0 || offsetZ != 0) {
+            camDirty = 1;
+            wasDirty = true;
+        }
     }
     
     public void moveRotation(float offsetX, float offsetY, float offsetZ) {
         rotation.x += offsetX;
         rotation.y += offsetY;
         rotation.z += offsetZ;
+        camDirty = 1;
+        wasDirty = true;
     }
 	
 	public Matrix4f getViewMatrix(Transformation transformation) {
@@ -32,5 +41,11 @@ public class CameraEntity extends Entity {
 			camDirty = 0;
 		}
 		return viewMatrix;
+	}
+	
+	public boolean wasDirty() { return wasDirty; }
+	
+	public void lateUpdate() {
+		wasDirty = false;
 	}
 }

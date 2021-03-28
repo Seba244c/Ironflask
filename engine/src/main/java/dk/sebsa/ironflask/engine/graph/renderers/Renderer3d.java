@@ -43,8 +43,6 @@ public class Renderer3d {
 	
 	public void render(CameraEntity camera) {
 		// Update view matrix
-		boolean newViewMatrix = false;
-		if(camera.camDirty == 1) newViewMatrix = true;
 		Matrix4f viewMatrix = camera.getViewMatrix(transformation);
         for(Shader shader : EntityRenderer.ers.keySet()) {
         	shader.bind();
@@ -60,7 +58,7 @@ public class Renderer3d {
 	        	    shader.setUniform("useColour", er.getMaterial().isTextured() ? 0 : 1);
 	        	    
 	            	// Set world matrix for this item
-	                shader.setUniform("modelViewMatrix", er.entity.getModelViewMatrix(transformation, viewMatrix, newViewMatrix));
+	                shader.setUniform("modelViewMatrix", er.entity.getModelViewMatrix(transformation, viewMatrix, camera.wasDirty()));
 	                renderEntity(er);
 	            }
 	            
