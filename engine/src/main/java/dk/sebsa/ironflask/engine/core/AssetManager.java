@@ -105,7 +105,7 @@ public class AssetManager {
 				if(name.endsWith("/")) continue;
 				else if(name.startsWith("textures")) { fileLists.get(AssetTypes.Texture).add("/" +name.split("/")[1]); }
 				else if(name.startsWith("shaders")) { fileLists.get(AssetTypes.Shader).add("/" + name.split("/")[1].split("\\.")[0]); }
-				else if(name.startsWith("models")) { fileLists.get(AssetTypes.Mesh).add("/" +name.split("/")[1].split("\\.")[0]); }
+				else if(name.startsWith("models")) { fileLists.get(AssetTypes.Mesh).add("/" +name.split("/")[1]); }
 				else if(name.startsWith("audio")) { fileLists.get(AssetTypes.AudioClip).add("/" + name.split("/")[1].split("\\.")[0]); }
 			}
 			jar.close();
