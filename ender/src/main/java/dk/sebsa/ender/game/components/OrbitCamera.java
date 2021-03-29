@@ -20,7 +20,7 @@ public class OrbitCamera extends Component {
 	public float maxDistance = 10f;
 	public float zoomRate = 20;
 	public float rotateRateH = 100;
-	public float rotateRateV = -50;
+	public float rotateRateV = -45;
 	
 	private float rotateH = 0f;
 	private float changeH = 0f;
@@ -60,12 +60,22 @@ public class OrbitCamera extends Component {
 	        }
 			
 			rotateH = Mathf.wrap(rotateH, 0, 360);
-			rotateV = Mathf.clamp(rotateV, 0, 90);
+			rotateV = Mathf.clamp(rotateV, 0, 30);
 
 			entity.getParent().setLocalRotation(new Vector3f(0, -rotateH, 0.0f));
-			entity.setLocalRotation(new Vector3f(10, 0, 0.0f));			
-	        entity.setLocalPosition(new Vector3f((float)Math.sin(Math.toRadians(rotateH))*distance, 2.0f, (float)Math.cos(Math.toRadians(rotateH))*distance));
+			entity.setLocalRotation(new Vector3f(rotateV+10, 0, 0.0f));
+			
+			// Calculate h axis
+			float ZdistanceFromMiddle = (float)Math.cos(Math.toRadians(rotateH))*distance;
+			float xSide = (float)Math.sin(Math.toRadians(rotateH))*distance;
+			// Calculate v axis
+			float YupAndDown = (float)Math.sin(Math.toRadians(rotateV))*distance;
+			ZdistanceFromMiddle *= ((float)Math.cos(Math.toRadians(rotateV)));
+			System.out.println(ZdistanceFromMiddle);
+			
+	        entity.setLocalPosition(new Vector3f(xSide, YupAndDown+2.5f, ZdistanceFromMiddle));
 		}
 		changeH = 0;
+		changeV = 0;
 	}
 }
