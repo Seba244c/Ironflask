@@ -12,6 +12,6 @@ public class Spin extends Component {
 		if ( rotation > 360 ) {
 		    rotation = 0;
 		}
-		entity.setRotation(new Vector3f(rotation, rotation, rotation));
+		entity.setLocalRotation(new Vector3f(rotation, rotation, rotation));
 	}
 }

@@ -5,6 +5,10 @@ import org.joml.Matrix4f;
 import dk.sebsa.ironflask.engine.graph.Transformation;
 
 public class CameraEntity extends Entity {
+	public CameraEntity(boolean addToMaster) {
+		super(addToMaster);
+	}
+
 	private byte camDirty = 1;
 	private boolean wasDirty;
 	

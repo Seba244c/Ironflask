@@ -109,6 +109,7 @@ public class Application {
 		Time.process();
 		
 		// Logic
+		WorldManager.getAllEntities();
 		WorldManager.updateAll();
 		Event event = new Event(EventType.AppUpdate, EventCatagory.App);
 		event.oneLayer = false;

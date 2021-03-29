@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dk.sebsa.ender</groupId>
+  <artifactId>ender</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Ender</name>
+  
+  <developers>
+        <developer>
+            <id>sebsa</id>
+            <name>Sebastian Snoer</name>
+            <email>seb.snoer@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+   </developers>
+   
+   <properties>
+		<maven.compiler.release>11</maven.compiler.release>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+   </properties>
+   
+   <build>
+	    <plugins>
+		    <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-dependency-plugin</artifactId>
+			    <executions>
+			        <execution>
+			            <id>copy-dependencies</id>
+			            <phase>prepare-package</phase>
+			            <goals>
+			                <goal>copy-dependencies</goal>
+			            </goals>
+			            <configuration>
+			                <outputDirectory>
+			                    ${project.build.directory}/libs
+			                </outputDirectory>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
+			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jar-plugin</artifactId>
+			    <version>3.2.0</version>
+			    <configuration>
+			        <archive>
+			            <manifest>
+			                <addClasspath>true</addClasspath>
+			                <classpathPrefix>libs/</classpathPrefix>
+			                <mainClass>
+			                    dk.sebsa.ender.game.Main
+			                </mainClass>
+			            </manifest>
+			        </archive>
+			    </configuration>
+			</plugin>
+		  </plugins>
+    </build>
+    
+    <dependencies>
+  	<dependency>
+  		<groupId>dk.sebsa.ironflask</groupId>
+  		<artifactId>engine</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+</project>

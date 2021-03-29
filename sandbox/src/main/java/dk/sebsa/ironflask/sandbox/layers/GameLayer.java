@@ -30,6 +30,7 @@ public class GameLayer extends Layer {
 	private Application application;
 	private Renderer3d renderer;
 	private CameraEntity camera;
+	private Entity blockMaster;
 	private AudioSource musicSource;
 	
 	public GameLayer(Application app) {
@@ -54,6 +55,9 @@ public class GameLayer extends Layer {
 			} else if(e2.key == GLFW.GLFW_KEY_P) {
 				if(musicSource.isPlaying()) musicSource.pause();
 				else musicSource.play();
+				return true;
+			} else if(e2.key == GLFW.GLFW_KEY_E) {
+				blockMaster.setLocalPosition(new Vector3f(0, 100, 0));
 				return true;
 			}
 		} else if(e.type == EventType.WindowResize) {
@@ -83,32 +87,33 @@ public class GameLayer extends Layer {
 		try {
 			renderer = new Renderer3d(application);
 		} catch (Exception e) { e.printStackTrace(); }
+		blockMaster = new Entity("Blockmaster");
+		blockMaster.addComponent(new Spin());
 		
 		// Player
-		camera = new CameraEntity();
+		camera = new CameraEntity(true);
 		camera.addComponent(new CameraMovement());
 		camera.addComponent(new AudioListener(application.audioManager));
-		WorldManager.getWorld().entities.add(camera);
 		// Music
 		musicSource = new AudioSource(true, false);
 		musicSource.setClip(AudioClip.getClip("RememberTheHeroes"));
 		// Cubes
 		try {
 			Mesh mesh = Mesh.getMesh("cube.obj");
-			Texture texture = Texture.getTexture("grassblock.png");
 			Shader shader = Shader.getShader("default");
+			Material material = new Material(Texture.getTexture("grassblock.png"));
 			for(int i = 0; i < 10; i++) {
 				for(int e = 0; e < 10; e++) {
-					Entity entity = new Entity();
-					entity.setScale(0.5f);
-					entity.setPosition(new Vector3f(i*1f, 0, e*1f));
-					EntityRenderer er = new EntityRenderer(mesh, texture, shader);
+					Entity entity = new Entity(false);
+					entity.parent(blockMaster);
+					entity.setLocalScale(0.5f);
+					entity.setLocalPosition(new Vector3f(i*1f, 0, e*1f));
+					EntityRenderer er = new EntityRenderer(mesh, material, shader);
 					entity.addComponent(er);
-					entity.addComponent(new Spin());
-					WorldManager.getWorld().entities.add(entity);
 				}
 			}
 		} catch (Exception e) { e.printStackTrace(); }
+		Entity.recalculate();
 		
 		// Skybox
 		WorldManager.getWorld().skyBox = new SkyBox(new Material(Texture.getTexture("default_skybox.png")));
