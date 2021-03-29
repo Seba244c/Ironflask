@@ -7,6 +7,7 @@ import dk.sebsa.ironflask.engine.math.Color;
 
 public class Main {
 	public static Debug debug;
+	public static EnderGame enderGame;
 	public static final boolean isDebug = true;
 	
 	public static void main(String[] args) {

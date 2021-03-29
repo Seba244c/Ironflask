@@ -23,6 +23,9 @@ public class EnderGame extends Layer {
 	private Renderer3d renderer;
 	private CameraEntity camera;
 	private Entity player;
+	private OrbitCamera cameraComponent;
+	
+	public static float configSensitevity = 1;
 	
 	public EnderGame(Application app) {
 		super();
@@ -37,6 +40,8 @@ public class EnderGame extends Layer {
 		} else if(e.type == EventType.AppLate) {
 			camera.lateUpdate();
 		}
+		
+		if(cameraComponent.onEvent(e)) return true;
 		
 		return Component.assingedInput.onEvent(e);
 	}
@@ -73,7 +78,8 @@ public class EnderGame extends Layer {
 		camera = new CameraEntity(false);
 		camera.parent(player);
 		camera.setLocalPosition(new Vector3f(0, 0, 4));
-		camera.addComponent(new OrbitCamera(player));
+		cameraComponent = new OrbitCamera(player);
+		camera.addComponent(cameraComponent);
 		
 		// end off
 		Entity.recalculate();

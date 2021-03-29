@@ -16,7 +16,6 @@ public class PlayerMovement extends Component {
 		if(Component.assingedInput.isKeyDown(GLFW.GLFW_KEY_A)) movement.x -= speed*Time.getDeltaTime();
 		if(Component.assingedInput.isKeyDown(GLFW.GLFW_KEY_S)) movement.z += speed*Time.getDeltaTime();
 		if(Component.assingedInput.isKeyDown(GLFW.GLFW_KEY_D)) movement.x += speed*Time.getDeltaTime();
-		System.out.println(movement);
 		entity.movePosition(movement);
 	}
 }

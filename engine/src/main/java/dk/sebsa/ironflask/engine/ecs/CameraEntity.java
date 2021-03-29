@@ -14,9 +14,12 @@ public class CameraEntity extends Entity {
 	private boolean wasDirty;
 	
 	private Matrix4f viewMatrix;
-
+	
+	@Override
+    public void movePosition(Vector3f v) { movePosition(v.x, v.y, v.z); }
+	@Override
     public void movePosition(float offsetX, float offsetY, float offsetZ) {
-        if ( offsetZ != 0 ) {
+		if ( offsetZ != 0 ) {
             position.x += (float)Math.sin(Math.toRadians(rotation.y)) * -1.0f * offsetZ;
             position.z += (float)Math.cos(Math.toRadians(rotation.y)) * offsetZ;
         }
@@ -27,7 +30,8 @@ public class CameraEntity extends Entity {
         position.y += offsetY;
         
         if(offsetX != 0 || offsetY != 0 || offsetZ != 0) {
-        	dirt();
+            dirt();
+        	dirty = 1;
         }
     }
     

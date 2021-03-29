@@ -33,7 +33,7 @@ public class Entity {
 	private List<Entity> children = new ArrayList<Entity>();
 	private Entity parent;
 	private boolean enabled = true;
-	private byte dirty = 1;
+	protected byte dirty = 1;
 	private Matrix4f modelViewMatrix;
 
 	public Entity(boolean addToMaster) {
@@ -114,8 +114,21 @@ public class Entity {
 		this.name = name;
 	}
 	
-    public void movePosition(Vector3f pos) {
-        setLocalPosition(pos.add(localPosition));
+	public void movePosition(Vector3f v) { movePosition(v.x, v.y, v.z); }
+	public void movePosition(float offsetX, float offsetY, float offsetZ) {
+        if ( offsetZ != 0 ) {
+        	localPosition.x += (float)Math.sin(Math.toRadians(localRotation.y)) * -1.0f * offsetZ;
+            localPosition.z += (float)Math.cos(Math.toRadians(localRotation.y)) * offsetZ;
+        }
+        if ( offsetX != 0) {
+        	localPosition.x += (float)Math.sin(Math.toRadians(localRotation.y - 90)) * -1.0f * offsetX;
+            localPosition.z += (float)Math.cos(Math.toRadians(localRotation.y - 90)) * offsetX;
+        }
+        localPosition.y += offsetY;
+        
+        if(offsetX != 0 || offsetY != 0 || offsetZ != 0) {
+        	dirty = 1;
+        }
     }
 	
 	// TRANSFORM

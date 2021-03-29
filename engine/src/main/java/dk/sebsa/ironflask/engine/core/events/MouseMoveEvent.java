@@ -8,4 +8,6 @@ public class MouseMoveEvent extends Event {
 	}
 	public int[] mousePosX = new int[1];
 	public int[] mousePosY = new int[1];
+	public int[] offsetPosX = new int[1];
+	public int[] offsetPosY = new int[1];
 }

@@ -101,6 +101,8 @@ public class Input {
 				MouseMoveEvent e = new MouseMoveEvent(EventType.MouseMoved, EventCatagory.Input);
 				e.mousePosX[0] = (int) xpos;
 				e.mousePosY[0] = (int) ypos;
+				e.offsetPosX[0] = (int) (mouseX-xpos);
+				e.offsetPosY[0] = (int) (mouseY-ypos);
 				e.dispatch(app.stack);
 				mouseX = xpos;
 				mouseY = ypos;
