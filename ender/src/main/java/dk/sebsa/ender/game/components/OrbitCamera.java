@@ -60,7 +60,7 @@ public class OrbitCamera extends Component {
 	        }
 			
 			rotateH = Mathf.wrap(rotateH, 0, 360);
-			rotateV = Mathf.clamp(rotateV, 0, 30);
+			rotateV = Mathf.clamp(rotateV, 10, 30);
 
 			entity.getParent().setLocalRotation(new Vector3f(0, -rotateH, 0.0f));
 			entity.setLocalRotation(new Vector3f(rotateV+10, 0, 0.0f));
@@ -71,7 +71,6 @@ public class OrbitCamera extends Component {
 			// Calculate v axis
 			float YupAndDown = (float)Math.sin(Math.toRadians(rotateV))*distance;
 			ZdistanceFromMiddle *= ((float)Math.cos(Math.toRadians(rotateV)));
-			System.out.println(ZdistanceFromMiddle);
 			
 	        entity.setLocalPosition(new Vector3f(xSide, YupAndDown+2.5f, ZdistanceFromMiddle));
 		}
