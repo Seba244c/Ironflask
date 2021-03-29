@@ -13,4 +13,8 @@ public class Mathf {
 		remainder = max - min;
 		return ((val - min) % remainder + remainder) % remainder + min;
 	}
+	
+	public static float abs(float val) {
+		return java.lang.Math.abs(val);
+	}
 }

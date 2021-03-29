@@ -1,6 +1,7 @@
 package dk.sebsa.ironflask.engine.ecs;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import dk.sebsa.ironflask.engine.graph.Transformation;
 
@@ -13,7 +14,7 @@ public class CameraEntity extends Entity {
 	private boolean wasDirty;
 	
 	private Matrix4f viewMatrix;
-	
+
     public void movePosition(float offsetX, float offsetY, float offsetZ) {
         if ( offsetZ != 0 ) {
             position.x += (float)Math.sin(Math.toRadians(rotation.y)) * -1.0f * offsetZ;
@@ -26,8 +27,7 @@ public class CameraEntity extends Entity {
         position.y += offsetY;
         
         if(offsetX != 0 || offsetY != 0 || offsetZ != 0) {
-            camDirty = 1;
-            wasDirty = true;
+        	dirt();
         }
     }
     
@@ -35,8 +35,7 @@ public class CameraEntity extends Entity {
         rotation.x += offsetX;
         rotation.y += offsetY;
         rotation.z += offsetZ;
-        camDirty = 1;
-        wasDirty = true;
+        dirt();
     }
 	
 	public Matrix4f getViewMatrix(Transformation transformation) {
@@ -52,4 +51,17 @@ public class CameraEntity extends Entity {
 	public void lateUpdate() {
 		wasDirty = false;
 	}
+	
+	private void dirt() {
+		camDirty = 1;
+        wasDirty = true;
+	}
+	
+	// TRANSFORM OVVERIDE
+	@Override
+	public void setLocalPosition(Vector3f position) { super.setLocalPosition(position); dirt(); }
+	@Override
+	public void setLocalScale(float scale) {super.setLocalScale(scale); dirt(); }
+	@Override
+	public void setLocalRotation(Vector3f rotation) { super.setLocalRotation(rotation); camDirty = 1; dirt();}
 }

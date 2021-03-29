@@ -35,7 +35,6 @@ public class Entity {
 	private boolean enabled = true;
 	private byte dirty = 1;
 	private Matrix4f modelViewMatrix;
-	private static Matrix4f temp = new Matrix4f();
 
 	public Entity(boolean addToMaster) {
 		this.id = UUID.randomUUID().toString();
@@ -115,6 +114,10 @@ public class Entity {
 		this.name = name;
 	}
 	
+    public void movePosition(Vector3f pos) {
+        setLocalPosition(pos.add(localPosition));
+    }
+	
 	// TRANSFORM
 		public Vector3f getPosition() { return position; }
 //		public void setPosition(Vector3f position) {this.position = position; dirty = 1; recalculateLocalTransformation(); }
@@ -141,8 +144,6 @@ public class Entity {
 					Mathf.wrap(rotation.x - parent.rotation.x, 0, 360),
 					Mathf.wrap(rotation.y - parent.rotation.y, 0, 360),
 					Mathf.wrap(rotation.z - parent.rotation.z, 0, 360));
-			//temp.setTransformation(null, -parent.rotation, new Vector2f(1, 1).div(parent.scale));
-			//localPosition.set(temp.transformPoint(position.sub(parent.position)));
 			
 			for(int i = 0; i < children.size(); i++) children.get(i).recalculateGlobalTransformations();
 		}

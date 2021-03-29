@@ -104,6 +104,14 @@ public class ComponentInput {
 		return buttonsReleased[button] == 1;
 	}
 	
+	public float getScrollY() {
+		return input.getScrollY();
+	}
+	
+	public float getScrollX() {
+		return input.getScrollX();
+	}
+	
 	public void lockCursor() {
 		input.lockCursor();
 	}
