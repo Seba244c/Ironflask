@@ -3,7 +3,6 @@ package dk.sebsa.ironflask.engine.graph.staging.stages;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.graph.staging.RenderingStage;
-import static org.lwjgl.opengl.GL11.*;
 
 public class WorldStage extends RenderingStage {
 	public WorldStage(Application app) {
@@ -12,8 +11,12 @@ public class WorldStage extends RenderingStage {
 
 	@Override
 	public void draw() {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		WorldManager.onWillRenderAll();
         app.stack.render();
+	}
+
+	@Override
+	public void windowChangedSize() {
+		// NOTHINGNESS
 	}
 }

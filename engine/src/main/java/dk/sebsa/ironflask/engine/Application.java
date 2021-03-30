@@ -7,6 +7,7 @@ import static org.lwjgl.openal.ALC10.alcMakeContextCurrent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.GL;
@@ -44,6 +45,7 @@ public class Application {
 	public final boolean isDebug;
 	public AppState state = AppState.Loading;
 	private byte logic = 1;
+	private Consumer<Application> loadingFinishedCallback;
 	
 	public LoadingThread loadingThread;
 
@@ -51,9 +53,10 @@ public class Application {
 	public GuiRenderer guiRenderer;
 	public List<RenderingStage> pipeline = new ArrayList<>();
 	
-	public Application(String name, boolean isDebug) {
+	public Application(String name, boolean isDebug, Consumer<Application> loadingFinishedCallback) {
 		this.name = name;
 		this.isDebug = isDebug;
+		this.loadingFinishedCallback = loadingFinishedCallback;
 		
 		// Window, stack and input
 		stack = new LayerStack(this, name + "-LayerStack");
@@ -87,6 +90,7 @@ public class Application {
 					glfwMakeContextCurrent(window.windowId);
 					AL.createCapabilities(audioManager.deviceCaps);
 			        alcMakeContextCurrent(audioManager.context);
+			        loadingFinishedCallback.accept(this);
 				}
 			} else runningState();
 		}
@@ -123,8 +127,7 @@ public class Application {
 	public void render() {
 		FBO fbo = null;
 		for(RenderingStage stage : pipeline) {
-			stage.render(fbo);
-			fbo = stage.fbo;
+			fbo = stage.render(fbo);
 		}
 
 		Renderer2d.prepare();
@@ -134,7 +137,7 @@ public class Application {
 	
 	public void windowResized() {
 		for(RenderingStage stage : pipeline) {
-			stage.updateFbo();
+			stage.updateFbo(false);
 		}
 	}
 	

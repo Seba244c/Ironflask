@@ -11,9 +11,10 @@ public class Main {
 	public static EnderGame enderGame;
 	public static UILayer UILayer;
 	public static final boolean isDebug = true;
+	private static Application game;
 	
 	public static void main(String[] args) {
-		Application game = new Application("Project Ender", isDebug);
+		game = new Application("Project Ender", isDebug, Main::loadingFinished);
 		game.window.setClearColor(Color.forest());
 		
 		// Layers
@@ -26,5 +27,9 @@ public class Main {
 		game.stack.addLayerToTop(UILayer);
 		if(isDebug) game.stack.addLayerToTop(debug);
 		game.run();
+	}
+	
+	public static void loadingFinished(Application app) {
+		// Pipeline
 	}
 }

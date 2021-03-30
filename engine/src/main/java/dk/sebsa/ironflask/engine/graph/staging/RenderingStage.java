@@ -16,15 +16,17 @@ import dk.sebsa.ironflask.engine.io.Window;
 public abstract class RenderingStage {
 	public FBO fbo;
 	public Application app;
+	public boolean enabled = true;
 	private Window window;
 	
 	public RenderingStage(Application app) {
 		this.app = app;
 		this.window = app.window;
-		updateFbo();
+		
+		updateFbo(true);
 	}
 	
-	public void updateFbo() {
+	public void updateFbo(boolean init) {
 		if(fbo != null) fbo.cleanup();
 		fbo = new FBO(window.getWidth(), window.getHeight());
 		fbo.bindFrameBuffer();
@@ -32,18 +34,23 @@ public abstract class RenderingStage {
 		glEnable(GL_DEPTH_TEST);
 		glClearColor(0, 1, 1, 1);
 		fbo.unBind();
+		if(!init) windowChangedSize();
 	}
 	
 	public void cleanup() {
 		fbo.cleanup();
 	}
 	
-	public void render(FBO prevFBO) {
+	public FBO render(FBO prevFBO) {
+		if(!enabled) return prevFBO;
+		
 		fbo.bindFrameBuffer();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderPrevFBO(prevFBO);
 		draw();
 		fbo.unBind();
+		
+		return fbo;
 	}
 	
 	private void renderPrevFBO(FBO prevFBO) {
@@ -54,4 +61,5 @@ public abstract class RenderingStage {
 	}
 	
 	public abstract void draw();
+	public abstract void windowChangedSize();
 }

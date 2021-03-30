@@ -12,4 +12,9 @@ public class GUIStage extends RenderingStage {
 	public void draw() {
         app.stack.renderGUI();
 	}
+
+	@Override
+	public void windowChangedSize() {
+		// NOTHINGNESS
+	}
 }
