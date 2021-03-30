@@ -20,7 +20,8 @@ import dk.sebsa.ironflask.engine.enums.ThreadState;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
-import dk.sebsa.ironflask.engine.graph.renderers.Renderer2d;
+import dk.sebsa.ironflask.engine.graph.renderers.SplashScreenRenderer;
+import dk.sebsa.ironflask.engine.graph.renderers.GuiRenderer;
 import dk.sebsa.ironflask.engine.graph.renderers.SkyboxRenderer;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
@@ -43,7 +44,7 @@ public class LoadingThread extends Thread {
 		if(createAssets) {
 			// Create shader and texture
 			try {
-				Renderer2d.init(app.window, new Shader("/2d"));
+				SplashScreenRenderer.init(app.window, new Shader("/ironflask_splash"));
 				new Texture("/Splash.png");
 			} catch (Exception e) { e.printStackTrace(); }
 		}
@@ -52,9 +53,9 @@ public class LoadingThread extends Thread {
 		// Window
 		app.window.update();
 		// Splash icon
-		Renderer2d.prepare();
-		Renderer2d.drawTextureWithTextCoords(Texture.getTexture("Splash.png"), new Rect(0, 0, app.window.getWidth(), app.window.getHeight()), new Rect(0, 0, 1,1));
-		Renderer2d.unprepare();
+		SplashScreenRenderer.prepare();
+		SplashScreenRenderer.drawTextureWithTextCoords(Texture.getTexture("Splash.png"), new Rect(0, 0, app.window.getWidth(), app.window.getHeight()), new Rect(0, 0, 1,1));
+		SplashScreenRenderer.unprepare();
 		glfwSwapBuffers(app.window.windowId);
 	}
 
@@ -80,9 +81,9 @@ public class LoadingThread extends Thread {
 			AssetManager.loadAllResources(Paths.get(".").toAbsolutePath().normalize().toString() + "/resources/");
 		} catch (Exception e) { state = ThreadState.Failed; e.printStackTrace(); return; }
 		
-		// Skybox renderer
+		// Renderers
 		app.skyboxRenderer = new SkyboxRenderer(app);
-		
+		app.guiRenderer = new GuiRenderer(app);
 		// Other
 		stack.init();
 		Time.init();

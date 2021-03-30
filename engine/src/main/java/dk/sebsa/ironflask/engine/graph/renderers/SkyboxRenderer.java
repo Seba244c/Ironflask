@@ -36,7 +36,7 @@ public class SkyboxRenderer {
 		LoggingUtil.coreLog(Severity.Info, "Initiliazing SkyboxRenderer");
 		
 		this.application = application;
-		shader = Shader.getShader("skybox");
+		shader = Shader.getShader("ironflask_skybox");
 		try {
 			shader.createUniform("projectionMatrix");
 			shader.createUniform("modelViewMatrix");

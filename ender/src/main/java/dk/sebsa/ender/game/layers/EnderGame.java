@@ -1,13 +1,16 @@
 package dk.sebsa.ender.game.layers;
 
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
 
+import dk.sebsa.ender.game.Main;
 import dk.sebsa.ender.game.components.OrbitCamera;
 import dk.sebsa.ender.game.components.PlayerMovement;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
+import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
 import dk.sebsa.ironflask.engine.ecs.CameraEntity;
 import dk.sebsa.ironflask.engine.ecs.Component;
 import dk.sebsa.ironflask.engine.ecs.Entity;
@@ -36,9 +39,15 @@ public class EnderGame extends Layer {
 	public boolean handleEvent(Event e) {
 		if(e.type == EventType.WindowResize) {
 			renderer.windowResized();
-			application.skyboxRenderer.windowResized();
 		} else if(e.type == EventType.AppLate) {
 			camera.lateUpdate();
+		} else if(e.type == EventType.KeyPressed) {
+			KeyPressedEvent event = (KeyPressedEvent) e;
+			if(event.key == GLFW.GLFW_KEY_TAB) {
+				if(Main.debug.enabled) Main.debug.enabled = false;
+				else Main.debug.enabled = true;
+				return true;
+			}
 		}
 		
 		if(cameraComponent.onEvent(e)) return true;

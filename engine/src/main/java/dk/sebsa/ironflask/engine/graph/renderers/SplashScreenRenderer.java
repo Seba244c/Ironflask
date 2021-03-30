@@ -13,7 +13,7 @@ import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class Renderer2d {
+public class SplashScreenRenderer {
 	private static Mesh2d guiMesh;
 	private static Matrix4x4 ortho;
 	private static Window window;
@@ -29,7 +29,7 @@ public class Renderer2d {
 		shader = s;
 		
 		try {
-			guiMesh = new Mesh2d("Render2d guiMesh", square, square);
+			guiMesh = new Mesh2d("SplashScreenRenderer guiMesh", square, square);
 		} catch (AssetExistsException e1) { e1.printStackTrace(); }
 		try {
 			shader.createUniform("projection");

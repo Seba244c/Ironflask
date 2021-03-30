@@ -24,7 +24,7 @@ public class OrbitCamera extends Component {
 	
 	private float rotateH = 0f;
 	private float changeH = 0f;
-	private float rotateV = 0f;
+	private float rotateV = 10f;
 	private float changeV = 0f;
 	
 	public OrbitCamera(Entity target) {
@@ -44,36 +44,36 @@ public class OrbitCamera extends Component {
 	
 	@Override
 	public void lateUpdate() {
-		if(target != null) {	
-			// Zoom
-			distance += -(Component.assingedInput.getScrollY() * Time.getDeltaTime()) * zoomRate * Mathf.abs(distance);
-			if (distance < minDistance) {
-	            distance = minDistance;
-	        } else if (distance > maxDistance) {
-	            distance = maxDistance;
-	        } else if (Component.assingedInput.isButtonDown(1)) {
-	        	// Rotate
-	        	float change = changeH * Time.getDeltaTime() * rotateRateH * EnderGame.configSensitevity;
-	        	rotateH += change;
-	        	change = changeV * Time.getDeltaTime() * rotateRateV * EnderGame.configSensitevity;
-	        	rotateV += change;
-	        }
+		if(target == null) return;	
+		// Zoom
+		distance += -(Component.assingedInput.getScrollY() * Time.getDeltaTime()) * zoomRate * Mathf.abs(distance);
+		if (distance < minDistance) {
+            distance = minDistance;
+        } else if (distance > maxDistance) {
+            distance = maxDistance;
+        } else if (Component.assingedInput.isButtonDown(1)) {
+        	// Rotate
+        	float change = changeH * Time.getDeltaTime() * rotateRateH * EnderGame.configSensitevity;
+        	rotateH += change;
+        	change = changeV * Time.getDeltaTime() * rotateRateV * EnderGame.configSensitevity;
+        	rotateV += change;
 			
 			rotateH = Mathf.wrap(rotateH, 0, 360);
 			rotateV = Mathf.clamp(rotateV, 10, 30);
-
-			entity.getParent().setLocalRotation(new Vector3f(0, -rotateH, 0.0f));
-			entity.setLocalRotation(new Vector3f(rotateV+10, 0, 0.0f));
-			
-			// Calculate h axis
-			float ZdistanceFromMiddle = (float)Math.cos(Math.toRadians(rotateH))*distance;
-			float xSide = (float)Math.sin(Math.toRadians(rotateH))*distance;
-			// Calculate v axis
-			float YupAndDown = (float)Math.sin(Math.toRadians(rotateV))*distance;
-			ZdistanceFromMiddle *= ((float)Math.cos(Math.toRadians(rotateV)));
-			
-	        entity.setLocalPosition(new Vector3f(xSide, YupAndDown+2.5f, ZdistanceFromMiddle));
-		}
+        }
+		
+		entity.getParent().setLocalRotation(new Vector3f(0, -rotateH, 0.0f));
+		entity.setLocalRotation(new Vector3f(rotateV+10, 0, 0.0f));
+		
+		// Calculate h axis
+		float ZdistanceFromMiddle = (float)Math.cos(Math.toRadians(rotateH))*distance;
+		float xSide = (float)Math.sin(Math.toRadians(rotateH))*distance;
+		// Calculate v axis
+		float YupAndDown = (float)Math.sin(Math.toRadians(rotateV))*distance;
+		ZdistanceFromMiddle *= ((float)Math.cos(Math.toRadians(rotateV)));
+		
+        entity.setLocalPosition(new Vector3f(xSide, YupAndDown+2.5f, ZdistanceFromMiddle));
+        
 		changeH = 0;
 		changeV = 0;
 	}

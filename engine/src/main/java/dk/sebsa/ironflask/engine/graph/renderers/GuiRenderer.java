@@ -1,0 +1,87 @@
+package dk.sebsa.ironflask.engine.graph.renderers;
+
+import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.enums.Severity;
+import dk.sebsa.ironflask.engine.graph.Mesh2d;
+import dk.sebsa.ironflask.engine.graph.Shader;
+import dk.sebsa.ironflask.engine.gui.GuiObject;
+import dk.sebsa.ironflask.engine.gui.Window;
+import dk.sebsa.ironflask.engine.io.LoggingUtil;
+import dk.sebsa.ironflask.engine.math.Matrix4x4;
+import dk.sebsa.ironflask.engine.math.Vector2f;
+import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
+
+public class GuiRenderer {
+	private Mesh2d guiMesh;
+	private Matrix4x4 ortho;
+	private Application app;
+	private Shader shader;
+	private byte prepare = 0;
+	
+	public GuiRenderer(Application app) {
+		float[] square = new float[] {
+				0, 1, 1, 1, 1, 0,
+				1, 0, 0, 0, 0, 1
+		};
+		this.app = app;
+		
+		try {
+			guiMesh = new Mesh2d("GuiRenderer guiMesh", square, square);
+		} catch (AssetExistsException e) { e.printStackTrace(); }
+		
+		// Shader
+		shader = Shader.getShader("ironflask_gui");
+		try {
+			shader.createUniform("projection");
+			shader.createUniform("pixelScale");
+			shader.createUniform("screenPos");
+			shader.createUniform("backgroundColor");
+		} catch (Exception e) { e.printStackTrace(); }
+	}
+	
+	public void prepareForRender() {
+		prepare = 1;
+		shader.bind();
+		guiMesh.bind();
+		
+		ortho = Matrix4x4.ortho(0, app.window.getWidth(), app.window.getHeight(), 0, -1, 1);
+		shader.setUniform("projection", ortho);
+	}
+	
+	public void renderWindow(Window window) {
+		if(prepare == 0) {
+			LoggingUtil.coreLog(Severity.Error, "GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
+			throw new IllegalStateException("GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
+		}
+		renderBackground(window);
+		for(GuiObject object : window.getGuiObjects()) {
+			renderObject(object, window);
+		}
+	}
+	
+	public void renderBackground(Window window) {
+		shader.setUniform("pixelScale", new Vector2f(window.rect.width, window.rect.height));
+		shader.setUniform("screenPos", new Vector2f(window.rect.x, window.rect.y));
+		shader.setUniform("backgroundColor", window.getBackgroundColor());
+		
+		guiMesh.render();
+	}
+	
+	public void renderObject(GuiObject object, Window window) {
+		shader.setUniform("pixelScale", new Vector2f(window.rect.width, window.rect.height));
+		shader.setUniform("screenPos", new Vector2f(window.rect.x, window.rect.y));
+		shader.setUniform("backgroundColor", window.getBackgroundColor());
+		
+		guiMesh.render();
+	}
+	
+	public void endFrame() {
+		prepare = 0;
+		shader.unbind();
+		guiMesh.unbind();
+	}
+	
+	public void cleanup() {
+		guiMesh.cleanup();
+	}
+}
