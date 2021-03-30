@@ -81,6 +81,10 @@ public class Shader extends Asset {
         glUniform3f(uniforms.get(uniformName), value.r, value.g, value.b);
     }
 	
+	public void setUniformAlt(String uniformName, Color value) {
+        glUniform4f(uniforms.get(uniformName), value.r, value.g, value.b, value.a);
+    }
+	
 	public void setUniform(String uniformName, int value) {
 	    glUniform1i(uniforms.get(uniformName), value);
 	}

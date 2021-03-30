@@ -48,7 +48,10 @@ public class GUILayer extends Layer {
 	public void render() {
 		app.guiRenderer.prepareForRender();
 		
-		if(pauseMenuEnabled) app.guiRenderer.renderWindow(pauseMenu);
+		if(pauseMenuEnabled) {
+			app.guiRenderer.blurScreen();
+			app.guiRenderer.renderWindow(pauseMenu);
+		}
 		
 		app.guiRenderer.endFrame();
 	}

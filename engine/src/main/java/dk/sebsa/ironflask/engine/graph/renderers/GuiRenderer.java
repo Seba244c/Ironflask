@@ -58,6 +58,10 @@ public class GuiRenderer {
 		shader.setUniform("projection", ortho);
 	}
 	
+	public void blurScreen() {
+		
+	}
+	
 	public void renderWindow(Window window) {
 		if(prepare == 0) {
 			LoggingUtil.coreLog(Severity.Error, "GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
@@ -72,7 +76,7 @@ public class GuiRenderer {
 	public void renderBackground(Window window) {
 		shader.setUniform("pixelScale", new Vector2f(window.rect.width, window.rect.height));
 		shader.setUniform("screenPos", new Vector2f(window.rect.x, window.rect.y));
-		shader.setUniform("backgroundColor", window.getBackgroundColor());
+		shader.setUniformAlt("backgroundColor", window.getBackgroundColor());
 		
 		guiMesh.render();
 	}
@@ -84,7 +88,7 @@ public class GuiRenderer {
 		
 		shader.setUniform("pixelScale", new Vector2f(rect.width, rect.height));
 		shader.setUniform("screenPos", new Vector2f(rect.x, rect.y));
-		shader.setUniform("backgroundColor", object.getBackgroundColor());
+		shader.setUniformAlt("backgroundColor", object.getBackgroundColor());
 		guiMesh.render();
 	}
 	
