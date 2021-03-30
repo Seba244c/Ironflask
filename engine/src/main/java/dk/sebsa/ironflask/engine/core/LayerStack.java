@@ -65,9 +65,19 @@ public class LayerStack {
 	
 	public void render() {		
 		for(int i = 0; i < stack.size(); i++) {
-			// Disabled Stacks
-			if(!stack.get(i).enabled) return;
-			stack.get(i).render();
+			// Return if disabled or if an GUI layer
+			Layer layer = stack.get(i);
+			if(!layer.enabled || layer.guiLayer) return;
+			layer.render();
+		}
+	}
+	
+	public void renderGUI() {		
+		for(int i = 0; i < stack.size(); i++) {
+			// Return if disabled or not GUI layer
+			Layer layer = stack.get(i);
+			if(!layer.enabled || !layer.guiLayer) return;
+			layer.render();
 		}
 	}
 	

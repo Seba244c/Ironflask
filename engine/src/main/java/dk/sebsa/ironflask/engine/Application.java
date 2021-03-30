@@ -138,6 +138,10 @@ public class Application {
 		}
 	}
 	
+	public void addRenderingStage(RenderingStage stage) {
+		pipeline.add(pipeline.size()-1, stage);
+	}
+	
 	public void runningState() {
 		// Window stuff
 		glfwPollEvents();
