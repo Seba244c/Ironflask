@@ -23,7 +23,7 @@ import dk.sebsa.ironflask.engine.graph.FBO;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.renderers.GuiRenderer;
 import dk.sebsa.ironflask.engine.graph.renderers.SkyboxRenderer;
-import dk.sebsa.ironflask.engine.graph.renderers.SplashScreenRenderer;
+import dk.sebsa.ironflask.engine.graph.renderers.Renderer2d;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.Window;
@@ -132,9 +132,9 @@ public class Application {
         stack.render();
 		fbo.unBind();
 
-		SplashScreenRenderer.prepare();
-		SplashScreenRenderer.drawTextureWithTextCoords(fbo.getTexture(), window.getRect(), new Rect(0, 1, 1, -1));
-		SplashScreenRenderer.unprepare();
+		Renderer2d.prepare();
+		Renderer2d.drawTextureWithTextCoords(fbo.getTexture(), window.getRect(), new Rect(0, 1, 1, -1));
+		Renderer2d.unprepare();
 	}
 	
 	public void runningState() {

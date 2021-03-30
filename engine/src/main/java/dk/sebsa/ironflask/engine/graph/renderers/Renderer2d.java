@@ -12,7 +12,7 @@ import dk.sebsa.ironflask.engine.math.Vector2f;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class SplashScreenRenderer {
+public class Renderer2d {
 	private static Mesh2d guiMesh;
 	private static Matrix4x4 ortho;
 	private static Window window;
