@@ -8,6 +8,7 @@ import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.AssetManager;
 import dk.sebsa.ironflask.engine.core.LayerStack;
 import dk.sebsa.ironflask.engine.enums.Severity;
+import dk.sebsa.ironflask.engine.graph.staging.RenderingStage;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 
 public class CleanUpThread extends Thread {
@@ -31,7 +32,9 @@ public class CleanUpThread extends Thread {
 		app.audioManager.cleanup();
 		app.input.cleanup();
 		app.stack.cleanup();
-		app.fbo.cleanup();
+		for(RenderingStage stage : app.pipeline) {
+			stage.cleanup();
+		}
 		
 		// Done
 		state = 1;

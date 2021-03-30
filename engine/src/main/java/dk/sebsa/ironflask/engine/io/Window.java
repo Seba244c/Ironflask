@@ -120,7 +120,8 @@ public class Window {
                         
             glViewport(0, 0, w, h);
     		rect = new Rect(0, 0, w, h);
-            
+            app.windowResized();
+    		
             if(app != null) {
                 Event event = new Event(EventType.WindowResize, EventCatagory.Window);
                 event.oneLayer = false;

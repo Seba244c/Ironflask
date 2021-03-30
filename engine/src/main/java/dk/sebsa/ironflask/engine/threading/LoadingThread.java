@@ -23,6 +23,7 @@ import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.graph.renderers.Renderer2d;
 import dk.sebsa.ironflask.engine.graph.renderers.GuiRenderer;
 import dk.sebsa.ironflask.engine.graph.renderers.SkyboxRenderer;
+import dk.sebsa.ironflask.engine.graph.staging.stages.WorldStage;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.math.Time;
@@ -85,10 +86,9 @@ public class LoadingThread extends Thread {
 		app.skyboxRenderer = new SkyboxRenderer(app);
 		app.guiRenderer = new GuiRenderer(app);
 		// Other
+		app.pipeline.add(new WorldStage(app));
 		stack.init();
 		Time.init();
-		
-		app.updateFbo();
 		
 		// Done
 		GLFW.glfwMakeContextCurrent(MemoryUtil.NULL);

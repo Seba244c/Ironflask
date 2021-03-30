@@ -39,7 +39,6 @@ public class EnderGame extends Layer {
 	@Override
 	public boolean handleEvent(Event e) {
 		if(e.type == EventType.WindowResize) {
-			application.updateFbo();
 			renderer.windowResized();
 		} else if(e.type == EventType.AppLate) {
 			camera.lateUpdate();
