@@ -1,33 +1,22 @@
 package dk.sebsa.ironflask.engine.gui;
 
+import dk.sebsa.ironflask.engine.core.Event;
+import dk.sebsa.ironflask.engine.graph.Material;
+import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
+import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.gui.enums.Anchor;
-import dk.sebsa.ironflask.engine.gui.enums.GuiObjects;
-import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.math.Vector2f;
 
-public class GuiObject {
-	public GuiObjects objectType;
+public abstract class GuiObject {
 	public Rect rect;
-	private Color backgroundColor = Color.black();
+	public Material material = new Material();
 	private Anchor anchor;
 	public GUIDynamicVector posistion;
 	public GUIDynamicVector size;
 	
-	public GuiObject(GuiObjects objectType) {
-		this.objectType = objectType;
-	}
-	
 	public void setAnchor(Anchor anchor) {
 		this.anchor = anchor;
-	}
-	
-	public Color getBackgroundColor() {
-		return backgroundColor;
-	}
-	
-	public void setBackgroundColor(Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
 	}
 	
 	public void calculateAnchors(Window window) {
@@ -72,7 +61,6 @@ public class GuiObject {
 		}
 	}
 	
-	public void draw() {
-		
-	}
+	public abstract void render(Shader shader, Mesh2d mesh, Rect r);
+	public abstract boolean handleEvent(Event e);
 }

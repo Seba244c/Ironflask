@@ -7,6 +7,7 @@ import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
+import dk.sebsa.ironflask.engine.graph.Material;
 import dk.sebsa.ironflask.engine.gui.Constraint;
 import dk.sebsa.ironflask.engine.gui.GUIDynamicVar;
 import dk.sebsa.ironflask.engine.gui.GUIDynamicVector;
@@ -15,7 +16,7 @@ import dk.sebsa.ironflask.engine.gui.Window;
 import dk.sebsa.ironflask.engine.gui.enums.Anchor;
 import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
-import dk.sebsa.ironflask.engine.gui.enums.GuiObjects;
+import dk.sebsa.ironflask.engine.gui.objects.Button;
 import dk.sebsa.ironflask.engine.math.Color;
 
 public class GUILayer extends Layer {
@@ -37,9 +38,11 @@ public class GUILayer extends Layer {
 			if(event.key == GLFW.GLFW_KEY_ESCAPE) {
 				if(pauseMenuEnabled) pauseMenuEnabled = false;
 				else pauseMenuEnabled = true;
+				app.pauseLogic(pauseMenuEnabled);
 				return true;
 			}
 		}
+		if(pauseMenuEnabled) return pauseMenu.handleEvent(e);
 		return false;
 	}
 
@@ -63,13 +66,17 @@ public class GUILayer extends Layer {
 		pauseMenu.setBackgroundColor(Color.grey());
 		pauseMenu.addCosntraint(new Constraint(ConstraintSide.Right, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.7f)));
 		
-		GuiObject quitButton = new GuiObject(GuiObjects.Button);
-		quitButton.setBackgroundColor(Color.yellow());
+		GuiObject quitButton = new Button(app.input, this::quitButton);
+		quitButton.material = new Material();
 		quitButton.setAnchor(Anchor.TopLeft);
 		quitButton.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
 		quitButton.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f), new GUIDynamicVar(GUIDynamicType.Fixed, 48));
 		
 		pauseMenu.addGuiObject(quitButton);
 		pauseMenu.calculateConstraints(app);
+	}
+	
+	private void quitButton(Button button) {
+		app.close();
 	}
 }

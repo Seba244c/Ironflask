@@ -26,7 +26,7 @@ public class Entity {
 	protected Vector3f rotation = new Vector3f();
 	protected Vector3f localPosition = new Vector3f();
 	protected float localScale = 1;
-	protected Vector3f localRotation = new Vector3f();
+	protected Vector3f localRotation = new Vector3f(0,0,0);
 	// Transform ^^
 
 	private List<Component> components = new ArrayList<Component>();
@@ -140,7 +140,7 @@ public class Entity {
 		public float getScale() { return scale; }
 //		public void setScale(float scale) { this.scale = scale; dirty = 1; recalculateLocalTransformation();}
 		public float getLocalScale() { return localScale; }
-		public void setLocalScale(float scale) { this.localScale = scale; dirty = 1; recalculateGlobalTransformations();}
+		public void setLocalScale(float scale) { this.scale = scale; dirty = 1; recalculateGlobalTransformations();}
 	
 		public Vector3f getRotation() { return rotation; }
 //		public void setRotation(Vector3f rotation) { this.rotation = rotation; dirty = 1; recalculateLocalTransformation(); }

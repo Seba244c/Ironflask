@@ -43,6 +43,7 @@ public class Application {
 	public SkyboxRenderer skyboxRenderer;
 	public GuiRenderer guiRenderer;
 	public FBO fbo;
+	private byte logic = 1;
 	
 	public LoadingThread loadingThread;
 	
@@ -57,6 +58,14 @@ public class Application {
 		glfwMakeContextCurrent(MemoryUtil.NULL);
 		loadingThread = new LoadingThread(stack, this);
 		loadingThread.start();
+	}
+	
+	public void pauseLogic(boolean pause) {
+		logic = (byte) (pause ? 0 : 1);
+	}
+	
+	public boolean isPaused() {
+		return logic == 0;
 	}
 	
 	public void updateFbo() {
@@ -137,21 +146,25 @@ public class Application {
 		Time.process();
 		
 		// Logic
-		WorldManager.getAllEntities();
-		WorldManager.updateAll();
-		Event event = new Event(EventType.AppUpdate, EventCatagory.App);
-		event.oneLayer = false;
-        event.dispatch(stack);
-        WorldManager.lateUpdateAll();
+		if(logic == 1) {
+			WorldManager.getAllEntities();
+			WorldManager.updateAll();
+			Event event = new Event(EventType.AppUpdate, EventCatagory.App);
+			event.oneLayer = false;
+	        event.dispatch(stack);
+	        WorldManager.lateUpdateAll();
+		}
         
         // Render
         render();
         
         // Endoff
-        input.late();
-        event = new Event(EventType.AppLate, EventCatagory.App);
-		event.oneLayer = false;
-        event.dispatch(stack);
+    	input.late();
+        if(logic == 1) {
+            Event event = new Event(EventType.AppLate, EventCatagory.App);
+    		event.oneLayer = false;
+            event.dispatch(stack);
+        }
 		glfwSwapBuffers(window.windowId);
 	}
 	

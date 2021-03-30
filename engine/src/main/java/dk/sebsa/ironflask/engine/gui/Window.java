@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
@@ -33,6 +34,13 @@ public class Window {
 	
 	public List<GuiObject> getGuiObjects() {
 		return guiObjects;
+	}
+	
+	public boolean handleEvent(Event e) {
+		for(GuiObject object : guiObjects) {
+			if(object.handleEvent(e)) return true;
+		}
+		return false;
 	}
 	
 	public void calculateConstraints(Application app) {

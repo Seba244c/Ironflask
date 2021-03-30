@@ -20,6 +20,7 @@ import dk.sebsa.ironflask.engine.graph.Mesh;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.graph.renderers.Renderer3d;
+import dk.sebsa.ironflask.engine.math.Color;
 
 public class EnderGame extends Layer {
 	private Application application;
@@ -73,24 +74,33 @@ public class EnderGame extends Layer {
 			renderer = new Renderer3d(application);
 		} catch (Exception e) { e.printStackTrace(); }
 		// Random block
+		Material redMaterial = new Material();
+		Material yellowMaterial = new Material();
+		yellowMaterial.setColor(Color.yellow());
 		Entity randomBlock = new Entity(true);
-		randomBlock.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), new Material(), Shader.getShader("default")));
+		randomBlock.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), redMaterial, Shader.getShader("default")));
 		randomBlock.setLocalPosition(new Vector3f(0, -1, 0));
 		randomBlock = new Entity(true);
-		randomBlock.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), new Material(), Shader.getShader("default")));
+		randomBlock.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), redMaterial, Shader.getShader("default")));
 		randomBlock.setLocalPosition(new Vector3f(2, -1, 1));
+		randomBlock = new Entity(true);
+		randomBlock.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), yellowMaterial, Shader.getShader("default")));
+		randomBlock.setLocalPosition(new Vector3f(80, -1, 1));
+		randomBlock.setLocalScale(5);
 		
 		// Player
+		PlayerMovement pm = new PlayerMovement();
 		player = new Entity(true);
 		player.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), new Material(Texture.getTexture("grassblock.png")), Shader.getShader("default")));
-		player.addComponent(new PlayerMovement());
+		player.addComponent(pm);
 		// Camera
+		OrbitCamera oc = new OrbitCamera(player);
 		camera = new CameraEntity(false);
 		camera.parent(player);
 		camera.setLocalPosition(new Vector3f(0, 0, 4));
-		cameraComponent = new OrbitCamera(player);
+		cameraComponent = oc;
 		camera.addComponent(cameraComponent);
-		
+		pm.setCameraComponent(oc);
 		// end off
 		Entity.recalculate();
 	}

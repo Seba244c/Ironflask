@@ -15,7 +15,6 @@ import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.math.Mathf;
 import dk.sebsa.ironflask.engine.math.Matrix4x4;
 import dk.sebsa.ironflask.engine.math.Vector2f;
-import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 
 public class GuiRenderer {
 	private Mesh2d guiMesh;
@@ -76,10 +75,7 @@ public class GuiRenderer {
 		rect.width = Mathf.clamp(rect.width, 0, window.rect.width);
 		rect.height = Mathf.clamp(rect.height, 0, window.rect.height);
 		
-		shader.setUniform("pixelScale", new Vector2f(rect.width, rect.height));
-		shader.setUniform("screenPos", new Vector2f(rect.x, rect.y));
-		shader.setUniformAlt("backgroundColor", object.getBackgroundColor());
-		guiMesh.render();
+		object.render(shader, guiMesh, rect);
 	}
 	
 	public void endFrame() {

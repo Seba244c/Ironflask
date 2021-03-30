@@ -1,7 +1,6 @@
 package dk.sebsa.ironflask.engine.gui;
 
 import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
-import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 
 public class Constraint {
 	public ConstraintSide constraintSide;
