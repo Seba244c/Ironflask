@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
-import dk.sebsa.ironflask.engine.core.GUILayer;
+import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
 import dk.sebsa.ironflask.engine.graph.Material;
@@ -19,7 +19,7 @@ import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.gui.objects.Button;
 import dk.sebsa.ironflask.engine.math.Color;
 
-public class UILayer extends GUILayer {
+public class UILayer extends Layer {
 	public Application app;
 	
 	public boolean pauseMenuEnabled;
@@ -27,6 +27,7 @@ public class UILayer extends GUILayer {
 	
 	public UILayer(Application app) {
 		this.app = app;
+		this.guiLayer = true;
 	}
 	
 	@Override
