@@ -10,6 +10,7 @@ import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
+import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.math.Vector2f;
 
@@ -17,20 +18,31 @@ public class Button extends GuiObject {
 	private Rect clickRect;
 	private Input input;
 	private Consumer<Button> clickConsumer;
+	private boolean centered;
+	public Label label;
 	
-	public Button(Input input, Consumer<Button> clickConsumer) {
+	public Button(Input input, Consumer<Button> clickConsumer, Label label, boolean centered) {
 		this.input = input;
 		this.clickConsumer = clickConsumer;
+		this.label = label;
+		this.centered = centered;
 	}
 	
 	@Override
 	public void render(Shader shader, Mesh2d mesh, Rect r) {
-		draw(shader, mesh, r, material);
+		draw(shader, mesh, r, material, label, centered);
 		this.clickRect = r;
 	}
 	
-	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Material material) {
+	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Material material, Label label, boolean centered) {
 		Box.draw(shader, mesh, rect, material);
+		if(centered) {
+			Rect textRect = new Rect(rect.x, rect.y, rect.width, rect.height);
+			textRect.x = rect.x + rect.width/2;
+			textRect.x -= label.font.getStringWidth(label.getText())/2;
+			Text.draw(shader, mesh, textRect, label);
+		} else
+			Text.draw(shader, mesh, rect, label);
 	}
 	
 	@Override

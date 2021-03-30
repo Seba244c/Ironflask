@@ -9,7 +9,7 @@ public class Main {
 	public static final boolean isDebug = true;
 	
 	public static void main(String[] args) {
-		Application game = new Application("Ironflask Sandbox", isDebug);
+		Application game = new Application("Ironflask Sandbox", isDebug, null);
 		
 		// Debug layer
 		debug = new Debug(game);

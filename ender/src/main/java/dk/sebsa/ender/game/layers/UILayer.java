@@ -17,13 +17,18 @@ import dk.sebsa.ironflask.engine.gui.enums.Anchor;
 import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.gui.objects.Button;
+import dk.sebsa.ironflask.engine.gui.text.Font;
+import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.math.Color;
+import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 
 public class UILayer extends Layer {
 	public Application app;
 	
 	public boolean pauseMenuEnabled;
 	private Window pauseMenu;
+	
+	private Font buttonFont;
 	
 	public UILayer(Application app) {
 		this.app = app;
@@ -63,11 +68,17 @@ public class UILayer extends Layer {
 
 	@Override
 	public void init() {
+		// Font
+		try {
+			buttonFont = new Font(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 42));
+		} catch (AssetExistsException e) { e.printStackTrace(); }
+		
+		// Menus
 		pauseMenu = new Window();
 		pauseMenu.setBackgroundColor(Color.grey());
 		pauseMenu.addCosntraint(new Constraint(ConstraintSide.Right, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.7f)));
-		
-		GuiObject quitButton = new Button(app.input, this::quitButton);
+		// Objects
+		GuiObject quitButton = new Button(app.input, this::quitButton, new Label("Quit", buttonFont), true);
 		quitButton.material = new Material();
 		quitButton.setAnchor(Anchor.TopLeft);
 		quitButton.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));

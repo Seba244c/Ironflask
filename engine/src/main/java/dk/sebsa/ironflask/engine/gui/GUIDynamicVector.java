@@ -16,6 +16,10 @@ public class GUIDynamicVector {
 	}
 	
 	public Vector2f calculate(Window window) {
-		return new Vector2f(x.calculate(window, false), y.calculate(window, true));
+		float xf = x.calculate(window, false);
+		float yf = y.calculate(window, true);
+		if(yf % 1 != 0) yf += 0.5f;
+		if(xf % 1 != 0) xf += 0.5f;
+		return new Vector2f(xf, yf);
 	}
 }
