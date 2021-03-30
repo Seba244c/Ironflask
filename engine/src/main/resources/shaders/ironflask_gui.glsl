@@ -13,7 +13,7 @@ uniform vec3 backgroundColor;
 
 void main()
 {	
-	gl_Position = projection * vec4((position * pixelScale) + screenPos, 0, 1);
+	gl_Position = projection * vec4((position * pixelScale) + screenPos, 0, 1.0);
 	bc = vec4(backgroundColor, 1);
 }
 

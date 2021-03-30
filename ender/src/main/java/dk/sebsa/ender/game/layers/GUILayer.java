@@ -8,10 +8,16 @@ import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
 import dk.sebsa.ironflask.engine.gui.Constraint;
+import dk.sebsa.ironflask.engine.gui.GUIDynamicVar;
+import dk.sebsa.ironflask.engine.gui.GUIDynamicVector;
+import dk.sebsa.ironflask.engine.gui.GuiObject;
 import dk.sebsa.ironflask.engine.gui.Window;
+import dk.sebsa.ironflask.engine.gui.enums.Anchor;
 import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
-import dk.sebsa.ironflask.engine.gui.enums.ConstraintType;
+import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
+import dk.sebsa.ironflask.engine.gui.enums.GuiObjects;
 import dk.sebsa.ironflask.engine.math.Color;
+import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class GUILayer extends Layer {
 	public Application app;
@@ -56,7 +62,15 @@ public class GUILayer extends Layer {
 	public void init() {
 		pauseMenu = new Window();
 		pauseMenu.setBackgroundColor(Color.grey());
-		pauseMenu.addCosntraint(new Constraint(ConstraintSide.Right, ConstraintType.Dynamic, 0.6f));
+		pauseMenu.addCosntraint(new Constraint(ConstraintSide.Right, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.7f)));
+		
+		GuiObject quitButton = new GuiObject(GuiObjects.Button);
+		quitButton.setBackgroundColor(Color.yellow());
+		quitButton.setAnchor(Anchor.TopLeft);
+		quitButton.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
+		quitButton.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f), new GUIDynamicVar(GUIDynamicType.Fixed, 48));
+		
+		pauseMenu.addGuiObject(quitButton);
 		pauseMenu.calculateConstraints(app);
 	}
 }

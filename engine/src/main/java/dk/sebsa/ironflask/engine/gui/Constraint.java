@@ -1,16 +1,14 @@
 package dk.sebsa.ironflask.engine.gui;
 
 import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
-import dk.sebsa.ironflask.engine.gui.enums.ConstraintType;
+import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 
 public class Constraint {
 	public ConstraintSide constraintSide;
-	public ConstraintType constraintType;
-	public float value;
+	public GUIDynamicVar var;
 	
-	public Constraint(ConstraintSide constraintSide, ConstraintType constraintType, float value) {
+	public Constraint(ConstraintSide constraintSide, GUIDynamicVar var) {
 		this.constraintSide = constraintSide;
-		this.constraintType = constraintType;
-		this.value = value;
+		this.var = var;
 	}
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
-import dk.sebsa.ironflask.engine.gui.enums.ConstraintType;
+import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.math.Color;
 
 public class Window {
@@ -17,6 +17,10 @@ public class Window {
 	
 	public Color getBackgroundColor() {
 		return backgroundColor;
+	}
+	
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 	
 	public void addCosntraint(Constraint constraint) {
@@ -31,38 +35,38 @@ public class Window {
 		return guiObjects;
 	}
 	
-	public void setBackgroundColor(Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
-	}
-	
 	public void calculateConstraints(Application app) {
 		rect = new Rect(0, 0, app.window.getWidth(), app.window.getHeight());
 		for(Constraint constraint : constraints) {
-			if(constraint.constraintType == ConstraintType.Dynamic) {
+			if(constraint.var.type == GUIDynamicType.Dynamic) {
 				if(constraint.constraintSide == ConstraintSide.Top) {
-					float removePixels = constraint.value*app.window.getHeight();
+					float removePixels = constraint.var.value*app.window.getHeight();
 					rect.y += removePixels;
 				} else if(constraint.constraintSide == ConstraintSide.Bottom) {
-					float removePixels = constraint.value*app.window.getHeight();
+					float removePixels = constraint.var.value*app.window.getHeight();
 					rect.height -= removePixels;
 				} else if(constraint.constraintSide == ConstraintSide.Right) {
-					float removePixels = constraint.value*app.window.getWidth();
+					float removePixels = constraint.var.value*app.window.getWidth();
 					rect.width -= removePixels;
 				} else if(constraint.constraintSide == ConstraintSide.Left) {
-					float removePixels = constraint.value*app.window.getWidth();
+					float removePixels = constraint.var.value*app.window.getWidth();
 					rect.x += removePixels;
 				}
-			} else if(constraint.constraintType == ConstraintType.Fixed) {
+			} else if(constraint.var.type == GUIDynamicType.Fixed) {
 				if(constraint.constraintSide == ConstraintSide.Top) {
-					rect.y += constraint.value;
+					rect.y += constraint.var.value;
 				} else if(constraint.constraintSide == ConstraintSide.Bottom) {
-					rect.height -= constraint.value;
+					rect.height -= constraint.var.value;
 				} else if(constraint.constraintSide == ConstraintSide.Right) {
-					rect.width -= constraint.value;
+					rect.width -= constraint.var.value;
 				} else if(constraint.constraintSide == ConstraintSide.Left) {
-					rect.x += constraint.value;
+					rect.x += constraint.var.value;
 				}
 			}
+		}
+		
+		for(GuiObject object : guiObjects) {
+			object.calculateAnchors(this);
 		}
 	}
 }

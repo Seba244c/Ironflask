@@ -1,6 +1,6 @@
 package dk.sebsa.ironflask.engine.gui.enums;
 
-public enum ConstraintType {
+public enum GUIDynamicType {
 	Dynamic,
 	Fixed
 }

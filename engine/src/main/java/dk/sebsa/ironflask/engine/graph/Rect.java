@@ -79,4 +79,10 @@ public class Rect {
 	
 	public boolean contains(Vector2f v) {return v.x > x && v.x < x + width && v.y > y && v.y < y + height;}
 	public Vector2f getSize() {return new Vector2f(width, height);}
+	
+	@Override
+	public String toString() {
+		String rectAsString = "(" + x + ", " + y + ", " + width + ", " + height + ")" ;
+		return rectAsString;
+	}
 }
