@@ -25,15 +25,9 @@ public class GuiRenderer {
 	private byte prepare = 0;
 	
 	public GuiRenderer(Application app) {
-		float[] square = new float[] {
-				0, 1, 1, 1, 1, 0,
-				1, 0, 0, 0, 0, 1
-		};
 		this.app = app;
 		
-		try {
-			guiMesh = new Mesh2d("GuiRenderer guiMesh", square, square);
-		} catch (AssetExistsException e) { e.printStackTrace(); }
+		guiMesh = Mesh2d.quad;
 		
 		// Shader
 		shader = Shader.getShader("ironflask_gui");
@@ -56,10 +50,6 @@ public class GuiRenderer {
 		
 		ortho = Matrix4x4.ortho(0, app.window.getWidth(), app.window.getHeight(), 0, -1, 1);
 		shader.setUniform("projection", ortho);
-	}
-	
-	public void blurScreen() {
-		
 	}
 	
 	public void renderWindow(Window window) {

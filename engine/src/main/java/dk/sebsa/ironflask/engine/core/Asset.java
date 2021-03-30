@@ -16,4 +16,8 @@ public abstract class Asset {
 		if(AssetManager.exists(this.name)) throw new AssetExistsException();
 		AssetManager.allAssets.add(this);
 	}
+	
+	public Asset() {
+		
+	}
 }

@@ -4,6 +4,7 @@ import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.openal.ALC10.alcMakeContextCurrent;
+import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.GL;
@@ -18,8 +19,11 @@ import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.enums.AppState;
 import dk.sebsa.ironflask.engine.enums.Severity;
 import dk.sebsa.ironflask.engine.enums.ThreadState;
+import dk.sebsa.ironflask.engine.graph.FBO;
+import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.renderers.GuiRenderer;
 import dk.sebsa.ironflask.engine.graph.renderers.SkyboxRenderer;
+import dk.sebsa.ironflask.engine.graph.renderers.SplashScreenRenderer;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.Window;
@@ -38,6 +42,7 @@ public class Application {
 	public AppState state = AppState.Loading;
 	public SkyboxRenderer skyboxRenderer;
 	public GuiRenderer guiRenderer;
+	public FBO fbo;
 	
 	public LoadingThread loadingThread;
 	
@@ -52,6 +57,15 @@ public class Application {
 		glfwMakeContextCurrent(MemoryUtil.NULL);
 		loadingThread = new LoadingThread(stack, this);
 		loadingThread.start();
+	}
+	
+	public void updateFbo() {
+		fbo = new FBO(window.getWidth(), window.getHeight());
+		fbo.bindFrameBuffer();
+		// Enable depth test
+		glEnable(GL_DEPTH_TEST);
+		glClearColor(0, 1, 1, 1);
+		fbo.unBind();
 	}
 	
 	public void run() {
@@ -102,6 +116,18 @@ public class Application {
 		glfwPollEvents();
 	}
 	
+	public void render() {
+		fbo.bindFrameBuffer();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		WorldManager.onWillRenderAll();
+        stack.render();
+		fbo.unBind();
+
+		SplashScreenRenderer.prepare();
+		SplashScreenRenderer.drawTextureWithTextCoords(fbo.getTexture(), window.getRect(), new Rect(0, 1, 1, -1));
+		SplashScreenRenderer.unprepare();
+	}
+	
 	public void runningState() {
 		// Window stuff
 		glfwPollEvents();
@@ -119,9 +145,8 @@ public class Application {
         WorldManager.lateUpdateAll();
         
         // Render
-        WorldManager.onWillRenderAll();
-        stack.render();
-
+        render();
+        
         // Endoff
         input.late();
         event = new Event(EventType.AppLate, EventCatagory.App);

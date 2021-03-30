@@ -17,7 +17,6 @@ import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.gui.enums.GuiObjects;
 import dk.sebsa.ironflask.engine.math.Color;
-import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class GUILayer extends Layer {
 	public Application app;
@@ -48,10 +47,7 @@ public class GUILayer extends Layer {
 	public void render() {
 		app.guiRenderer.prepareForRender();
 		
-		if(pauseMenuEnabled) {
-			app.guiRenderer.blurScreen();
-			app.guiRenderer.renderWindow(pauseMenu);
-		}
+		if(pauseMenuEnabled) app.guiRenderer.renderWindow(pauseMenu);
 		
 		app.guiRenderer.endFrame();
 	}

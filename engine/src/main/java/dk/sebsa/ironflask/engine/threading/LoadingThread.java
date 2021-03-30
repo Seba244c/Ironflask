@@ -88,6 +88,8 @@ public class LoadingThread extends Thread {
 		stack.init();
 		Time.init();
 		
+		app.updateFbo();
+		
 		// Done
 		GLFW.glfwMakeContextCurrent(MemoryUtil.NULL);
 		state = ThreadState.Done;

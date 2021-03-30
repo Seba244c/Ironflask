@@ -31,6 +31,7 @@ public class CleanUpThread extends Thread {
 		app.audioManager.cleanup();
 		app.input.cleanup();
 		app.stack.cleanup();
+		app.fbo.cleanup();
 		
 		// Done
 		state = 1;

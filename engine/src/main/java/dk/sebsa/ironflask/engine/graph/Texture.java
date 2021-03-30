@@ -30,6 +30,11 @@ public class Texture extends Asset {
         textures.add(this);
     }
 	
+	public Texture(int id) {
+		super();
+        this.id = id;
+    }
+	
 	public static Texture getTexture(String name) {
 		for(int i = 0; i < textures.size(); i++) {
 			if(textures.get(i).name.equals(name)) {

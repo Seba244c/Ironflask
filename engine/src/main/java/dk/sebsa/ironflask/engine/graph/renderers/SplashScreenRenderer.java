@@ -9,7 +9,6 @@ import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Matrix4x4;
 import dk.sebsa.ironflask.engine.math.Vector2f;
-import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -21,16 +20,10 @@ public class SplashScreenRenderer {
 	
 	public static void init(Window win, Shader s) {
 		LoggingUtil.coreLog(Severity.Info, "Initiliazing Renderer2d");
-		float[] square = new float[] {
-				0, 1, 1, 1, 1, 0,
-				1, 0, 0, 0, 0, 1
-		};
 		window = win;
 		shader = s;
 		
-		try {
-			guiMesh = new Mesh2d("SplashScreenRenderer guiMesh", square, square);
-		} catch (AssetExistsException e1) { e1.printStackTrace(); }
+		guiMesh = Mesh2d.quad;
 		try {
 			shader.createUniform("projection");
 			shader.createUniform("offset");

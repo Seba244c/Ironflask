@@ -15,6 +15,20 @@ public class Mesh2d extends Asset {
 	private int u_id;
 	private int vao;
 	
+	static float[] square = new float[] {
+			0, 1, 1, 1, 1, 0,
+			1, 0, 0, 0, 0, 1
+	};
+	
+	public static Mesh2d quad = getQuad();
+	
+	static Mesh2d getQuad() {
+		try {
+			return new Mesh2d("Ironflask_Square", square, square);
+		} catch (AssetExistsException e) { e.printStackTrace(); }
+		return null;
+	}
+	
 	public Mesh2d(String name, float[] verticies, float[] uvs) throws AssetExistsException {
 		super(name);
 		vao = GL30.glGenVertexArrays();

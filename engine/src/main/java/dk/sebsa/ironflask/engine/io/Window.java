@@ -21,12 +21,14 @@ import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.enums.*;
+import dk.sebsa.ironflask.engine.graph.Rect;
 
 public class Window {
 	public long windowId;
 	private int width;
 	private int height;
 	private String title;
+	private Rect rect;
 	
 	private byte vSync;
     private byte isFullscreen;
@@ -58,6 +60,7 @@ public class Window {
         if(vsync) this.vSync = 1;
         else this.vSync = 0;
         this.app = app;
+        rect = new Rect(0, 0, width, height);
         
         //-- Init --//
         LoggingUtil.coreLog(Severity.Info, "Creating window: "+title);
@@ -116,6 +119,7 @@ public class Window {
     		}
                         
             glViewport(0, 0, w, h);
+    		rect = new Rect(0, 0, w, h);
             
             if(app != null) {
                 Event event = new Event(EventType.WindowResize, EventCatagory.Window);
@@ -185,8 +189,6 @@ public class Window {
 	}
 	
 	public void update() {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
 		// Time bewteen frames
 		frameTimeThisSecond = frameTimeThisSecond + (System.currentTimeMillis() - lastFrameTime);
 		lastFrameTime = System.currentTimeMillis();
@@ -336,5 +338,9 @@ public class Window {
 			this.lineMode = 0;
 			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 		}
+	}
+
+	public Rect getRect() {
+		return rect;
 	}
 }
