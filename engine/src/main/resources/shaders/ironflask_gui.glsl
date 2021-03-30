@@ -11,8 +11,7 @@ uniform vec2 pixelScale;
 uniform vec2 screenPos;
 uniform vec4 backgroundColor;
 
-void main()
-{	
+void main() {	
 	gl_Position = projection * vec4((position * pixelScale) + screenPos, 0, 1.0);
 	bc = backgroundColor;
 }
@@ -23,8 +22,10 @@ void main()
 
 out vec4 fragColor;
 in vec4 bc;
+uniform int useColor;
 
-void main()
-{
-	fragColor = bc;
+void main() {
+	if ( useColor == 1 ) {
+        fragColor = bc;
+    }
 }

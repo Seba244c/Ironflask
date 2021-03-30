@@ -35,6 +35,7 @@ public class GuiRenderer {
 			shader.createUniform("pixelScale");
 			shader.createUniform("screenPos");
 			shader.createUniform("backgroundColor");
+			shader.createUniform("useColor");
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
@@ -74,6 +75,8 @@ public class GuiRenderer {
 		Rect rect = object.rect.add(window.rect.x, window.rect.y, 0, 0);
 		rect.width = Mathf.clamp(rect.width, 0, window.rect.width);
 		rect.height = Mathf.clamp(rect.height, 0, window.rect.height);
+
+		shader.setUniform("useColor", object.material.isTextured() ? 0 : 1);
 		
 		object.render(shader, guiMesh, rect);
 	}

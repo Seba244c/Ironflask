@@ -1,4 +1,4 @@
-package dk.sebsa.ironflask.engine.core.layer;
+package dk.sebsa.ironflask.engine.debug;
 
 import java.text.DecimalFormat;
 
@@ -14,7 +14,6 @@ import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
 import dk.sebsa.ironflask.engine.core.events.KeyReleasedEvent;
 import dk.sebsa.ironflask.engine.core.events.MouseMoveEvent;
 import dk.sebsa.ironflask.engine.core.events.MouseScrolledEvent;
-import dk.sebsa.ironflask.engine.debug.BetterImGuiImplGlfw;
 import dk.sebsa.ironflask.engine.io.Log;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.enums.*;
