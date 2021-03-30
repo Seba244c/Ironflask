@@ -36,6 +36,7 @@ public class GuiRenderer {
 			shader.createUniform("screenPos");
 			shader.createUniform("backgroundColor");
 			shader.createUniform("useColor");
+			shader.createUniform("offset");
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
@@ -64,6 +65,7 @@ public class GuiRenderer {
 	}
 	
 	public void renderBackground(Window window) {
+		shader.setUniform("useColor", 1);
 		shader.setUniform("pixelScale", new Vector2f(window.rect.width, window.rect.height));
 		shader.setUniform("screenPos", new Vector2f(window.rect.x, window.rect.y));
 		shader.setUniformAlt("backgroundColor", window.getBackgroundColor());
