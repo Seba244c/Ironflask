@@ -30,7 +30,7 @@ public abstract class ImGuiLayer extends Layer {
 	private Application application;
 	private BetterImGuiImplGlfw imGuiImp;
 	private ImGuiImplGl3 imGuiGlImp;
-	private ImString consoleInput = new ImString("I NEED TO SET A MAX LENGTH SOMEHOW SO I DID IT THIS WAY. MAKE IT UNLIMTEEEEEEEEEEEEEEEEEEEED");
+	private ImString consoleInput = new ImString("I NEED TO SET A MAX LENGTH SOMEHOW SO I DID THIS THING TO MAKE IT UNLIMTEEEEEEEEEEEEEEEEEEEED");
 	
 	public ImGuiLayer(Application app) {
 		super();

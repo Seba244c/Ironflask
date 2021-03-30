@@ -62,6 +62,13 @@ public class WorldManager {
 			updateList.remove(entity);
 		}
 	}
+	
+	public static Entity getEntity(String id) {
+		for(Entity entity : entities) {
+			if(entity.getId().equals(id)) return entity;
+		}
+		return null;
+	}
 
 	public static World getWorld() {
 		return world;

@@ -92,6 +92,7 @@ public class EnderGame extends Layer {
 		player = new Entity(true);
 		player.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), new Material(Texture.getTexture("grassblock.png")), Shader.getShader("default")));
 		player.addComponent(pm);
+		player.doNotDelete();
 		// Camera
 		OrbitCamera oc = new OrbitCamera(player);
 		camera = new CameraEntity(false);
@@ -99,6 +100,7 @@ public class EnderGame extends Layer {
 		camera.setLocalPosition(new Vector3f(0, 0, 4));
 		cameraComponent = oc;
 		camera.addComponent(cameraComponent);
+		player.doNotDelete();
 		pm.setCameraComponent(oc);
 		// end off
 		Entity.recalculate();

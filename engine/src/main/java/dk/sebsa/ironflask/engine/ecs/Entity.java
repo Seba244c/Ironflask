@@ -18,6 +18,7 @@ public class Entity {
 	
 	public String tag = "Untagged";
 	public String name = "New Entity";
+	private boolean doNotDelete;
 	private String id;
 	
 	// Transform vv
@@ -51,6 +52,10 @@ public class Entity {
 
 	public void setEnabled(boolean e) {
 		this.enabled = e;
+	}
+	
+	public void delete() {
+		parent.removeChild(this);
 	}
 
 	public boolean isEnabled() {
@@ -193,5 +198,13 @@ public class Entity {
 	
 	public String getId() {
 		return id;
+	}
+
+	public boolean isDeletable() {
+		return !doNotDelete;
+	}
+
+	public void doNotDelete() {
+		this.doNotDelete = true;
 	}
 }
