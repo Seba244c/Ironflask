@@ -9,7 +9,7 @@ public class Main {
 	public static final boolean isDebug = true;
 	
 	public static void main(String[] args) {
-		Application game = new Application("Ironflask Sandbox", isDebug, null);
+		Application game = new Application("Ironflask Sandbox", isDebug, Main::loadingFinished);
 		
 		// Debug layer
 		debug = new Debug(game);
@@ -19,5 +19,9 @@ public class Main {
 		game.stack.addLayerToBot(new GameLayer(game));
 		if(isDebug) game.stack.addLayerToTop(debug);
 		game.run();
+	}
+	
+	public static void loadingFinished(Application app) {
+		
 	}
 }
