@@ -44,7 +44,7 @@ public class WorldManager {
 	public static void getAllEntities() {
 		entities.clear();
 		List<Entity> updateList = new ArrayList<>();
-		updateList.add(Entity.master);
+		updateList.add(world.master);
 		while(updateList.size() > 0) {
 			Entity entity = updateList.get(0);
 			List<Entity> children = entity.getChildren();
@@ -54,7 +54,7 @@ public class WorldManager {
 				}
 			}
 			
-			if(entity == Entity.master) {
+			if(entity == world.master) {
 				updateList.remove(updateList.size() - 1);
 				continue;
 			}

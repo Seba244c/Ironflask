@@ -14,7 +14,6 @@ import dk.sebsa.ironflask.engine.math.Mathf;
 
 public class Entity {
 	public static int i;
-	public static Entity master = new Entity(false);
 	
 	public String tag = "Untagged";
 	public String name = "New Entity";
@@ -40,14 +39,20 @@ public class Entity {
 	public Entity(boolean addToMaster) {
 		this.id = UUID.randomUUID().toString();
     	LoggingUtil.coreLog(Severity.Trace, "New entity entity "+name+"("+id+")");
-    	if(addToMaster) parent(master);
+    	if(addToMaster) parent(WorldManager.getWorld().master);
+	}
+	
+	public Entity(World world) {
+		this.id = UUID.randomUUID().toString();
+    	LoggingUtil.coreLog(Severity.Trace, "New entity entity "+name+"("+id+")");
+    	parent(world.master);
 	}
 	
 	public Entity(String name) {
 		this.name = name;
 		this.id = UUID.randomUUID().toString();
     	LoggingUtil.coreLog(Severity.Trace, "New entity entity "+name+"("+id+")");
-    	parent(master);
+    	parent(WorldManager.getWorld().master);
 	}
 
 	public void setEnabled(boolean e) {
@@ -77,7 +82,7 @@ public class Entity {
 	}
 	
 	public Entity getParent() {
-		if(parent == master) return null;
+		if(parent == WorldManager.getWorld().master) return null;
 		return parent;
 	}
 
@@ -86,7 +91,7 @@ public class Entity {
 	}
 	
 	public void parent(Entity e) {
-		if(e == null) e = master;
+		if(e == null) e = WorldManager.getWorld().master;
 		if(parent != null) {
 			if(parent != e) parent.removeChild(this);
 			else return;
@@ -152,7 +157,7 @@ public class Entity {
 		public Vector3f getLocalRotation() { return localRotation; }
 		public void setLocalRotation(Vector3f rotation) { this.localRotation = rotation; dirty = 1; recalculateGlobalTransformations(); }
 		public void recalculateLocalTransformation() {
-			if(this.equals(master)) {
+			if(this.equals(WorldManager.getWorld().master)) {
 				for(int i = 0; i < children.size(); i++) children.get(i).recalculateGlobalTransformations();
 				return;
 			}
@@ -167,7 +172,7 @@ public class Entity {
 		}
 		
 		private void recalculateGlobalTransformations() {
-			if(this.equals(master)) {
+			if(this.equals(WorldManager.getWorld().master)) {
 				for(int i = 0; i < children.size(); i++) children.get(i).recalculateGlobalTransformations();
 				return;
 			}
@@ -181,7 +186,7 @@ public class Entity {
 			
 			for(int i = 0; i < children.size(); i++) children.get(i).recalculateGlobalTransformations();
 		}
-		public static void recalculate() {for(int i = 0; i < master.children.size(); i++) master.children.get(i).recalculateGlobalTransformations();}
+		public static void recalculate() {for(int i = 0; i < WorldManager.getWorld().master.children.size(); i++) WorldManager.getWorld().master.children.get(i).recalculateGlobalTransformations();}
 	// TRANSFORM END
 
 	public Matrix4f getModelViewMatrix(Transformation transformation, Matrix4f viewMatrix, boolean newViewMatrix) {
