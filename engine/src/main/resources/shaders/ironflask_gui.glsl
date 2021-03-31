@@ -5,7 +5,7 @@ in vec2 textureCords;
 
 out vec4 color;
 out vec4 bc;
-out vec2 outTexCoord;
+out vec2 texCoord;
 
 uniform mat4 projection;
 uniform vec2 pixelScale;
@@ -17,7 +17,7 @@ uniform int useColor;
 void main() {	
 	gl_Position = projection * vec4((position * pixelScale) + screenPos, 0, 1.0);
 	bc = backgroundColor;
-	outTexCoord = (textureCords * offset.zw) + offset.xy;
+	texCoord = (textureCords * offset.zw) + offset.xy;
 }
 
 ///#ENDVERTEX
@@ -26,14 +26,14 @@ void main() {
 
 out vec4 fragColor;
 in vec4 bc;
-in vec2 outTexCoord;
+in vec2 texCoord;
 uniform int useColor;
 uniform sampler2D texture_sampler;
 
 void main() {
-	if ( useColor == 1 ) {
-        fragColor = bc;
+	if (useColor == 1) {
+		fragColor = bc;
     } else {
-		fragColor = texture(texture_sampler, outTexCoord);
+		fragColor = texture(texture_sampler, texCoord);
 	}
 }

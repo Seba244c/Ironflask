@@ -15,6 +15,8 @@ import dk.sebsa.ironflask.engine.gui.GuiObject;
 import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.io.Input;
+import dk.sebsa.ironflask.engine.math.Color;
+import dk.sebsa.ironflask.engine.math.Time;
 import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class TextField extends GuiObject {
@@ -25,6 +27,10 @@ public class TextField extends GuiObject {
 	private Label label;
 	private Material selected;
 	private String text = "GE";
+	private float anim;
+	private int cursorPos = text.length()-1;
+	
+	public static Material cursorMaterial = new Material(Color.white());
 	
 	public TextField(Material open, Material selected, Input input, Font font) {
 		this.material = open;
@@ -35,18 +41,35 @@ public class TextField extends GuiObject {
 	
 	@Override
 	public void render(Shader shader, Mesh2d mesh, Rect r) {
-		draw(shader, mesh, r, material, selected, isSelected, label);
+		anim = draw(shader, mesh, r, material, selected, isSelected, label, anim, cursorPos);
 		this.clickRect = r;
 	}
 	
-	public static void draw(Shader shader, Mesh2d mesh, Rect r, Material open, Material selected, boolean isSelected, Label label) {
+	public static float draw(Shader shader, Mesh2d mesh, Rect r, Material open, Material selected, boolean isSelected, Label label, float anim, int cursorPos) {
 		if(isSelected) {
 			Box.draw(shader, mesh, r, selected);
 			Text.draw(shader, mesh, r, label, false);
+			
+			// Cursor
+			anim += 1*Time.getDeltaTime();
+			if(anim >= 0) {
+				Rect cursorRect = new Rect(r.x+getCursorX(label, cursorPos)+1, r.y+4, 3, r.height-8);
+				if(anim >= 0.5f) anim = -0.5f;
+				Box.draw(shader, mesh, cursorRect, cursorMaterial);
+			}
 		} else {
 			Box.draw(shader, mesh, r, open);
 			Text.draw(shader, mesh, r, label, false);
 		}
+		
+		return anim;
+	}
+	
+	public static float getCursorX(Label label, int cursorPos) {
+		if(label.getText().length()==0) return 0;
+		String s = label.getText();
+		s = s.substring(0, cursorPos+1);  
+		return label.font.getStringWidth(s);
 	}
 	
 	@Override
@@ -70,20 +93,40 @@ public class TextField extends GuiObject {
 		} else if (e.type == EventType.CharEvent) {
 			CharEvent event = (CharEvent) e;
 			if(isSelected) {
+				anim = 0;
 				text += (char) event.codePoint;
+				cursorPos += 1;
 				label.setText(text);
+				limitCursorPos();
 				return true;
 			}
 		}  else if (e.type == EventType.KeyPressed) {
 			KeyPressedEvent event = (KeyPressedEvent) e;
 			if(event.key == GLFW.GLFW_KEY_BACKSPACE) {
 				if(text.length() == 0) return false;
-				text =text.substring(0, text.length() - 1);  
+				text = text.substring(0, text.length() - 1);  
+				cursorPos -= 1;
 				label.setText(text);
+				limitCursorPos();
+				return true;
+			} else if(event.key == GLFW.GLFW_KEY_LEFT) {
+				cursorPos -= 1;
+				limitCursorPos();
+				return true;
+			} else if(event.key == GLFW.GLFW_KEY_RIGHT) {
+				cursorPos += 1;
+				limitCursorPos();
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	private void limitCursorPos() {
+		if(cursorPos < -1) {
+			cursorPos = 0;
+		}
+		else if(cursorPos > text.length()-1) cursorPos = text.length()-1;
 	}
 
 	public String getText() {

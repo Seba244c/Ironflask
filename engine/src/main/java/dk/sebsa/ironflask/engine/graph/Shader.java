@@ -167,4 +167,8 @@ public class Shader extends Asset {
 		if(location != -1) glUniformMatrix4fv(location, false, buffer);
 		buffer.flip();
 	}
+
+	public void setUniform(String uniformName, float value) {
+		glUniform1f(uniforms.get(uniformName), value);
+	}
 }

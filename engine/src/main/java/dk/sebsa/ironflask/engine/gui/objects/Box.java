@@ -35,6 +35,8 @@ public class Box extends GuiObject {
 			return;
 		}
 		
+		shader.setUniform("useColor", material.isTextured() ? 0 : 1);
+		
 		shader.setUniform("pixelScale", new Vector2f(rect.width, rect.height));
 		shader.setUniform("screenPos", new Vector2f(rect.x, rect.y));
 		shader.setUniformAlt("backgroundColor", material.getColor());

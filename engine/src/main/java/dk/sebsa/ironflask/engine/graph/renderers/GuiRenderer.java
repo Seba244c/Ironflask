@@ -10,6 +10,7 @@ import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
+import dk.sebsa.ironflask.engine.gui.Modifier;
 import dk.sebsa.ironflask.engine.gui.Window;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.math.Mathf;
@@ -80,7 +81,15 @@ public class GuiRenderer {
 
 		shader.setUniform("useColor", object.material.isTextured() ? 0 : 1);
 		
+		for(Modifier modifier : object.modifiers) {
+			modifier.apply(shader);
+		}
+
 		object.render(shader, guiMesh, rect);
+		
+		for(Modifier modifier : object.modifiers) {
+			modifier.remove(shader);
+		}
 	}
 	
 	public void endFrame() {

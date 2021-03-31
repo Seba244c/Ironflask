@@ -22,7 +22,7 @@ import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.gui.objects.Box;
 import dk.sebsa.ironflask.engine.gui.objects.Button;
-import dk.sebsa.ironflask.engine.gui.objects.TextField;
+import dk.sebsa.ironflask.engine.gui.objects.Slider;
 import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.math.Color;
@@ -117,14 +117,11 @@ public class UILayer extends Layer {
 		entireScreen.addGuiObject(guiObject);
 		
 		// Text
-		Material open = new Material();
-		Material selected = new Material();
-		selected.setColor(Color.cyan());
-		TextField textField = new TextField(open, selected, app.input, buttonFont);
-		textField.setAnchor(Anchor.TopLeft);
-		textField.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Fixed, 10f));
-		textField.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f), size48);
-		pauseMenu.addGuiObject(textField);
+		Slider slider = new Slider(app.input, new Material(Color.blue()));
+		slider.setAnchor(Anchor.TopLeft);
+		slider.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Fixed, 10f));
+		slider.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f), size48);
+		pauseMenu.addGuiObject(slider);
 
 		entireScreen.calculateConstraints(app);
 		pauseMenu.calculateConstraints(app);

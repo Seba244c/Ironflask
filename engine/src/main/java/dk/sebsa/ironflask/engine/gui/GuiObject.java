@@ -1,5 +1,8 @@
 package dk.sebsa.ironflask.engine.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.graph.Material;
 import dk.sebsa.ironflask.engine.graph.Mesh2d;
@@ -15,6 +18,7 @@ public abstract class GuiObject {
 	public GUIDynamicVector posistion;
 	public GUIDynamicVector size;
 	public boolean centered;
+	public List<Modifier> modifiers = new ArrayList<>();
 	
 	public void setAnchor(Anchor anchor) {
 		this.anchor = anchor;

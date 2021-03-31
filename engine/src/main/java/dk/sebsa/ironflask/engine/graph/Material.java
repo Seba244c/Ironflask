@@ -13,6 +13,11 @@ public class Material {
     	this.color = defaultColor;
 	}
     
+    public Material(Color color) {
+    	this.isTextured = false;
+    	this.color = color;
+	}
+    
     public Material(Texture texture) {
     	this.isTextured = true;
     	this.texture = texture;
