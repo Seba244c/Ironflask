@@ -36,8 +36,13 @@ public class Mesh extends Asset {
     }
 	
 	public Mesh() throws AssetExistsException {
-		super("Unnamed Mesh");
+		super();
 		AssetManager.allAssets.remove(this);
+    }
+	
+	public Mesh(float[] positions, float[] textCoords, float[] normals, int[] indices) throws AssetExistsException {
+		super();
+		createMesh(positions, textCoords, normals, indices);
     }
 	
 	public static Mesh getMesh(String name) {

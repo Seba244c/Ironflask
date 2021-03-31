@@ -102,6 +102,10 @@ public class EnderGame extends Layer {
 		camera.addComponent(cameraComponent);
 		player.doNotDelete();
 		pm.setCameraComponent(oc);
+		
+		// Terrain
+		
+        
 		// end off
 		Entity.recalculate();
 	}

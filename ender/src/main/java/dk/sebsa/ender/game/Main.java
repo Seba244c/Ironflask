@@ -8,8 +8,6 @@ import dk.sebsa.ender.game.layers.UILayer;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.ecs.World;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
-import dk.sebsa.ironflask.engine.enums.FlipDirection;
-import dk.sebsa.ironflask.engine.graph.staging.stages.FlipStage;
 import dk.sebsa.ironflask.engine.math.Color;
 
 public class Main {
