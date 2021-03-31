@@ -45,4 +45,16 @@ public class Color {
 	public boolean compare(Color c) {
 		return c.r == r && c.g == g && c.b == b && c.a == a;
 	}
+	
+	public static float[] toFloatArray(Color c) {
+		float[] colors = new float[3];
+		colors[0] = c.r;
+		colors[1] = c.g;
+		colors[2] = c.b;
+		return colors;
+	}
+	
+	public static Color fromFloatArray(float[] c) {
+		return new Color(c[0], c[1], c[2]);
+	}
 }

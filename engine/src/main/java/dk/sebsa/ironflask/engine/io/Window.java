@@ -35,6 +35,7 @@ public class Window {
 	private byte minimized;
 	private byte cursorShown = 1;
 	private byte lineMode = 0;
+	private Color clearColor;
     
     private int[] posX = new int[1];
     private int[] posY = new int[1];
@@ -56,6 +57,7 @@ public class Window {
 	public Window(String title, int width, int height, boolean vsync, Color clearColor, Application app) {
 		this.title = title;
         this.width = width;
+		this.clearColor = clearColor;
         this.height = height;
         if(vsync) this.vSync = 1;
         else this.vSync = 0;
@@ -179,7 +181,7 @@ public class Window {
 		
 		// Make the window visible
 		glfwShowWindow(windowId);
-		glClearColor(clearColor.r, clearColor.g, clearColor.b, 0.0f);
+		glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0f);
 		
 		// Input mode
 		glfwSetInputMode(windowId, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -247,7 +249,8 @@ public class Window {
 	}
 	
 	public void setClearColor(Color clearColor) {
-		glClearColor(clearColor.r, clearColor.g, clearColor.b, 0.0f);
+		glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0f);
+		this.clearColor = clearColor;
 	}
 	
 	public int getWidth() {
@@ -347,5 +350,9 @@ public class Window {
 
 	public Rect getRect() {
 		return rect;
+	}
+
+	public Color getClearColor() {
+		return clearColor;
 	}
 }

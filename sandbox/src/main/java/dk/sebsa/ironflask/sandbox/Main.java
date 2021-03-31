@@ -13,7 +13,7 @@ public class Main {
 		
 		// Debug layer
 		debug = new Debug(game);
-		debug.enabled = false;
+		debug.setEnabled(false);
 		
 		// add layers
 		game.stack.addLayerToBot(new GameLayer(game));

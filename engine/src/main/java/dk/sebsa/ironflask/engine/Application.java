@@ -61,7 +61,7 @@ public class Application {
 		// Window, stack and input
 		stack = new LayerStack(this, name + "-LayerStack");
 		window = new Window(name, 800, 500, true, Color.cyan(), this);
-		
+		window.setClearColor(Color.cyan());
 		glfwMakeContextCurrent(MemoryUtil.NULL);
 		loadingThread = new LoadingThread(stack, this);
 		loadingThread.start();

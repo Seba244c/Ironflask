@@ -30,6 +30,7 @@ public abstract class ImGuiLayer extends Layer {
 	private BetterImGuiImplGlfw imGuiImp;
 	private ImGuiImplGl3 imGuiGlImp;
 	private ImString consoleInput = new ImString("I NEED TO SET A MAX LENGTH SOMEHOW SO I DID THIS THING TO MAKE IT UNLIMTEEEEEEEEEEEEEEEEEEEED");
+	private float[] clearColor = new float[3];
 	
 	public ImGuiLayer(Application app) {
 		super();
@@ -147,7 +148,20 @@ public abstract class ImGuiLayer extends Layer {
 		
 		ImGui.end();
 		
+		if(!compare(application.window.getClearColor(), clearColor)) clearColor = Color.toFloatArray(application.window.getClearColor());
+		
+		ImGui.begin("Application Settings");
+		ImGui.colorPicker3("Clear color", clearColor);
+		ImGui.end();
+		
+		if(!compare(application.window.getClearColor(), clearColor)) application.window.setClearColor(Color.fromFloatArray(clearColor));
+		
 		drawCustom();
+	}
+	
+	private boolean compare(Color color, float[] color2) {
+		if(color.r == color2[0] && color.g == color2[1] && color.b == color2[2]) return true;
+		return false;
 	}
 	
 	public abstract void drawCustom();

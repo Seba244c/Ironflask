@@ -43,8 +43,8 @@ public class GameLayer extends Layer {
 		if(e.type == EventType.KeyPressed) {
 			KeyPressedEvent e2 = (KeyPressedEvent) e;
 			if(e2.key == GLFW.GLFW_KEY_TAB) {
-				if(Main.debug.enabled) Main.debug.enabled = false;
-				else Main.debug.enabled = true;
+				if(Main.debug.isEnabled()) Main.debug.setEnabled(false);
+				else Main.debug.setEnabled(true);
 				return true;
 			} else if(e2.key == GLFW.GLFW_KEY_F7) {
 				application.window.setLineMode(!application.window.getLineMode());
