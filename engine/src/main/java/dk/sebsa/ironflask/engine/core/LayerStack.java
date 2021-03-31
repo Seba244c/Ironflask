@@ -82,10 +82,14 @@ public class LayerStack {
 	}
 	
 	public void cleanup() {
-		handleEvents();
-		LoggingUtil.coreLog(Severity.Info, "Cleanup LayerStack: "+name);
-		for(Layer l : stack) {
-			l.close();
+		try {
+			handleEvents();
+			LoggingUtil.coreLog(Severity.Info, "Cleanup LayerStack: "+name);
+			for(Layer l : stack) {
+				l.close();
+			}
+		} catch (Exception e) {
+			// NOTHING
 		}
 	}
 }

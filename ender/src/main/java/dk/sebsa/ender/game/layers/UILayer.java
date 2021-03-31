@@ -2,6 +2,9 @@ package dk.sebsa.ender.game.layers;
 
 import org.lwjgl.glfw.GLFW;
 
+import dk.sebsa.ender.game.Main;
+import dk.sebsa.ender.game.MusicManager;
+import dk.sebsa.ender.game.MusicManager.Songs;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Layer;
@@ -43,15 +46,23 @@ public class UILayer extends Layer {
 	public boolean handleEvent(Event e) {
 		if(e.type == EventType.WindowResize) {
 			pauseMenu.calculateConstraints(app);
+			entireScreen.calculateConstraints(app);
 		} else if(e.type == EventType.KeyPressed) {
 			KeyPressedEvent event = (KeyPressedEvent) e;
 			if(event.key == GLFW.GLFW_KEY_ESCAPE) {
-				if(pauseMenuEnabled) pauseMenuEnabled = false;
-				else pauseMenuEnabled = true;
+				if(pauseMenuEnabled) {
+					pauseMenuEnabled = false;
+					MusicManager.start(Songs.Game);
+				}
+				else {
+					MusicManager.start(Songs.MainMenu);
+					pauseMenuEnabled = true;
+				}
 				app.pauseLogic(pauseMenuEnabled);
 				return true;
 			}
 		}
+		if(entireScreen.handleEvent(e)) return true;
 		if(pauseMenuEnabled) return pauseMenu.handleEvent(e);
 		return false;
 	}
@@ -75,7 +86,7 @@ public class UILayer extends Layer {
 	public void init() {
 		// Font
 		try {
-			buttonFont = new Font(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 42));
+			buttonFont = new Font(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 36));
 		} catch (AssetExistsException e) { e.printStackTrace(); }
 		
 		// Menus
@@ -89,7 +100,7 @@ public class UILayer extends Layer {
 		GUIDynamicVar size48 = new GUIDynamicVar(GUIDynamicType.Fixed, 48);
 		
 		// Quit Button
-		GuiObject guiObject = new Button(app.input, this::quitButton, new Label("Quit", buttonFont), true);
+		GuiObject guiObject = new Button(app.input, this::quitButton, new Label("Quit", buttonFont), false);
 		guiObject.material = new Material();
 		guiObject.setAnchor(Anchor.TopLeft);
 		guiObject.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
@@ -119,6 +130,7 @@ public class UILayer extends Layer {
 	}
 	
 	private void quitButton(Button button) {
-		app.close();
+		Main.mainMenu(true);
+		pauseMenuEnabled = false;
 	}
 }

@@ -18,7 +18,6 @@ public class Button extends GuiObject {
 	private Rect clickRect;
 	private Input input;
 	private Consumer<Button> clickConsumer;
-	private boolean centered;
 	public Label label;
 	
 	public Button(Input input, Consumer<Button> clickConsumer, Label label, boolean centered) {
@@ -36,13 +35,7 @@ public class Button extends GuiObject {
 	
 	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Material material, Label label, boolean centered) {
 		Box.draw(shader, mesh, rect, material);
-		if(centered) {
-			Rect textRect = new Rect(rect.x, rect.y, rect.width, rect.height);
-			textRect.x = rect.x + rect.width/2;
-			textRect.x -= label.font.getStringWidth(label.getText())/2;
-			Text.draw(shader, mesh, textRect, label);
-		} else
-			Text.draw(shader, mesh, rect, label);
+		Text.draw(shader, mesh, rect, label, centered);
 	}
 	
 	@Override

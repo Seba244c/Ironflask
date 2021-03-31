@@ -42,10 +42,10 @@ public class TextField extends GuiObject {
 	public static void draw(Shader shader, Mesh2d mesh, Rect r, Material open, Material selected, boolean isSelected, Label label) {
 		if(isSelected) {
 			Box.draw(shader, mesh, r, selected);
-			Text.draw(shader, mesh, r, label);
+			Text.draw(shader, mesh, r, label, false);
 		} else {
 			Box.draw(shader, mesh, r, open);
-			Text.draw(shader, mesh, r, label);
+			Text.draw(shader, mesh, r, label, false);
 		}
 	}
 	

@@ -16,16 +16,25 @@ import dk.sebsa.ironflask.engine.math.Vector2f;
 public class Text extends GuiObject {
 	public Label label;
 	
-	public Text(Label label) {
+	public Text(Label label, boolean centered) {
 		this.label = label;
+		this.centered = centered;
 	}
 	
 	@Override
 	public void render(Shader shader, Mesh2d mesh, Rect r) {
-		draw(shader, mesh, r, label);
+		draw(shader, mesh, r, label, false);
 	}
 	
-	public static void draw(Shader shader, Mesh2d mesh, Rect r, Label label) {
+	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Label label, boolean centered) {
+		Rect r = new Rect(rect.x, rect.y, rect.width, rect.height);
+		if(centered) {
+			r.x = r.x + r.width/2;
+			r.x -= r.width/2;
+		}
+		if(r.x % 1 != 0) r.x += 0.5f;
+		if(r.y % 1 != 0) r.y += 0.5f;
+		
 		Map<Character, Glyph> chars = label.font.getChars();
 		float tempX = r.x;
 		char[] c = label.getCharArray();

@@ -76,23 +76,29 @@ public class Application {
 	}
 	
 	public void run() {
-		while(!window.shouldClose()) {
-			if(state == AppState.Loading) {
-				loadingState();
-				if(loadingThread.state != ThreadState.Doing) {
-					if(loadingThread.state == ThreadState.Failed) {
-						window.setShouldClose(true);
-						LoggingUtil.coreLog(Severity.Info, "Loading thread failed. Closing Gracefully");
+		try {
+			while(!window.shouldClose()) {
+				if(state == AppState.Loading) {
+					loadingState();
+					if(loadingThread.state != ThreadState.Doing || !loadingThread.isAlive()) {
+						if(loadingThread.state == ThreadState.Failed) {
+							window.setShouldClose(true);
+							LoggingUtil.coreLog(Severity.Info, "Loading thread failed. Closing Gracefully");
+						}
+						state = AppState.Running;
+						
+						LoggingUtil.coreLog(Severity.Info, "Stealing back GLFW and AL capabalities");
+						glfwMakeContextCurrent(window.windowId);
+						AL.createCapabilities(audioManager.deviceCaps);
+				        alcMakeContextCurrent(audioManager.context);
+				        loadingFinishedCallback.accept(this);
 					}
-					state = AppState.Running;
-					
-					LoggingUtil.coreLog(Severity.Info, "Stealing back GLFW and AL capabalities");
-					glfwMakeContextCurrent(window.windowId);
-					AL.createCapabilities(audioManager.deviceCaps);
-			        alcMakeContextCurrent(audioManager.context);
-			        loadingFinishedCallback.accept(this);
-				}
-			} else runningState();
+				} else runningState();
+			}
+		} catch (Exception e) {
+			LoggingUtil.coreLog(Severity.Info, "Run function caused exception. Closing Gracefully");
+			e.printStackTrace();
+			
 		}
 		LoggingUtil.coreLog(Severity.Info, "##--## Beginning cleanup procsess ##--##");
 		cleanupScreen();

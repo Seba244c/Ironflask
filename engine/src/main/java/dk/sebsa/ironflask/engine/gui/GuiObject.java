@@ -14,6 +14,7 @@ public abstract class GuiObject {
 	private Anchor anchor;
 	public GUIDynamicVector posistion;
 	public GUIDynamicVector size;
+	public boolean centered;
 	
 	public void setAnchor(Anchor anchor) {
 		this.anchor = anchor;
@@ -59,6 +60,13 @@ public abstract class GuiObject {
 			rect.x += pos.x;
 			rect.y += pos.y;
 		}
+		
+		if(centered) {
+			rect.x = rect.x + window.rect.width/2;
+			rect.x -= rect.width/2;
+		}
+		if(rect.x % 1 != 0) rect.x += 0.5f;
+		if(rect.y % 1 != 0) rect.y += 0.5f;
 	}
 	
 	public abstract void render(Shader shader, Mesh2d mesh, Rect r);

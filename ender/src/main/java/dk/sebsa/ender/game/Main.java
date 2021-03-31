@@ -1,35 +1,73 @@
 package dk.sebsa.ender.game;
 
+import dk.sebsa.ender.game.MusicManager.Songs;
 import dk.sebsa.ender.game.layers.Debug;
 import dk.sebsa.ender.game.layers.EnderGame;
+import dk.sebsa.ender.game.layers.MainMenu;
 import dk.sebsa.ender.game.layers.UILayer;
 import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.ecs.World;
+import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.math.Color;
 
 public class Main {
 	public static Debug debug;
 	public static EnderGame enderGame;
 	public static UILayer UILayer;
+	public static MainMenu mainmenu;
+	
 	public static final boolean isDebug = true;
 	private static Application game;
+	
+	public static World mainMenuWorld = new World();
+	public static World testWorld = new World();
 	
 	public static void main(String[] args) {
 		game = new Application("Project Ender", isDebug, Main::loadingFinished);
 		game.window.setClearColor(Color.forest());
 		
+		// Set world
+		WorldManager.setWorld(mainMenuWorld);
+		
 		// Layers
 		debug = new Debug(game);
-		debug.enabled = false;
+		debug.setEnabled(false);
+		
 		UILayer = new UILayer(game);
+		UILayer.setEnabled(false);
+		
+		enderGame = new EnderGame(game);
+		enderGame.setEnabled(false);
+		
+		mainmenu = new MainMenu(game);
 		
 		// add layers
-		game.stack.addLayerToBot(new EnderGame(game));
+		game.stack.addLayerToBot(enderGame);
 		game.stack.addLayerToTop(UILayer);
+		game.stack.addLayerToTop(mainmenu);
 		if(isDebug) game.stack.addLayerToTop(debug);
 		game.run();
 	}
 	
+	public static void mainMenu(boolean on) {
+		if(on) {
+			UILayer.setEnabled(false);
+			enderGame.setEnabled(false);
+			mainmenu.setEnabled(true);
+			WorldManager.setWorld(mainMenuWorld);
+			MusicManager.start(Songs.MainMenu);
+		} else {
+			UILayer.setEnabled(true);
+			enderGame.setEnabled(true);
+			mainmenu.setEnabled(false);
+			WorldManager.setWorld(testWorld);
+			MusicManager.start(Songs.Game);
+		}
+	}
+	
 	public static void loadingFinished(Application app) {
-		// Pipeline
+		// Audio
+		MusicManager.init();
+		MusicManager.start(Songs.MainMenu);
 	}
 }

@@ -45,8 +45,8 @@ public class EnderGame extends Layer {
 		} else if(e.type == EventType.KeyPressed) {
 			KeyPressedEvent event = (KeyPressedEvent) e;
 			if(event.key == GLFW.GLFW_KEY_TAB) {
-				if(Main.debug.enabled) Main.debug.enabled = false;
-				else Main.debug.enabled = true;
+				if(Main.debug.isEnabled()) Main.debug.setEnabled(false);
+				else Main.debug.setEnabled(true);
 				return true;
 			}
 		}
@@ -76,20 +76,20 @@ public class EnderGame extends Layer {
 		Material redMaterial = new Material();
 		Material yellowMaterial = new Material();
 		yellowMaterial.setColor(Color.yellow());
-		Entity randomBlock = new Entity(true);
+		Entity randomBlock = new Entity(Main.testWorld);
 		randomBlock.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), redMaterial, Shader.getShader("default")));
 		randomBlock.setLocalPosition(new Vector3f(0, -1, 0));
-		randomBlock = new Entity(true);
+		randomBlock = new Entity(Main.testWorld);
 		randomBlock.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), redMaterial, Shader.getShader("default")));
 		randomBlock.setLocalPosition(new Vector3f(2, -1, 1));
-		randomBlock = new Entity(true);
+		randomBlock = new Entity(Main.testWorld);
 		randomBlock.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), yellowMaterial, Shader.getShader("default")));
 		randomBlock.setLocalPosition(new Vector3f(80, -1, 1));
 		randomBlock.setLocalScale(5);
 		
 		// Player
 		PlayerMovement pm = new PlayerMovement();
-		player = new Entity(true);
+		player = new Entity(Main.testWorld);
 		player.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), new Material(Texture.getTexture("grassblock.png")), Shader.getShader("default")));
 		player.addComponent(pm);
 		player.doNotDelete();

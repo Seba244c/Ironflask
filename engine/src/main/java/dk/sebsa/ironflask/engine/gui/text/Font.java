@@ -60,10 +60,10 @@ public class Font extends Asset {
 	}
 	
 	public Font(java.awt.Font font) throws AssetExistsException {
-		super(font.getFontName());
+		super(font.getName()+"-"+font.getStyle()+"-"+font.getSize());
 		this.font = font;
 		generateFont();
-		this.name = font.getFontName();
+		this.name = font.getName()+"-"+font.getStyle()+"-"+font.getSize();
 		fonts.add(this);
 	}
 	
