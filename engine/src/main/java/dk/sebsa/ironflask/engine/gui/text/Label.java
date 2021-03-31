@@ -14,6 +14,11 @@ public class Label {
 	public final String getText() {
 		return text;
 	}
+	
+	public void setText(String text) {
+		this.text = text;
+		charArray = text.toCharArray();
+	}
 
 	public char[] getCharArray() {
 		return charArray;

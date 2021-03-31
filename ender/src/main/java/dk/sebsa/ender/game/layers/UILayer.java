@@ -19,6 +19,7 @@ import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.gui.objects.Box;
 import dk.sebsa.ironflask.engine.gui.objects.Button;
+import dk.sebsa.ironflask.engine.gui.objects.TextField;
 import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.math.Color;
@@ -88,20 +89,30 @@ public class UILayer extends Layer {
 		GUIDynamicVar size48 = new GUIDynamicVar(GUIDynamicType.Fixed, 48);
 		
 		// Quit Button
-		GuiObject quitButton = new Button(app.input, this::quitButton, new Label("Quit", buttonFont), true);
-		quitButton.material = new Material();
-		quitButton.setAnchor(Anchor.TopLeft);
-		quitButton.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
-		quitButton.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f), size48);
-		pauseMenu.addGuiObject(quitButton);
+		GuiObject guiObject = new Button(app.input, this::quitButton, new Label("Quit", buttonFont), true);
+		guiObject.material = new Material();
+		guiObject.setAnchor(Anchor.TopLeft);
+		guiObject.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
+		guiObject.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f), size48);
+		pauseMenu.addGuiObject(guiObject);
 		
 		// Compass
-		quitButton = new Box();
-		quitButton.material = new Material(Texture.getTexture("compass.png"));
-		quitButton.setAnchor(Anchor.TopLeft);
-		quitButton.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
-		quitButton.size = 		new GUIDynamicVector(size48, size48);
-		entireScreen.addGuiObject(quitButton);
+		guiObject = new Box();
+		guiObject.material = new Material(Texture.getTexture("compass.png"));
+		guiObject.setAnchor(Anchor.TopLeft);
+		guiObject.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
+		guiObject.size = 		new GUIDynamicVector(size48, size48);
+		entireScreen.addGuiObject(guiObject);
+		
+		// Text
+		Material open = new Material();
+		Material selected = new Material();
+		selected.setColor(Color.cyan());
+		TextField textField = new TextField(open, selected, app.input, buttonFont);
+		textField.setAnchor(Anchor.TopLeft);
+		textField.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Fixed, 10f));
+		textField.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f), size48);
+		pauseMenu.addGuiObject(textField);
 
 		entireScreen.calculateConstraints(app);
 		pauseMenu.calculateConstraints(app);

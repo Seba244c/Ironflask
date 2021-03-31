@@ -173,6 +173,10 @@ public class Window {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
+		// Anti alizin
+		glfwWindowHint(GLFW_STENCIL_BITS, 4);
+		glfwWindowHint(GLFW_SAMPLES, 4);
+		
 		// Make the window visible
 		glfwShowWindow(windowId);
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, 0.0f);
