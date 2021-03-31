@@ -52,6 +52,10 @@ public class Rect {
 		return this;
 	}
 	
+	public static Rect add(Rect r1, Rect r2) {
+		return new Rect(r1.x+r2.x, r1.y+r2.y, r1.width+r2.width, r1.height+r2.height);
+	}
+	
 	public Rect addToNew(Rect r) {
 		return copy().add(r);
 	}

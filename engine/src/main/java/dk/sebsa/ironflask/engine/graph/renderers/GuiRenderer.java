@@ -74,7 +74,7 @@ public class GuiRenderer {
 	}
 	
 	public void renderObject(GuiObject object, Window window) {
-		Rect rect = object.rect.add(window.rect.x, window.rect.y, 0, 0);
+		Rect rect = Rect.add(object.rect, new Rect(window.rect.x, window.rect.y, 0, 0));
 		rect.width = Mathf.clamp(rect.width, 0, window.rect.width);
 		rect.height = Mathf.clamp(rect.height, 0, window.rect.height);
 

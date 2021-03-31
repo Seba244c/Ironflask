@@ -93,6 +93,7 @@ public class UILayer extends Layer {
 		pauseMenu = new Window();
 		pauseMenu.setBackgroundColor(Color.grey());
 		pauseMenu.addCosntraint(new Constraint(ConstraintSide.Right, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.7f)));
+		pauseMenu.addCosntraint(new Constraint(ConstraintSide.Left, new GUIDynamicVar(GUIDynamicType.Fixed, 15)));
 		entireScreen = new Window();
 		entireScreen.setBackgroundColor(Color.transparent());
 		
