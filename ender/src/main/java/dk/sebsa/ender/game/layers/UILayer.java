@@ -35,6 +35,7 @@ public class UILayer extends Layer {
 	private Window pauseMenu;
 	private Window entireScreen;
 	
+	private Slider audioSlider;
 	private Font buttonFont;
 	
 	public UILayer(Application app) {
@@ -65,6 +66,12 @@ public class UILayer extends Layer {
 		if(entireScreen.handleEvent(e)) return true;
 		if(pauseMenuEnabled) return pauseMenu.handleEvent(e);
 		return false;
+	}
+	
+	public void newAudioLevel(float val) {
+		if(val != MusicManager.musicLevel) {
+			MusicManager.setLevel(val);
+		}
 	}
 
 	@Override
@@ -117,11 +124,12 @@ public class UILayer extends Layer {
 		entireScreen.addGuiObject(guiObject);
 		
 		// Text
-		Slider slider = new Slider(app.input, new Material(Color.blue()));
-		slider.setAnchor(Anchor.TopLeft);
-		slider.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Fixed, 10f));
-		slider.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f), size48);
-		pauseMenu.addGuiObject(slider);
+		audioSlider = new Slider(app.input, new Material(Color.blue()), this::newAudioLevel);
+		audioSlider.setAnchor(Anchor.TopLeft);
+		audioSlider.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Fixed, 10f));
+		audioSlider.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f), size48);
+		audioSlider.value = MusicManager.musicLevel;
+		pauseMenu.addGuiObject(audioSlider);
 
 		entireScreen.calculateConstraints(app);
 		pauseMenu.calculateConstraints(app);

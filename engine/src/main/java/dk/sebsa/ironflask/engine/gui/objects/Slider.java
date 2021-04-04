@@ -1,5 +1,7 @@
 package dk.sebsa.ironflask.engine.gui.objects;
 
+import java.util.function.Consumer;
+
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.events.ButtonPressedEvent;
@@ -16,23 +18,25 @@ import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class Slider extends GuiObject {
 	private Input input;
-	private float sliderPos = 0.5f;
+	public float value = 0.5f;
 	private Material sliderMaterial;
 	private Rect slideRect;
 	private float worth;
 	private boolean sliding;
+	private Consumer<Float> valueChangedConsumer;
 	
-	public Slider(Input input, Material sliderMaterial) {
+	public Slider(Input input, Material sliderMaterial, Consumer<Float> valueChangedConsumer) {
 		this.input = input;
 		this.sliderMaterial = sliderMaterial;
+		this.valueChangedConsumer = valueChangedConsumer;
 	}
 	
 	@Override
 	public void render(Shader shader, Mesh2d mesh, Rect r) {
-		slideRect = draw(shader, mesh, r, material, sliderPos, sliderMaterial);
+		worth = 1/r.width;
+		slideRect = draw(shader, mesh, r, material, value, sliderMaterial);
 		slideRect.x -= 5;
 		slideRect.width += 10;
-		worth = 1/r.width;
 		if(sliding && !slideRect.contains(new Vector2f(input.getMouseX(), input.getMouseY()))) {
 			sliding = false;
 		}
@@ -63,8 +67,9 @@ public class Slider extends GuiObject {
 		} else if(e.type == EventType.MouseMoved) {
 			if(sliding) {
 				MouseMoveEvent event = (MouseMoveEvent) e;
-				sliderPos += event.offsetPosX[0] * -1 * worth;
-				sliderPos = Mathf.clamp(sliderPos, 0, 1);
+				value += event.offsetPosX[0] * -1 * worth;
+				value = Mathf.clamp(value, 0, 1);
+				valueChangedConsumer.accept(value);
 				return true;
 			}
 		}
