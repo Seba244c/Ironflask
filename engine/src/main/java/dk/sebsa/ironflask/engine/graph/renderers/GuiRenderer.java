@@ -75,17 +75,20 @@ public class GuiRenderer {
 	}
 	
 	public void renderObject(GuiObject object, Window window) {
-		Rect rect = Rect.add(object.rect, new Rect(window.rect.x, window.rect.y, 0, 0));
-		rect.width = Mathf.clamp(rect.width, 0, window.rect.width);
-		rect.height = Mathf.clamp(rect.height, 0, window.rect.height);
-
+		object.update();
+		
+		Rect r = new Rect(object.rect.x + window.rect.x, object.rect.y + window.rect.y, object.rect.width, object.rect.height);
+		
+		r.width = Mathf.clamp(r.width, 0, window.rect.width);
+		r.height = Mathf.clamp(r.height, 0, window.rect.height);
+		
 		shader.setUniform("useColor", object.material.isTextured() ? 0 : 1);
 		
 		for(Modifier modifier : object.modifiers) {
 			modifier.apply(shader);
 		}
 
-		object.render(shader, guiMesh, rect);
+		object.render(shader, guiMesh, r);
 		
 		for(Modifier modifier : object.modifiers) {
 			modifier.remove(shader);

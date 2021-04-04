@@ -12,17 +12,16 @@ import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
 import dk.sebsa.ironflask.engine.graph.Material;
 import dk.sebsa.ironflask.engine.graph.Texture;
-import dk.sebsa.ironflask.engine.gui.Constraint;
 import dk.sebsa.ironflask.engine.gui.GUIDynamicVar;
 import dk.sebsa.ironflask.engine.gui.GUIDynamicVector;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
 import dk.sebsa.ironflask.engine.gui.Window;
+import dk.sebsa.ironflask.engine.gui.animations.MoveInFromSide;
+import dk.sebsa.ironflask.engine.gui.animations.MoveInFromSide.Side;
 import dk.sebsa.ironflask.engine.gui.enums.Anchor;
-import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.gui.objects.Box;
 import dk.sebsa.ironflask.engine.gui.objects.Button;
-import dk.sebsa.ironflask.engine.gui.objects.Slider;
 import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.math.Color;
@@ -35,7 +34,6 @@ public class UILayer extends Layer {
 	private Window pauseMenu;
 	private Window entireScreen;
 	
-	private Slider audioSlider;
 	private Font buttonFont;
 	
 	public UILayer(Application app) {
@@ -57,6 +55,7 @@ public class UILayer extends Layer {
 				}
 				else {
 					MusicManager.start(Songs.MainMenu);
+					pauseMenu.calculateConstraints(app);
 					pauseMenuEnabled = true;
 				}
 				app.pauseLogic(pauseMenuEnabled);
@@ -66,12 +65,6 @@ public class UILayer extends Layer {
 		if(entireScreen.handleEvent(e)) return true;
 		if(pauseMenuEnabled) return pauseMenu.handleEvent(e);
 		return false;
-	}
-	
-	public void newAudioLevel(float val) {
-		if(val != MusicManager.musicLevel) {
-			MusicManager.setLevel(val);
-		}
 	}
 
 	@Override
@@ -98,21 +91,28 @@ public class UILayer extends Layer {
 		
 		// Menus
 		pauseMenu = new Window();
-		pauseMenu.setBackgroundColor(Color.grey());
-		pauseMenu.addCosntraint(new Constraint(ConstraintSide.Right, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.7f)));
-		pauseMenu.addCosntraint(new Constraint(ConstraintSide.Left, new GUIDynamicVar(GUIDynamicType.Fixed, 15)));
+		pauseMenu.setBackgroundColor(Color.transparent());
 		entireScreen = new Window();
 		entireScreen.setBackgroundColor(Color.transparent());
 		
 		// GUI Dynamic consts
 		GUIDynamicVar size48 = new GUIDynamicVar(GUIDynamicType.Fixed, 48);
 		
-		// Quit Button
-		GuiObject guiObject = new Button(app.input, this::quitButton, new Label("Quit", buttonFont), false);
-		guiObject.material = new Material();
+		// Smaller blut
+		GuiObject guiObject = new Box();
+		guiObject.material = new Material(Color.grey());
 		guiObject.setAnchor(Anchor.TopLeft);
-		guiObject.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
-		guiObject.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f), size48);
+		guiObject.posistion =	new GUIDynamicVector(null, null);
+		guiObject.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.4f), new GUIDynamicVar(GUIDynamicType.Dynamic, 1f));
+		pauseMenu.addGuiObject(guiObject);
+		
+		// Quit Button
+		guiObject = new Button(app.input, this::quitButton, new Label("Quit", buttonFont), false);
+		guiObject.material = new Material(new Color(0, 0, 0, 0.2f));
+		guiObject.setAnchor(Anchor.TopLeft);
+		guiObject.posistion =	new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
+		guiObject.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.4f), size48);
+		guiObject.animations.add(new MoveInFromSide(Side.Left, pauseMenu, 0.4f, 0f));
 		pauseMenu.addGuiObject(guiObject);
 		
 		// Compass
@@ -122,14 +122,6 @@ public class UILayer extends Layer {
 		guiObject.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
 		guiObject.size = 		new GUIDynamicVector(size48, size48);
 		entireScreen.addGuiObject(guiObject);
-		
-		// Text
-		audioSlider = new Slider(app.input, new Material(Color.blue()), this::newAudioLevel);
-		audioSlider.setAnchor(Anchor.TopLeft);
-		audioSlider.posistion =	new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.1f), new GUIDynamicVar(GUIDynamicType.Fixed, 10f));
-		audioSlider.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f), size48);
-		audioSlider.value = MusicManager.musicLevel;
-		pauseMenu.addGuiObject(audioSlider);
 
 		entireScreen.calculateConstraints(app);
 		pauseMenu.calculateConstraints(app);

@@ -28,6 +28,7 @@ public class Text extends GuiObject {
 	
 	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Label label, boolean centered) {
 		Rect r = new Rect(rect.x, rect.y, rect.width, rect.height);
+		
 		if(centered) {
 			r.x = r.x + r.width/2;
 			r.x -= r.width/2;
@@ -60,8 +61,6 @@ public class Text extends GuiObject {
 			shader.setUniform("screenPos", new Vector2f(drawRect2.x, drawRect2.y));
 			
 			Mesh2d.quad.render();
-			// 
-
 			tempX += glyph.scale.x;
 		}
 		mesh.render();

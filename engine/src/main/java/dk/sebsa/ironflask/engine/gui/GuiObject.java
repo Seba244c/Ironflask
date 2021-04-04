@@ -19,9 +19,22 @@ public abstract class GuiObject {
 	public GUIDynamicVector size;
 	public boolean centered;
 	public List<Modifier> modifiers = new ArrayList<>();
+	public List<Animation> animations = new ArrayList<>();
 	
 	public void setAnchor(Anchor anchor) {
 		this.anchor = anchor;
+	}
+	
+	public void prepare() {
+		for(Animation animation : animations) {
+			animation.prepare(rect);
+		}
+	}
+	
+	public void update() {
+		for(Animation animation : animations) {
+			if(animation.isReady()) animation.update(rect);
+		}
 	}
 	
 	public void calculateAnchors(Window window) {

@@ -76,5 +76,7 @@ public class Window {
 		for(GuiObject object : guiObjects) {
 			object.calculateAnchors(this);
 		}
+		
+		for(GuiObject object : guiObjects) object.prepare();
 	}
 }

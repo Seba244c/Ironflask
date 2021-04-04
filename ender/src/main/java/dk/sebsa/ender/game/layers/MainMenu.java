@@ -73,21 +73,21 @@ public class MainMenu extends Layer {
 		Button playButton = new Button(app.input, this::play, new Label("Play!", titleFont), true);
 		playButton.setAnchor(Anchor.BottomLeft);
 		playButton.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, titleFont.getStringWidth("Play!")+4), size48);
-		playButton.posistion = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, 0f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.4f));
+		playButton.posistion = new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.4f));
 		entireScreen.addGuiObject(playButton);
 		
 		// quit button
 		Button quitButton = new Button(app.input, this::quit, new Label("Quit", titleFont), true);
 		quitButton.setAnchor(Anchor.BottomLeft);
 		quitButton.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, titleFont.getStringWidth("Quit")+4), size48);
-		quitButton.posistion = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, 0f), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
+		quitButton.posistion = new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
 		entireScreen.addGuiObject(quitButton);
 		
 		// Title
 		Text title = new Text(new Label("Project Ender", titleFont), true);
 		title.setAnchor(Anchor.TopLeft);
 		title.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, titleFont.getStringWidth("Project Ender")), size48);
-		title.posistion = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, 0), new GUIDynamicVar(GUIDynamicType.Dynamic, 0.05f));
+		title.posistion = new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.05f));
 		entireScreen.addGuiObject(title);
 		
 		// Endoff
