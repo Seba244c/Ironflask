@@ -34,7 +34,7 @@ public abstract class GuiObject {
 	
 	public void update() {		
 		for(Animation animation : animations) {
-			if(animation.isReady()) animation.update(this, rect);
+			if(animation.isReady()) animation.tick(this, rect);
 		}
 	}
 	

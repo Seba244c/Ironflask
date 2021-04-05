@@ -19,10 +19,9 @@ public class MoveInFromSide extends Animation {
 	private Window window;
 	
 	public MoveInFromSide(Side side, Window window, float time, float waitTime) {
+		super(time, waitTime);
 		this.side = side;
 		this.window = window;
-		this.waitTime = waitTime;
-		this.time = time;
 	}
 
 	@Override
@@ -44,9 +43,6 @@ public class MoveInFromSide extends Animation {
 
 	@Override
 	public void update(GuiObject obj, Rect nowR) {
-		now += Time.getDeltaTime();
-		if(now < waitTime) return;
-		
 		if(side == Side.Left || side == Side.Right) {
 			nowR.x += Time.getDeltaTime() * moveDistance/time;
 		} else {
@@ -55,7 +51,6 @@ public class MoveInFromSide extends Animation {
 		
 		if(now >= time+waitTime) {
 			nowR.set(endGoal.x, endGoal.y, endGoal.width, endGoal.height);
-			stop();
 		}
 	}
 }
