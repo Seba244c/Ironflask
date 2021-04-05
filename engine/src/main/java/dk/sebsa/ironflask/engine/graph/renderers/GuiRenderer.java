@@ -88,7 +88,7 @@ public class GuiRenderer {
 			modifier.apply(shader);
 		}
 
-		object.render(shader, guiMesh, r);
+		object.draw(shader, guiMesh, r);
 		
 		for(Modifier modifier : object.modifiers) {
 			modifier.remove(shader);

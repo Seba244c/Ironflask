@@ -9,11 +9,11 @@ public abstract class Animation {
 	public Rect endGoal;
 	private boolean ready;
 	
-	public void prepare(Rect input) {
+	public void prepare(GuiObject obj, Rect input) {
 		this.endGoal = input.copy();
 		ready = true;
 		now = 0;
-		prepareRect(input);
+		prepareRect(obj, input);
 	}
 	
 	public boolean isReady() {
@@ -24,6 +24,6 @@ public abstract class Animation {
 		ready = false;
 	}
 	
-	public abstract void prepareRect(Rect input);
-	public abstract void update(Rect now);
+	public abstract void prepareRect(GuiObject obj, Rect input);
+	public abstract void update(GuiObject obj, Rect now);
 }

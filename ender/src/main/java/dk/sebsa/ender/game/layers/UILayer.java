@@ -98,7 +98,7 @@ public class UILayer extends Layer {
 		// GUI Dynamic consts
 		GUIDynamicVar size48 = new GUIDynamicVar(GUIDynamicType.Fixed, 48);
 		
-		// Smaller blut
+		// Smaller blur
 		GuiObject guiObject = new Box();
 		guiObject.material = new Material(Color.grey());
 		guiObject.setAnchor(Anchor.TopLeft);

@@ -20,6 +20,7 @@ public abstract class GuiObject {
 	public boolean centered;
 	public List<Modifier> modifiers = new ArrayList<>();
 	public List<Animation> animations = new ArrayList<>();
+	public float scale = 1f;
 	
 	public void setAnchor(Anchor anchor) {
 		this.anchor = anchor;
@@ -27,13 +28,13 @@ public abstract class GuiObject {
 	
 	public void prepare() {
 		for(Animation animation : animations) {
-			animation.prepare(rect);
+			animation.prepare(this, rect);
 		}
 	}
 	
-	public void update() {
+	public void update() {		
 		for(Animation animation : animations) {
-			if(animation.isReady()) animation.update(rect);
+			if(animation.isReady()) animation.update(this, rect);
 		}
 	}
 	
@@ -84,6 +85,24 @@ public abstract class GuiObject {
 		}
 		if(rect.x % 1 != 0) rect.x += 0.5f;
 		if(rect.y % 1 != 0) rect.y += 0.5f;
+	}
+	
+	public void draw(Shader shader, Mesh2d mesh, Rect r) {
+		Rect drawRect = r.copy();
+		if(scale != 1) {
+			float w = drawRect.width * scale;
+			float h = drawRect.height * scale;
+			
+			drawRect.x += (drawRect.width-w)/2;
+			drawRect.y += (drawRect.height-h)/2;
+			
+			drawRect.width = w;
+			drawRect.height = h;
+			
+			if(drawRect.x % 1 != 0) drawRect.x += 0.5f;
+			if(drawRect.y % 1 != 0) drawRect.y += 0.5f;
+		}
+		render(shader, mesh, drawRect);
 	}
 	
 	public abstract void render(Shader shader, Mesh2d mesh, Rect r);

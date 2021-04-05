@@ -23,10 +23,10 @@ public class Text extends GuiObject {
 	
 	@Override
 	public void render(Shader shader, Mesh2d mesh, Rect r) {
-		draw(shader, mesh, r, label, false);
+		draw(shader, mesh, r, label, false, scale);
 	}
 	
-	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Label label, boolean centered) {
+	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Label label, boolean centered, float scale) {
 		Rect r = new Rect(rect.x, rect.y, rect.width, rect.height);
 		
 		if(centered) {
@@ -57,11 +57,11 @@ public class Text extends GuiObject {
 			// Draw
 			shader.setUniform("useColor", 0);
 			shader.setUniform("offset", u.x, u.y, u.width, u.height);
-			shader.setUniform("pixelScale", new Vector2f(drawRect2.width, drawRect2.height));
+			shader.setUniform("pixelScale", new Vector2f(drawRect2.width*scale, drawRect2.height*scale));
 			shader.setUniform("screenPos", new Vector2f(drawRect2.x, drawRect2.y));
 			
 			Mesh2d.quad.render();
-			tempX += glyph.scale.x;
+			tempX += glyph.scale.x*scale;
 		}
 		mesh.render();
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);

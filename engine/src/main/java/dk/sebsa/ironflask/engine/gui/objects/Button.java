@@ -29,13 +29,13 @@ public class Button extends GuiObject {
 	
 	@Override
 	public void render(Shader shader, Mesh2d mesh, Rect r) {
-		draw(shader, mesh, r, material, label, centered);
+		draw(shader, mesh, r, material, label, centered, scale);
 		this.clickRect = r;
 	}
 	
-	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Material material, Label label, boolean centered) {
+	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Material material, Label label, boolean centered, float scale) {
 		Box.draw(shader, mesh, rect, material);
-		Text.draw(shader, mesh, rect, label, centered);
+		Text.draw(shader, mesh, rect, label, centered, scale);
 	}
 	
 	@Override

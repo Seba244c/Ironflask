@@ -2,6 +2,7 @@ package dk.sebsa.ironflask.engine.gui.animations;
 
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.gui.Animation;
+import dk.sebsa.ironflask.engine.gui.GuiObject;
 import dk.sebsa.ironflask.engine.gui.Window;
 import dk.sebsa.ironflask.engine.math.Time;
 
@@ -25,7 +26,7 @@ public class MoveInFromSide extends Animation {
 	}
 
 	@Override
-	public void prepareRect(Rect input) {
+	public void prepareRect(GuiObject obj, Rect input) {
 		if(side == Side.Left) {
 			moveDistance = input.x + input.width;
 			input.x = 0 - input.width;
@@ -42,7 +43,7 @@ public class MoveInFromSide extends Animation {
 	}
 
 	@Override
-	public void update(Rect nowR) {
+	public void update(GuiObject obj, Rect nowR) {
 		now += Time.getDeltaTime();
 		if(now < waitTime) return;
 		

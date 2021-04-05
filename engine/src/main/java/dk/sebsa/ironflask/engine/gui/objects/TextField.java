@@ -48,7 +48,7 @@ public class TextField extends GuiObject {
 	public static float draw(Shader shader, Mesh2d mesh, Rect r, Material open, Material selected, boolean isSelected, Label label, float anim, int cursorPos) {
 		if(isSelected) {
 			Box.draw(shader, mesh, r, selected);
-			Text.draw(shader, mesh, r, label, false);
+			Text.draw(shader, mesh, r, label, false, 1f);
 			
 			// Cursor
 			anim += 1*Time.getDeltaTime();
@@ -59,7 +59,7 @@ public class TextField extends GuiObject {
 			}
 		} else {
 			Box.draw(shader, mesh, r, open);
-			Text.draw(shader, mesh, r, label, false);
+			Text.draw(shader, mesh, r, label, false, 1f);
 		}
 		
 		return anim;
