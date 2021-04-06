@@ -1,5 +1,6 @@
 package dk.sebsa.ironflask.engine.io;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -14,6 +15,7 @@ public class LoggingUtil {
 	public static boolean traceLog = false;
 	private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 	private static DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("d/MM-u");
+	private static DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("d-MM-u");
 	private static String logString = "";
 	public static final String editorVersion = LoggingUtil.class.getPackage().getImplementationVersion();
 	
@@ -40,13 +42,26 @@ public class LoggingUtil {
 		fullLog += logString;
 		
 		try {
-			FileWriter myWriter = new FileWriter("./latest.log", false);
+			FileWriter myWriter = new FileWriter("../logs/latest.log", false);
 			myWriter.write(fullLog);
 			myWriter.close();
-			FileUtil.zipSingleFile(Paths.get("./latest.log"), "log.zip", true);
+			String zipName = "log-"+dtf3.format(LocalDateTime.now());
+			zipName += "-"+getNumber(zipName);
+			FileUtil.zipSingleFile(Paths.get("../logs/latest.log"), "../logs/" + zipName + ".zip", true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	public static int getNumber(String start) {
+		File directory = new File("../logs/");
+		String[] files = directory.list();
+		int i = 1;
+		for(String s : files) {
+			if(s.startsWith(start)) i++;
+		}
+		return i;
 		
 	}
 }
