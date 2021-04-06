@@ -62,6 +62,5 @@ public class LoggingUtil {
 			if(s.startsWith(start)) i++;
 		}
 		return i;
-		
 	}
 }
