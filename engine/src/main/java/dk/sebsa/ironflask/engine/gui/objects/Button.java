@@ -40,7 +40,7 @@ public class Button extends GuiObject {
 	
 	@Override
 	public boolean handleEvent(Event e) {
-		if(e.type != EventType.MouseButtonPressed) return false;
+		if(e.type != EventType.MouseButtonPressed || clickRect == null) return false;
 		ButtonPressedEvent event = (ButtonPressedEvent) e;
 		if(event.button == 0 && clickRect.contains(new Vector2f(input.getMouseX(), input.getMouseY()))) {
 			clickConsumer.accept(this);

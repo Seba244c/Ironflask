@@ -14,6 +14,7 @@ public class LoggingUtil {
 	public static boolean traceLog = false;
 	private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 	private static DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("d/MM-u");
+	private static DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("d-MM-u");
 	private static String logString = "";
 	public static final String editorVersion = LoggingUtil.class.getPackage().getImplementationVersion();
 	
@@ -40,13 +41,22 @@ public class LoggingUtil {
 		fullLog += logString;
 		
 		try {
-			FileWriter myWriter = new FileWriter("./latest.log", false);
+			FileWriter myWriter = new FileWriter("../logs/latest.log", false);
 			myWriter.write(fullLog);
 			myWriter.close();
-			FileUtil.zipSingleFile(Paths.get("./latest.log"), "log.zip", true);
+			String zipName = "log-"+dtf3.format(LocalDateTime.now())+"-"+getRandom();
+			FileUtil.zipSingleFile(Paths.get("../logs/latest.log"), "../logs/" + zipName + ".zip", true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	public static int getRandom() {
+		int h = LocalDateTime.now().getHour() + 1;
+		int m = LocalDateTime.now().getMinute();
+		int s = LocalDateTime.now().getSecond();
+		return h*m*s;
 		
 	}
 }
