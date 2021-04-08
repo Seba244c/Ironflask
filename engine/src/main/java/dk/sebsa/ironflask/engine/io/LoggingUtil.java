@@ -42,11 +42,16 @@ public class LoggingUtil {
 		fullLog += logString;
 		
 		try {
+			// Create logs directory
+			File logDirectory = new File("../logs/");
+			if(!logDirectory.exists()) logDirectory.mkdir();
+			
 			FileWriter myWriter = new FileWriter("../logs/latest.log", false);
 			myWriter.write(fullLog);
 			myWriter.close();
 			String zipName = "log-"+dtf3.format(LocalDateTime.now());
 			zipName += "-"+getNumber(zipName);
+			
 			FileUtil.zipSingleFile(Paths.get("../logs/latest.log"), "../logs/" + zipName + ".zip", true);
 		} catch (IOException e) {
 			e.printStackTrace();
