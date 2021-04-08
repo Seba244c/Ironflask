@@ -35,6 +35,7 @@ import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.math.Time;
 import dk.sebsa.ironflask.engine.threading.CleanUpThread;
 import dk.sebsa.ironflask.engine.threading.LoadingThread;
+import dk.sebsa.ironflask.engine.utils.BuildUtil;
 
 public class Application {
 	public String name;
@@ -57,6 +58,9 @@ public class Application {
 		this.name = name;
 		this.isDebug = isDebug;
 		this.loadingFinishedCallback = loadingFinishedCallback;
+		
+		BuildUtil.init();
+		LoggingUtil.coreLog(Severity.Info, "Buildversion: " + BuildUtil.id);
 		
 		// Window, stack and input
 		stack = new LayerStack(this, name + "-LayerStack");

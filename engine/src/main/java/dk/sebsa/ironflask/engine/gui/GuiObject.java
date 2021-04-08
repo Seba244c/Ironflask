@@ -46,7 +46,7 @@ public abstract class GuiObject {
 		if(anchor == Anchor.BottomLeft) {
 			rect.y = window.rect.height;
 			rect.x += pos.x;
-			rect.y -= pos.y;
+			rect.y -= pos.y+sizeVector2f.y;
 		} else if(anchor == Anchor.BottomMiddle) {
 			rect.x = window.rect.width/2;
 			rect.y = window.rect.height;

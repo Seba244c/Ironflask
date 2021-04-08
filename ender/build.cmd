@@ -16,12 +16,19 @@ rem PROGAURD
 cd .\.scripts\
 call obfuscate.cmd
 
-rem Windows Build
+rem Fix libs Build
 cd ..\.scripts\
+call fix_libs.cmd
+
+rem Windows Build
 call package_windows.cmd
 
 rem Mac build
 cd .\.scripts\
 call package_mac.cmd
+
+rem Final
+cd .\.scripts\
+call distribute.cmd
 
 pause

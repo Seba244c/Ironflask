@@ -65,6 +65,7 @@ dk.sebsa.ender.game.layers.EnderGame -> f:
     void <clinit>() -> <clinit>
 dk.sebsa.ender.game.layers.MainMenu -> g:
     dk.sebsa.ironflask.engine.gui.text.Font titleFont -> a
+    dk.sebsa.ironflask.engine.gui.text.Font buildFont -> b
     dk.sebsa.ironflask.engine.gui.Window entireScreen -> a
     dk.sebsa.ironflask.engine.Application app -> a
     void <init>(dk.sebsa.ironflask.engine.Application) -> <init>

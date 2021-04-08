@@ -19,9 +19,11 @@ import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
+import dk.sebsa.ironflask.engine.utils.BuildUtil;
 
 public class MainMenu extends Layer {
 	private Font titleFont;
+	private Font buildFont;
 	private Window entireScreen;
 	private Application app;
 	
@@ -62,6 +64,7 @@ public class MainMenu extends Layer {
 	public void init() {
 		try {
 			titleFont = new Font(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 42));
+			buildFont = new Font(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 26));
 		} catch (AssetExistsException e) { e.printStackTrace(); }
 		
 		// init windows
@@ -70,6 +73,7 @@ public class MainMenu extends Layer {
 		
 		// play button
 		GUIDynamicVar size48 = new GUIDynamicVar(GUIDynamicType.Fixed, 48);
+		GUIDynamicVar size26 = new GUIDynamicVar(GUIDynamicType.Fixed, 26);
 		Button playButton = new Button(app.input, this::play, new Label("Play!", titleFont), true);
 		playButton.setAnchor(Anchor.BottomLeft);
 		playButton.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, titleFont.getStringWidth("Play!")+4), size48);
@@ -88,6 +92,13 @@ public class MainMenu extends Layer {
 		title.setAnchor(Anchor.TopLeft);
 		title.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, titleFont.getStringWidth("Project Ender")), size48);
 		title.posistion = new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.05f));
+		entireScreen.addGuiObject(title);
+		
+		// Build version
+		title = new Text(new Label("Build-"+BuildUtil.id, buildFont), false);
+		title.setAnchor(Anchor.BottomLeft);
+		title.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, 0), size26);
+		title.posistion = new GUIDynamicVector(null, null);
 		entireScreen.addGuiObject(title);
 		
 		// Endoff
