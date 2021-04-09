@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.enums.*;
+import dk.sebsa.ironflask.engine.utils.BuildUtil;
 import dk.sebsa.ironflask.engine.utils.FileUtil;
 
 public class LoggingUtil {
@@ -17,7 +18,6 @@ public class LoggingUtil {
 	private static DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("d/MM-u");
 	private static DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("d-MM-u");
 	private static String logString = "";
-	public static final String editorVersion = LoggingUtil.class.getPackage().getImplementationVersion();
 	
 	private static String getTime() {
 		return dtf.format(LocalDateTime.now());
@@ -38,7 +38,7 @@ public class LoggingUtil {
 	public static void saveToFile() {
 		String fullLog = "# Log from ironflask\n";
 		fullLog += "# "+dtf2.format(LocalDateTime.now());
-		fullLog += "\n# V: " + editorVersion + "\n";
+		fullLog += "\n# Build: " + BuildUtil.id + "\n";
 		fullLog += logString;
 		
 		try {

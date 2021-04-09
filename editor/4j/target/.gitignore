@@ -1,0 +1,5 @@
+libs/*
+jdk-11.0.8/*
+bin/*
+logs/
+*.zip

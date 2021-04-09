@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>true</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>.\editor-0.0.1-SNAPSHOT-pro.jar</jar>
+  <outfile>E:\Code\Ironflask\editor\4j\target\bin\Ironflask Editor.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon></icon>
+  <classPath>
+    <mainClass>dk.sebsa.ironflask.editor.Main</mainClass>
+    <cp>../libs/engine-0.0.1-SNAPSHOT.jar</cp>
+    <cp>../libs/lwjgl-3.2.3.jar</cp>
+    <cp>../libs/lwjgl-glfw-3.2.3.jar</cp>
+    <cp>../libs/lwjgl-nfd-3.2.3.jar</cp>
+    <cp>../libs/lwjgl-openal-3.2.3.jar</cp>
+    <cp>../libs/lwjgl-opengl-3.2.3.jar</cp>
+    <cp>../libs/lwjgl-stb-3.2.3.jar</cp>
+    <cp>../libs/lwjgl-3.2.3-natives-windows.jar</cp>
+    <cp>../libs/lwjgl-glfw-3.2.3-natives-windows.jar</cp>
+    <cp>../libs/lwjgl-nfd-3.2.3-natives-windows.jar</cp>
+    <cp>../libs/lwjgl-openal-3.2.3-natives-windows.jar</cp>
+    <cp>../libs/lwjgl-opengl-3.2.3-natives-windows.jar</cp>
+    <cp>../libs/lwjgl-stb-3.2.3-natives-windows.jar</cp>
+    <cp>../libs/joml-1.10.0.jar</cp>
+    <cp>../libs/imgui-java-app-1.81.1.jar</cp>
+    <cp>../libs/lwjgl-3.2.3-natives-linux.jar</cp>
+    <cp>../libs/lwjgl-glfw-3.2.3-natives-linux.jar</cp>
+    <cp>../libs/lwjgl-opengl-3.2.3-natives-linux.jar</cp>
+    <cp>../libs/lwjgl-3.2.3-natives-macos.jar</cp>
+    <cp>../libs/lwjgl-glfw-3.2.3-natives-macos.jar</cp>
+    <cp>../libs/lwjgl-opengl-3.2.3-natives-macos.jar</cp>
+    <cp>../libs/imgui-java-binding-1.81.1.jar</cp>
+    <cp>../libs/imgui-java-lwjgl3-1.81.1.jar</cp>
+    <cp>../libs/imgui-java-natives-macos-1.81.1.jar</cp>
+    <cp>../libs/imgui-java-natives-windows-1.81.1.jar</cp>
+  </classPath>
+  <jre>
+    <path>../jdk-11.0.8/</path>
+    <bundledJre64Bit>true</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>11</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+  </jre>
+</launch4jConfig>

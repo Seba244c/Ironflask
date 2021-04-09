@@ -64,7 +64,7 @@ public class MainMenu extends Layer {
 	public void init() {
 		try {
 			titleFont = new Font(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 42));
-			buildFont = new Font(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 26));
+			buildFont = new Font(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 12));
 		} catch (AssetExistsException e) { e.printStackTrace(); }
 		
 		// init windows
@@ -73,7 +73,7 @@ public class MainMenu extends Layer {
 		
 		// play button
 		GUIDynamicVar size48 = new GUIDynamicVar(GUIDynamicType.Fixed, 48);
-		GUIDynamicVar size26 = new GUIDynamicVar(GUIDynamicType.Fixed, 26);
+		GUIDynamicVar size16 = new GUIDynamicVar(GUIDynamicType.Fixed, 16);
 		Button playButton = new Button(app.input, this::play, new Label("Play!", titleFont), true);
 		playButton.setAnchor(Anchor.BottomLeft);
 		playButton.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, titleFont.getStringWidth("Play!")+4), size48);
@@ -97,7 +97,7 @@ public class MainMenu extends Layer {
 		// Build version
 		title = new Text(new Label("Build-"+BuildUtil.id, buildFont), false);
 		title.setAnchor(Anchor.BottomLeft);
-		title.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, 0), size26);
+		title.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, 0), size16);
 		title.posistion = new GUIDynamicVector(null, null);
 		entireScreen.addGuiObject(title);
 		

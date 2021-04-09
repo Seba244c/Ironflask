@@ -8,7 +8,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class BuildUtil {
-	public static String id = "Cant find build.json";
+	public static String id = "err";
 	private static JSONParser jsonParser = new JSONParser();
 	
 	@SuppressWarnings("resource")
