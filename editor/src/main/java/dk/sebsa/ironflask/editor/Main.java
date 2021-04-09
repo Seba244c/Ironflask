@@ -9,7 +9,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		game = new Application("Ironflask Editor", isDebug, Main::finishedLoading);
-		game.window.setClearColor(Color.forest());
+		game.setClearColor(Color.forest());
 		game.run();
 	}
 	

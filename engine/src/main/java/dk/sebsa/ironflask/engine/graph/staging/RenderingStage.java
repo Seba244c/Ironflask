@@ -12,6 +12,7 @@ import dk.sebsa.ironflask.engine.graph.FBO;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.renderers.Renderer2d;
 import dk.sebsa.ironflask.engine.io.Window;
+import dk.sebsa.ironflask.engine.math.Color;
 
 public abstract class RenderingStage {
 	public FBO fbo;
@@ -23,18 +24,24 @@ public abstract class RenderingStage {
 		this.app = app;
 		this.window = app.window;
 		
-		updateFbo(true);
+		updateFbo(true, window.getClearColor());
 	}
 	
-	public void updateFbo(boolean init) {
+	public void updateFbo(boolean init, Color clearColor) {
 		if(fbo != null) fbo.cleanup();
 		fbo = new FBO(window.getWidth(), window.getHeight());
 		fbo.bindFrameBuffer();
 		// Enable depth test
 		glEnable(GL_DEPTH_TEST);
-		glClearColor(0, 1, 1, 1);
+		glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0f);
 		fbo.unBind();
 		if(!init) windowChangedSize();
+	}
+	
+	public void setClearColor(Color newClearColor) {
+		fbo.bindFrameBuffer();
+		glClearColor(newClearColor.r, newClearColor.g, newClearColor.b, 1);
+		fbo.unBind();
 	}
 	
 	public void cleanup() {

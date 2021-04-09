@@ -24,7 +24,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		game = new Application("Project Ender", isDebug, Main::loadingFinished);
-		game.window.setClearColor(Color.forest());
+		game.setClearColor(Color.cyan());
 		
 		// Set world
 		WorldManager.setWorld(mainMenuWorld);

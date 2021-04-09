@@ -125,6 +125,13 @@ public class Application {
 		}
 	}
 	
+	public void setClearColor(Color color) {
+		window.setClearColor(color);
+		for(RenderingStage stage : pipeline) {
+			stage.setClearColor(color);
+		}
+	}
+	
 	public void cleanupScreen() {
 		loadingThread.renderLoadScreen(false);
 	}
@@ -147,7 +154,7 @@ public class Application {
 	
 	public void windowResized() {
 		for(RenderingStage stage : pipeline) {
-			stage.updateFbo(false);
+			stage.updateFbo(false, window.getClearColor());
 		}
 	}
 	
