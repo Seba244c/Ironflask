@@ -13,7 +13,7 @@ import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public abstract class GuiObject {
 	public Rect rect;
-	public Material material = new Material();
+	public Material material = Material.getMaterial("ironflask_internal");
 	private Anchor anchor;
 	public GUIDynamicVector posistion;
 	public GUIDynamicVector size;

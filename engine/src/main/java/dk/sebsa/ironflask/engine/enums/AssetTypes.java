@@ -4,5 +4,8 @@ public enum AssetTypes {
 	Shader,
 	Texture,
 	Mesh,
-	AudioClip
+	AudioClip,
+	Material,
+	Sprite,
+	SpriteSheet,
 }

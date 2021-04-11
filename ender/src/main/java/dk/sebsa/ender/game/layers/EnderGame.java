@@ -18,7 +18,6 @@ import dk.sebsa.ironflask.engine.ecs.components.EntityRenderer;
 import dk.sebsa.ironflask.engine.graph.Material;
 import dk.sebsa.ironflask.engine.graph.Mesh;
 import dk.sebsa.ironflask.engine.graph.Shader;
-import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.graph.renderers.Renderer3d;
 import dk.sebsa.ironflask.engine.math.Color;
 
@@ -73,9 +72,8 @@ public class EnderGame extends Layer {
 			renderer = new Renderer3d(application);
 		} catch (Exception e) { e.printStackTrace(); }
 		// Random block
-		Material redMaterial = new Material();
-		Material yellowMaterial = new Material();
-		yellowMaterial.setColor(Color.yellow());
+		Material redMaterial = new Material(Color.red());
+		Material yellowMaterial = new Material(Color.yellow());
 		Entity randomBlock = new Entity(Main.testWorld);
 		randomBlock.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), redMaterial, Shader.getShader("default")));
 		randomBlock.setLocalPosition(new Vector3f(0, -1, 0));
@@ -90,7 +88,7 @@ public class EnderGame extends Layer {
 		// Player
 		PlayerMovement pm = new PlayerMovement();
 		player = new Entity(Main.testWorld);
-		player.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), new Material(Texture.getTexture("grassblock.png")), Shader.getShader("default")));
+		player.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), Material.getMaterial("player"), Shader.getShader("default")));
 		player.addComponent(pm);
 		player.doNotDelete();
 		// Camera

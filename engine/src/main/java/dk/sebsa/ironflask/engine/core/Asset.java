@@ -9,7 +9,7 @@ import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 public abstract class Asset {
 	public abstract void cleanup();
 	public String name;
-	public final File file;
+	public File file;
 	
 	public Asset(String name) throws AssetExistsException {
 		if(!name.startsWith("/")) file = new File(name);
