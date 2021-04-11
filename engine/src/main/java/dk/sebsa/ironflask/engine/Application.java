@@ -71,6 +71,11 @@ public class Application {
 		loadingThread.start();
 	}
 	
+	public Application(String name, boolean isDebug, Consumer<Application> loadingFinishedCallback, Color clearColor) {
+		this(name, isDebug, loadingFinishedCallback);
+		window.setClearColor(clearColor);
+	}
+	
 	public void pauseLogic(boolean pause) {
 		logic = (byte) (pause ? 0 : 1);
 	}

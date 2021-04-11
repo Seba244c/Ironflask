@@ -1,5 +1,4 @@
 dk.sebsa.ironflask.editor.Main -> dk.sebsa.ironflask.editor.Main:
-    dk.sebsa.ironflask.engine.Application game -> a
     void <init>() -> <init>
     void main(java.lang.String[]) -> main
     void finishedLoading(dk.sebsa.ironflask.engine.Application) -> a

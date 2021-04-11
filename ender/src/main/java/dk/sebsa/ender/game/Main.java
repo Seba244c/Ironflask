@@ -8,7 +8,6 @@ import dk.sebsa.ender.game.layers.UILayer;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.ecs.World;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
-import dk.sebsa.ironflask.engine.math.Color;
 
 public class Main {
 	public static Debug debug;
@@ -24,7 +23,6 @@ public class Main {
 	
 	public static void main(String[] args) {
 		game = new Application("Project Ender", isDebug, Main::loadingFinished);
-		game.setClearColor(Color.cyan());
 		
 		// Set world
 		WorldManager.setWorld(mainMenuWorld);

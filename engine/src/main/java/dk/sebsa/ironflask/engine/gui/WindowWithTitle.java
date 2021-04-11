@@ -1,48 +1,26 @@
 package dk.sebsa.ironflask.engine.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import dk.sebsa.ironflask.engine.Application;
-import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
-import dk.sebsa.ironflask.engine.math.Color;
+import dk.sebsa.ironflask.engine.gui.text.Font;
+import dk.sebsa.ironflask.engine.gui.text.Label;
 
-public class Window {
-	protected List<GuiObject> guiObjects = new ArrayList<>();
-	protected List<Constraint> constraints = new ArrayList<>();
-	private Color backgroundColor = Color.black();
-	public Rect rect;
+public class WindowWithTitle extends Window {
+	public Label label;
+	private static Font font;
+	public Rect textRect;
 	
-	public Color getBackgroundColor() {
-		return backgroundColor;
-	}
-	
-	public void setBackgroundColor(Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
-	}
-	
-	public void addCosntraint(Constraint constraint) {
-		constraints.add(constraint);
-	}
-	
-	public void addGuiObject(GuiObject object) {
-		guiObjects.add(object);
-	}
-	
-	public List<GuiObject> getGuiObjects() {
-		return guiObjects;
-	}
-	
-	public boolean handleEvent(Event e) {
-		for(GuiObject object : guiObjects) {
-			if(object.handleEvent(e)) return true;
+	public WindowWithTitle(String title) {
+		if(font==null) {
+			font = Font.getFont(new java.awt.Font("OpenSans", java.awt.Font.PLAIN, 24));
 		}
-		return false;
+		
+		label = new Label(title, font);
 	}
 	
+	@Override
 	public void calculateConstraints(Application app) {
 		rect = new Rect(0, 0, app.window.getWidth(), app.window.getHeight());
 		for(Constraint constraint : constraints) {
@@ -72,6 +50,11 @@ public class Window {
 				}
 			}
 		}
+
+		textRect = new Rect(rect.x+4, rect.y, rect.width, font.getFontHeight()+2);
+		
+		rect.y += font.getFontHeight()+2;
+		rect.height -= font.getFontHeight()+2;
 		
 		for(GuiObject object : guiObjects) {
 			object.calculateAnchors(this);

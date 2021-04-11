@@ -25,7 +25,6 @@ import dk.sebsa.ironflask.engine.gui.objects.Button;
 import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.math.Color;
-import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 
 public class UILayer extends Layer {
 	public Application app;
@@ -85,9 +84,7 @@ public class UILayer extends Layer {
 	@Override
 	public void init() {
 		// Font
-		try {
-			buttonFont = new Font(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 36));
-		} catch (AssetExistsException e) { e.printStackTrace(); }
+		buttonFont = Font.getFont(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 36));
 		
 		// Menus
 		pauseMenu = new Window();

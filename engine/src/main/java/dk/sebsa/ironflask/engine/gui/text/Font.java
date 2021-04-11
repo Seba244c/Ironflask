@@ -18,9 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -35,11 +33,11 @@ public class Font extends Asset {
 	private Texture texture;
 	private float h;
 	
-	private static List<Font> fonts = new ArrayList<Font>();
 	private Map<Character, Glyph> chars = new HashMap<Character, Glyph>();
+	private static Map<String, Font> fonts = new HashMap<>();
 	
 	@SuppressWarnings("resource")
-	public Font(String name, float size) throws AssetExistsException {	
+	protected Font(String name, float size) throws AssetExistsException {
 		super(name);
 		if(name.startsWith("/")) {
 			try {
@@ -56,15 +54,26 @@ public class Font extends Asset {
 		this.name = name;
 		
 		generateFont();
-		fonts.add(this);
+		fonts.put(name, this);
 	}
 	
-	public Font(java.awt.Font font) throws AssetExistsException {
+	public static Font getFont(java.awt.Font font) {
+		Font f;
+		try {
+			f = new Font(font);
+		} catch (AssetExistsException e) {
+			f = fonts.get(font.getName()+"-"+font.getStyle()+"-"+font.getSize());
+		}
+		
+		return f;
+	}
+	
+	protected Font(java.awt.Font font) throws AssetExistsException {
 		super(font.getName()+"-"+font.getStyle()+"-"+font.getSize());
 		this.font = font;
 		generateFont();
 		this.name = font.getName()+"-"+font.getStyle()+"-"+font.getSize();
-		fonts.add(this);
+		fonts.put(name, this);
 	}
 	
 	private void generateFont() {
@@ -156,10 +165,6 @@ public class Font extends Asset {
 	public float getFontHeight() { return h; }
 	
 	public final String getName() {return name;}
-	
-	public static final List<Font> getFonts() {
-		return fonts;
-	}
 	
 	@Override
 	public void cleanup() {

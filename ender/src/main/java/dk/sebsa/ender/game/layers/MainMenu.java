@@ -18,7 +18,6 @@ import dk.sebsa.ironflask.engine.gui.objects.Text;
 import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.math.Color;
-import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 import dk.sebsa.ironflask.engine.utils.BuildUtil;
 
 public class MainMenu extends Layer {
@@ -62,10 +61,8 @@ public class MainMenu extends Layer {
 
 	@Override
 	public void init() {
-		try {
-			titleFont = new Font(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 42));
-			buildFont = new Font(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 12));
-		} catch (AssetExistsException e) { e.printStackTrace(); }
+		titleFont = Font.getFont(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 42));
+		buildFont = Font.getFont(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 12));
 		
 		// init windows
 		entireScreen = new Window();

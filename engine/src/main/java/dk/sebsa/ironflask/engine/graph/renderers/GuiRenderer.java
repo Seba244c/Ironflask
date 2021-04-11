@@ -12,6 +12,8 @@ import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
 import dk.sebsa.ironflask.engine.gui.Modifier;
 import dk.sebsa.ironflask.engine.gui.Window;
+import dk.sebsa.ironflask.engine.gui.WindowWithTitle;
+import dk.sebsa.ironflask.engine.gui.objects.Text;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.math.Mathf;
 import dk.sebsa.ironflask.engine.math.Matrix4x4;
@@ -55,6 +57,8 @@ public class GuiRenderer {
 	}
 	
 	public void renderWindow(Window window) {
+		if(window.getClass().getSimpleName().contains("Title")) { renderWindowWithTitle(window); return; }
+		
 		if(prepare == 0) {
 			LoggingUtil.coreLog(Severity.Error, "GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
 			throw new IllegalStateException("GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
@@ -65,11 +69,37 @@ public class GuiRenderer {
 		}
 	}
 	
-	public void renderBackground(Window window) {
+	private void renderWindowWithTitle(Window window) {
+		if(prepare == 0) {
+			LoggingUtil.coreLog(Severity.Error, "GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
+			throw new IllegalStateException("GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
+		}
+		WindowWithTitle win = ((WindowWithTitle) window);
+		
+		renderBackground(window);
+		renderTextBackground(win);
+		
+		Text.draw(shader, guiMesh, win.textRect, win.label, false, 1);
+		
+		for(GuiObject object : window.getGuiObjects()) {
+			renderObject(object, window);
+		}
+	}
+	
+	private void renderBackground(Window window) {
 		shader.setUniform("useColor", 1);
 		shader.setUniform("pixelScale", new Vector2f(window.rect.width, window.rect.height));
 		shader.setUniform("screenPos", new Vector2f(window.rect.x, window.rect.y));
 		shader.setUniformAlt("backgroundColor", window.getBackgroundColor());
+		
+		guiMesh.render();
+	}
+	
+	private void renderTextBackground(WindowWithTitle win) {
+		shader.setUniform("useColor", 1);
+		shader.setUniform("pixelScale", new Vector2f(win.textRect.width+4, win.textRect.height));
+		shader.setUniform("screenPos", new Vector2f(win.textRect.x-4, win.textRect.y));
+		shader.setUniformAlt("backgroundColor", win.getBackgroundColor());
 		
 		guiMesh.render();
 	}
