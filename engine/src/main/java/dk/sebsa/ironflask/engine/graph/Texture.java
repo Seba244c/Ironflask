@@ -19,9 +19,18 @@ import static org.lwjgl.stb.STBImage.*;
 public class Texture extends Asset {
 	private final int id;
 	private static List<Texture> textures = new ArrayList<>();
+	private float width, height;
 	
 	public Texture(String fileName) throws Exception {
 		this(fileName, loadTexture(fileName));
+    }
+	
+	private Texture(String name, TextureInfo ti) throws AssetExistsException {
+		super(name);
+		this.width = ti.width;
+		this.height = ti.height;
+        this.id = ti.id;
+        textures.add(this);
     }
 	
 	public Texture(String name, int id) throws AssetExistsException {
@@ -52,7 +61,7 @@ public class Texture extends Asset {
         return id;
     }
 
-    private static int loadTexture(String fileName) throws Exception {
+    private static TextureInfo loadTexture(String fileName) throws Exception {
         ByteBuffer data;
 		
 		IntBuffer widthBuffer = BufferUtils.createIntBuffer(1);
@@ -94,18 +103,41 @@ public class Texture extends Asset {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         // Upload the texture data
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthBuffer.get(), heightBuffer.get(), 0,
+        int width = widthBuffer.get();
+        int height = heightBuffer.get();
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
                 GL_RGBA, GL_UNSIGNED_BYTE, data);
         // Generate Mip Map
         glGenerateMipmap(GL_TEXTURE_2D);
 
         stbi_image_free(data);
 
-        return textureId;
+        
+        return new TextureInfo(width, height, textureId);
     }
 
 	@Override
 	public void cleanup() {
 		glDeleteTextures(id);
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+	
+	protected static class TextureInfo {
+		public int width;
+		public int height;
+		public int id;
+		
+		public TextureInfo(int w, int h, int i) {
+			this.width = w;
+			this.height = h;
+			this.id = i;
+		}
 	}
 }

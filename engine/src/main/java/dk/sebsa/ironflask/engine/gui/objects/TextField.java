@@ -12,6 +12,7 @@ import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
+import dk.sebsa.ironflask.engine.gui.Sprite;
 import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.io.Input;
@@ -25,15 +26,15 @@ public class TextField extends GuiObject {
 	private Rect clickRect;
 	private Input input;
 	private Label label;
-	private Material selected;
+	private Sprite selected;
 	private String text = "GE";
 	private float anim;
 	private int cursorPos = text.length()-1;
 	
-	public static Material cursorMaterial = new Material(Color.white());
+	public static Sprite cursorSprite = new Sprite("TextFieldCursor", new Material(Color.white()), new Rect(0,0,0,0), new Rect(0,0,0,0));
 	
-	public TextField(Material open, Material selected, Input input, Font font) {
-		this.material = open;
+	public TextField(Sprite open, Sprite selected, Input input, Font font) {
+		this.sprite = open;
 		this.selected = selected;
 		this.input = input;
 		this.label = new Label(text, font);
@@ -41,11 +42,11 @@ public class TextField extends GuiObject {
 	
 	@Override
 	public void render(Shader shader, Mesh2d mesh, Rect r) {
-		anim = draw(shader, mesh, r, material, selected, isSelected, label, anim, cursorPos);
+		anim = draw(shader, mesh, r, sprite, selected, isSelected, label, anim, cursorPos);
 		this.clickRect = r;
 	}
 	
-	public static float draw(Shader shader, Mesh2d mesh, Rect r, Material open, Material selected, boolean isSelected, Label label, float anim, int cursorPos) {
+	public static float draw(Shader shader, Mesh2d mesh, Rect r, Sprite open, Sprite selected, boolean isSelected, Label label, float anim, int cursorPos) {
 		if(isSelected) {
 			Box.draw(shader, mesh, r, selected);
 			Text.draw(shader, mesh, r, label, false, 1f);
@@ -55,7 +56,7 @@ public class TextField extends GuiObject {
 			if(anim >= 0) {
 				Rect cursorRect = new Rect(r.x+getCursorX(label, cursorPos)+1, r.y+4, 3, r.height-8);
 				if(anim >= 0.5f) anim = -0.5f;
-				Box.draw(shader, mesh, cursorRect, cursorMaterial);
+				Box.draw(shader, mesh, cursorRect, cursorSprite);
 			}
 		} else {
 			Box.draw(shader, mesh, r, open);

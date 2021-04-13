@@ -19,6 +19,8 @@ import dk.sebsa.ironflask.engine.graph.Material;
 import dk.sebsa.ironflask.engine.graph.Mesh;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
+import dk.sebsa.ironflask.engine.gui.Sprite;
+import dk.sebsa.ironflask.engine.gui.SpriteSheet;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 import dk.sebsa.ironflask.engine.audio.AudioClip;
@@ -73,6 +75,8 @@ public class AssetManager {
 				else if(type.equals(AssetTypes.Mesh)) new Mesh(name);
 				else if(type.equals(AssetTypes.AudioClip)) new AudioClip(name);
 				else if(type.equals(AssetTypes.Material)) new Material(name);
+				else if(type.equals(AssetTypes.Sprite)) new Sprite(name);
+				else if(type.equals(AssetTypes.SpriteSheet)) new SpriteSheet(name);
 			} catch (AssetExistsException e) {
 				LoggingUtil.coreLog(Severity.Warning, "Asset already exists: " + name);
 			}
@@ -118,6 +122,8 @@ public class AssetManager {
 		fileLists.get(AssetTypes.Texture).addAll(importFromExternalDir("textures", 1, externalDir));
 		fileLists.get(AssetTypes.Shader).addAll(importFromExternalDir("shaders", 0, externalDir));
 		fileLists.get(AssetTypes.Material).addAll(importFromExternalDir("materials", 0, externalDir));
+		fileLists.get(AssetTypes.Sprite).addAll(importFromExternalDir("sprites", 0, externalDir));
+		fileLists.get(AssetTypes.SpriteSheet).addAll(importFromExternalDir("sheets", 0, externalDir));
 		fileLists.get(AssetTypes.AudioClip).addAll(importFromExternalDir("audio", 0, externalDir));
 		fileLists.get(AssetTypes.Mesh).addAll(importFromExternalDir("models", 1, externalDir));
 	}
@@ -130,6 +136,8 @@ public class AssetManager {
 		fileLists.get(AssetTypes.AudioClip).addAll(importFromLocalDir("audio", 0));
 		fileLists.get(AssetTypes.Mesh).addAll(importFromLocalDir("models", 1));
 		fileLists.get(AssetTypes.Material).addAll(importFromLocalDir("materials", 0));
+		fileLists.get(AssetTypes.Sprite).addAll(importFromLocalDir("sprites", 0));
+		fileLists.get(AssetTypes.SpriteSheet).addAll(importFromLocalDir("sheets", 0));
 		
 		// Load other assets from external folders
 		if(externalDir == null) return;
@@ -138,6 +146,8 @@ public class AssetManager {
 		fileLists.get(AssetTypes.AudioClip).addAll(importFromExternalDir("audio", 0, externalDir));
 		fileLists.get(AssetTypes.Mesh).addAll(importFromExternalDir("models", 1, externalDir));
 		fileLists.get(AssetTypes.Material).addAll(importFromExternalDir("materials", 0, externalDir));
+		fileLists.get(AssetTypes.Material).addAll(importFromExternalDir("sprites", 0, externalDir));
+		fileLists.get(AssetTypes.Material).addAll(importFromExternalDir("sheets", 0, externalDir));
 	}
 	
 	private static List<String> importFromLocalDir(String path, int useExt) throws IOException {

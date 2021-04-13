@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.sebsa.ironflask.engine.core.Event;
-import dk.sebsa.ironflask.engine.graph.Material;
 import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
@@ -12,10 +11,12 @@ import dk.sebsa.ironflask.engine.gui.enums.Anchor;
 import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public abstract class GuiObject {
+	private static final GUIDynamicVector DEFAULT_POS_VECTOR = new GUIDynamicVector(null, null);
+	
 	public Rect rect;
-	public Material material = Material.getMaterial("ironflask_internal");
+	public Sprite sprite;
 	private Anchor anchor;
-	public GUIDynamicVector posistion;
+	public GUIDynamicVector posistion = DEFAULT_POS_VECTOR;
 	public GUIDynamicVector size;
 	public boolean centered;
 	public List<Modifier> modifiers = new ArrayList<>();

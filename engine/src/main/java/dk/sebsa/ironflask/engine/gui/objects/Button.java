@@ -5,11 +5,11 @@ import java.util.function.Consumer;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.events.ButtonPressedEvent;
-import dk.sebsa.ironflask.engine.graph.Material;
 import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
+import dk.sebsa.ironflask.engine.gui.Sprite;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.math.Vector2f;
@@ -29,12 +29,12 @@ public class Button extends GuiObject {
 	
 	@Override
 	public void render(Shader shader, Mesh2d mesh, Rect r) {
-		draw(shader, mesh, r, material, label, centered, scale);
+		draw(shader, mesh, r, sprite, label, centered, scale);
 		this.clickRect = r;
 	}
 	
-	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Material material, Label label, boolean centered, float scale) {
-		Box.draw(shader, mesh, rect, material);
+	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Sprite sprite, Label label, boolean centered, float scale) {
+		Box.draw(shader, mesh, rect, sprite);
 		Text.draw(shader, mesh, rect, label, centered, scale);
 	}
 	

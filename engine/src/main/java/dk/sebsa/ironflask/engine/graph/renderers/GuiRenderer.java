@@ -11,8 +11,9 @@ import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
 import dk.sebsa.ironflask.engine.gui.Modifier;
+import dk.sebsa.ironflask.engine.gui.Sprite;
 import dk.sebsa.ironflask.engine.gui.Window;
-import dk.sebsa.ironflask.engine.gui.WindowWithTitle;
+import dk.sebsa.ironflask.engine.gui.objects.Box;
 import dk.sebsa.ironflask.engine.gui.objects.Text;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.math.Mathf;
@@ -56,52 +57,40 @@ public class GuiRenderer {
 		shader.setUniform("projection", ortho);
 	}
 	
-	public void renderWindow(Window window) {
-		if(window.getClass().getSimpleName().contains("Title")) { renderWindowWithTitle(window); return; }
-		
+	public void renderWindow(Window window, Sprite style) {
 		if(prepare == 0) {
 			LoggingUtil.coreLog(Severity.Error, "GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
 			throw new IllegalStateException("GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
 		}
-		renderBackground(window);
-		for(GuiObject object : window.getGuiObjects()) {
-			renderObject(object, window);
-		}
-	}
-	
-	private void renderWindowWithTitle(Window window) {
-		if(prepare == 0) {
-			LoggingUtil.coreLog(Severity.Error, "GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
-			throw new IllegalStateException("GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
-		}
-		WindowWithTitle win = ((WindowWithTitle) window);
+
+		Box.draw(shader, guiMesh, window.renderRect, style);
 		
-		renderBackground(window);
-		renderTextBackground(win);
-		
-		Text.draw(shader, guiMesh, win.textRect, win.label, false, 1);
+		Text.draw(shader, guiMesh, window.textRect, window.label, false, 1);
 		
 		for(GuiObject object : window.getGuiObjects()) {
 			renderObject(object, window);
 		}
 	}
 	
-	private void renderBackground(Window window) {
+	public void renderWindowBorderless(Window window) {
+		if(prepare == 0) {
+			LoggingUtil.coreLog(Severity.Error, "GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
+			throw new IllegalStateException("GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
+		}
+
 		shader.setUniform("useColor", 1);
-		shader.setUniform("pixelScale", new Vector2f(window.rect.width, window.rect.height));
-		shader.setUniform("screenPos", new Vector2f(window.rect.x, window.rect.y));
+		shader.setUniform("pixelScale", new Vector2f(window.renderRect.width, window.renderRect.height));
+		shader.setUniform("screenPos", new Vector2f(window.renderRect.x, window.renderRect.y));
 		shader.setUniformAlt("backgroundColor", window.getBackgroundColor());
-		
 		guiMesh.render();
-	}
-	
-	private void renderTextBackground(WindowWithTitle win) {
-		shader.setUniform("useColor", 1);
-		shader.setUniform("pixelScale", new Vector2f(win.textRect.width+4, win.textRect.height));
-		shader.setUniform("screenPos", new Vector2f(win.textRect.x-4, win.textRect.y));
-		shader.setUniformAlt("backgroundColor", win.getBackgroundColor());
 		
-		guiMesh.render();
+		Rect r = window.rect;
+		window.rect = window.renderRect;
+		
+		for(GuiObject object : window.getGuiObjects()) {
+			renderObject(object, window);
+		}
+		window.rect = r;
 	}
 	
 	public void renderObject(GuiObject object, Window window) {
@@ -111,8 +100,8 @@ public class GuiRenderer {
 		
 		r.width = Mathf.clamp(r.width, 0, window.rect.width);
 		r.height = Mathf.clamp(r.height, 0, window.rect.height);
-		
-		shader.setUniform("useColor", object.material.isTextured() ? 0 : 1);
+				
+		shader.setUniform("useColor", object.sprite.material.isTextured() ? 0 : 1);
 		
 		for(Modifier modifier : object.modifiers) {
 			modifier.apply(shader);

@@ -8,6 +8,8 @@ import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
+import dk.sebsa.ironflask.engine.gui.text.Font;
+import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.math.Color;
 
 public class Window {
@@ -15,6 +17,20 @@ public class Window {
 	protected List<Constraint> constraints = new ArrayList<>();
 	private Color backgroundColor = Color.black();
 	public Rect rect;
+	public Rect textRect;
+	public Rect renderRect;
+	public Label label;
+	private static Font font;
+	public float fontHeight;
+	
+	public Window(String title) {
+		if(font==null) {
+			font = Font.getFont(new java.awt.Font("OpenSans", java.awt.Font.PLAIN, 24));
+		}
+		
+		label = new Label(title, font);
+		fontHeight = font.getFontHeight()+2;
+	}
 	
 	public Color getBackgroundColor() {
 		return backgroundColor;
@@ -72,6 +88,17 @@ public class Window {
 				}
 			}
 		}
+		
+		renderRect = rect.copy();
+		textRect = rect.copy();
+		rect.y += 31;
+		rect.height -= fontHeight;
+		rect.width -= 4;
+		rect.x += 4;
+		
+		textRect.height -= rect.height-fontHeight;
+		textRect.x += 4;
+		textRect.width -= 4;
 		
 		for(GuiObject object : guiObjects) {
 			object.calculateAnchors(this);

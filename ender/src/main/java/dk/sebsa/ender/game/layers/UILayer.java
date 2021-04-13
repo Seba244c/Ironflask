@@ -15,6 +15,8 @@ import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.gui.GUIDynamicVar;
 import dk.sebsa.ironflask.engine.gui.GUIDynamicVector;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
+import dk.sebsa.ironflask.engine.gui.Sprite;
+import dk.sebsa.ironflask.engine.gui.SpriteSheet;
 import dk.sebsa.ironflask.engine.gui.Window;
 import dk.sebsa.ironflask.engine.gui.animations.MoveInFromSide;
 import dk.sebsa.ironflask.engine.gui.animations.MoveInFromSide.Side;
@@ -70,8 +72,8 @@ public class UILayer extends Layer {
 	public void render() {
 		app.guiRenderer.prepareForRender();
 		
-		app.guiRenderer.renderWindow(entireScreen);
-		if(pauseMenuEnabled) app.guiRenderer.renderWindow(pauseMenu);
+		app.guiRenderer.renderWindowBorderless(entireScreen);
+		if(pauseMenuEnabled) app.guiRenderer.renderWindow(pauseMenu, null);
 		
 		app.guiRenderer.endFrame();
 	}
@@ -82,14 +84,14 @@ public class UILayer extends Layer {
 	}
 
 	@Override
-	public void init() {
+	public void init() {	
 		// Font
 		buttonFont = Font.getFont(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 36));
 		
 		// Menus
-		pauseMenu = new Window();
+		pauseMenu = new Window("Pause Menu");
 		pauseMenu.setBackgroundColor(Color.transparent());
-		entireScreen = new Window();
+		entireScreen = new Window("Entire Screen");
 		entireScreen.setBackgroundColor(Color.transparent());
 		
 		// GUI Dynamic consts

@@ -16,19 +16,19 @@ public class Renderer2d {
 	private static Mesh2d guiMesh;
 	private static Matrix4x4 ortho;
 	private static Window window;
-	public static Shader shader;
+	public static Shader defaultShader;
 	
 	public static void init(Window win, Shader s) {
 		LoggingUtil.coreLog(Severity.Info, "Initiliazing Renderer2d");
 		window = win;
-		shader = s;
+		defaultShader = s;
 		
 		guiMesh = Mesh2d.quad;
 		try {
-			shader.createUniform("projection");
-			shader.createUniform("offset");
-			shader.createUniform("pixelScale");
-			shader.createUniform("screenPos");
+			defaultShader.createUniform("projection");
+			defaultShader.createUniform("offset");
+			defaultShader.createUniform("pixelScale");
+			defaultShader.createUniform("screenPos");
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
@@ -42,9 +42,9 @@ public class Renderer2d {
 		glDisable(GL_DEPTH_TEST);
 		
 		// Render preparation
-		shader.bind();
+		defaultShader.bind();
 		ortho = Matrix4x4.ortho(0, window.getWidth(), window.getHeight(), 0, -1, 1);
-		shader.setUniform("projection", ortho);
+		defaultShader.setUniform("projection", ortho);
 		guiMesh.bind();
 	}
 	
@@ -52,11 +52,19 @@ public class Renderer2d {
 		// Enable 3d
 		glEnable(GL_DEPTH_TEST);
 		
-		shader.unbind();
+		defaultShader.unbind();
 		guiMesh.unbind();
 	}
 	
+	public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect, Shader shader) {
+		drawTextureWithTextCoords(tex, drawRect, uvRect, guiMesh, shader);
+	}
+	
 	public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect) {
+		drawTextureWithTextCoords(tex, drawRect, uvRect, guiMesh, defaultShader);
+	}
+	
+	public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect, Mesh2d mesh, Shader shader) {
 		Rect r = new Rect(drawRect.x, drawRect.y, drawRect.width, drawRect.height);
 		
 		// uvreact
