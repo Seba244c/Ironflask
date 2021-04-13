@@ -107,6 +107,17 @@ public class FileUtil {
         return buffer;
     }
 	
+	public static String readAnyFile(String location) throws Exception {
+		if(location.startsWith("/")) return loadResource(location);
+		
+		String e = "";
+		for(String line : readAllLines(location)) {
+			e += line + "\n";
+		}
+		
+		return e;
+	}
+	
 	public static ByteBuffer resizeBuffer(ByteBuffer buffer, int newCapacity) {
         ByteBuffer newBuffer = BufferUtils.createByteBuffer(newCapacity);
         buffer.flip();

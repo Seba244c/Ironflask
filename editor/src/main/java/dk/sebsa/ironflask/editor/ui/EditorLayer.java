@@ -4,6 +4,7 @@ import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
+import dk.sebsa.ironflask.engine.enums.Languages;
 import dk.sebsa.ironflask.engine.gui.GUIDynamicVar;
 import dk.sebsa.ironflask.engine.gui.GUIDynamicVector;
 import dk.sebsa.ironflask.engine.gui.Sprite;
@@ -11,6 +12,7 @@ import dk.sebsa.ironflask.engine.gui.SpriteSheet;
 import dk.sebsa.ironflask.engine.gui.Window;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.gui.objects.Box;
+import dk.sebsa.ironflask.engine.local.LocalizationManager;
 
 public class EditorLayer extends Layer {
 	private Window testWindow;
@@ -47,7 +49,9 @@ public class EditorLayer extends Layer {
 
 	@Override
 	public void init() {
-		testWindow = new Window("HELLO");
+		LocalizationManager.setLangauage(Languages.en);
+		
+		testWindow = new Window(LocalizationManager.getString("gui.testWindow.title"));
 		SpriteSheet sheet = SpriteSheet.getSheet("Ironflask_BlackGUI");
 		window = sheet.getSprite("Window");
 		

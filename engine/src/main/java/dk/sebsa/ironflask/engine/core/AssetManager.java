@@ -22,6 +22,7 @@ import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.gui.Sprite;
 import dk.sebsa.ironflask.engine.gui.SpriteSheet;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
+import dk.sebsa.ironflask.engine.local.LocalizationManager;
 import dk.sebsa.ironflask.engine.throwable.AssetExistsException;
 import dk.sebsa.ironflask.engine.audio.AudioClip;
 import dk.sebsa.ironflask.engine.enums.*;
@@ -77,6 +78,7 @@ public class AssetManager {
 				else if(type.equals(AssetTypes.Material)) new Material(name);
 				else if(type.equals(AssetTypes.Sprite)) new Sprite(name);
 				else if(type.equals(AssetTypes.SpriteSheet)) new SpriteSheet(name);
+				else if(type.equals(AssetTypes.Language)) LocalizationManager.load(name);
 			} catch (AssetExistsException e) {
 				LoggingUtil.coreLog(Severity.Warning, "Asset already exists: " + name);
 			}
@@ -110,6 +112,7 @@ public class AssetManager {
 				
 				if(name.endsWith("/")) continue;
 				else if(name.startsWith("textures")) { fileLists.get(AssetTypes.Texture).add("/" +name.split("/")[1]); }
+				else if(name.startsWith("lang")) { fileLists.get(AssetTypes.Language).add("/" +name.split("/")[1]); }
 				else if(name.startsWith("shaders")) { fileLists.get(AssetTypes.Shader).add("/" + name.split("/")[1].split("\\.")[0]); }
 				else if(name.startsWith("materials")) { fileLists.get(AssetTypes.Shader).add("/" + name.split("/")[1].split("\\.")[0]); }
 				else if(name.startsWith("models")) { fileLists.get(AssetTypes.Mesh).add("/" +name.split("/")[1]); }
@@ -120,6 +123,7 @@ public class AssetManager {
 		
 		if(externalDir == null) return;
 		fileLists.get(AssetTypes.Texture).addAll(importFromExternalDir("textures", 1, externalDir));
+		fileLists.get(AssetTypes.Language).addAll(importFromExternalDir("lang", 1, externalDir));
 		fileLists.get(AssetTypes.Shader).addAll(importFromExternalDir("shaders", 0, externalDir));
 		fileLists.get(AssetTypes.Material).addAll(importFromExternalDir("materials", 0, externalDir));
 		fileLists.get(AssetTypes.Sprite).addAll(importFromExternalDir("sprites", 0, externalDir));
@@ -132,6 +136,7 @@ public class AssetManager {
     	LoggingUtil.coreLog(Severity.Trace, "Import from dir/eclipse: ");
 		// Loads engine resources from folders
 		fileLists.get(AssetTypes.Texture).addAll(importFromLocalDir("textures", 1));
+		fileLists.get(AssetTypes.Language).addAll(importFromLocalDir("lang", 1));
 		fileLists.get(AssetTypes.Shader).addAll(importFromLocalDir("shaders", 0));
 		fileLists.get(AssetTypes.AudioClip).addAll(importFromLocalDir("audio", 0));
 		fileLists.get(AssetTypes.Mesh).addAll(importFromLocalDir("models", 1));
@@ -142,6 +147,7 @@ public class AssetManager {
 		// Load other assets from external folders
 		if(externalDir == null) return;
 		fileLists.get(AssetTypes.Texture).addAll(importFromExternalDir("textures", 1, externalDir));
+		fileLists.get(AssetTypes.Language).addAll(importFromExternalDir("lang", 1, externalDir));
 		fileLists.get(AssetTypes.Shader).addAll(importFromExternalDir("shaders", 0, externalDir));
 		fileLists.get(AssetTypes.AudioClip).addAll(importFromExternalDir("audio", 0, externalDir));
 		fileLists.get(AssetTypes.Mesh).addAll(importFromExternalDir("models", 1, externalDir));
