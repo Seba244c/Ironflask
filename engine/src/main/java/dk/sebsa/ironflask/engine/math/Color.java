@@ -25,6 +25,8 @@ public class Color {
 	public static final Color green() {return new Color(0, 1, 0);}
 	public static final Color blue() {return new Color(0, 0, 1);}
 	public static final Color grey() {return new Color(0.5f, 0.5f, 0.5f);}
+	public static final Color dimGrey() {return new Color(0.35f, 0.35f, 0.35f);}
+	public static final Color darkGrey() {return new Color(0.3f, 0.3f, 0.3f);}
 	public static final Color wine() {return new Color(0.5f, 0, 0);}
 	public static final Color forest() {return new Color(0, 0.5f, 0);}
 	public static final Color marine() {return new Color(0, 0, 0.5f);}

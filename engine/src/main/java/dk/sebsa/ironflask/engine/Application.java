@@ -138,7 +138,7 @@ public class Application {
 	}
 	
 	public void cleanupScreen() {
-		loadingThread.renderLoadScreen(false);
+		loadingThread.renderLoadScreen(false, -1f);
 	}
 	
 	public void loadingState() {
