@@ -7,6 +7,7 @@ import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.Window;
+import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.math.Matrix4x4;
 import dk.sebsa.ironflask.engine.math.Vector2f;
 
@@ -29,6 +30,7 @@ public class Renderer2d {
 			defaultShader.createUniform("offset");
 			defaultShader.createUniform("pixelScale");
 			defaultShader.createUniform("screenPos");
+			defaultShader.createUniform("color");
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
@@ -45,6 +47,7 @@ public class Renderer2d {
 		defaultShader.bind();
 		ortho = Matrix4x4.ortho(0, window.getWidth(), window.getHeight(), 0, -1, 1);
 		defaultShader.setUniform("projection", ortho);
+		defaultShader.setUniformAlt("color", Color.white());
 		guiMesh.bind();
 	}
 	

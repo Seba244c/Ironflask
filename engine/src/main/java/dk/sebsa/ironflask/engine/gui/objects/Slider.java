@@ -10,7 +10,9 @@ import dk.sebsa.ironflask.engine.core.events.MouseMoveEvent;
 import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
+import dk.sebsa.ironflask.engine.graph.renderers.GuiRenderer;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
+import dk.sebsa.ironflask.engine.gui.Parent;
 import dk.sebsa.ironflask.engine.gui.Sprite;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.math.Mathf;
@@ -25,14 +27,15 @@ public class Slider extends GuiObject {
 	private boolean sliding;
 	private Consumer<Float> valueChangedConsumer;
 	
-	public Slider(Input input, Sprite sliderSprite, Consumer<Float> valueChangedConsumer) {
+	public Slider(Parent parent, Input input, Sprite sliderSprite, Consumer<Float> valueChangedConsumer) {
+		super(parent);
 		this.input = input;
 		this.sliderSprite = sliderSprite;
 		this.valueChangedConsumer = valueChangedConsumer;
 	}
 	
 	@Override
-	public void render(Shader shader, Mesh2d mesh, Rect r) {
+	public void render(Shader shader, Mesh2d mesh, Rect r, GuiRenderer renderer) {
 		worth = 1/r.width;
 		slideRect = draw(shader, mesh, r, sprite, value, sliderSprite);
 		slideRect.x -= 5;

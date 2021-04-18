@@ -65,38 +65,34 @@ public class MainMenu extends Layer {
 		buildFont = Font.getFont(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 12));
 		
 		// init windows
-		entireScreen = new Window();
+		entireScreen = new Window("HELLO", true);
 		entireScreen.setBackgroundColor(Color.transparent());
 		
 		// play button
 		GUIDynamicVar size48 = new GUIDynamicVar(GUIDynamicType.Fixed, 48);
 		GUIDynamicVar size16 = new GUIDynamicVar(GUIDynamicType.Fixed, 16);
-		Button playButton = new Button(app.input, this::play, new Label("Play!", titleFont), true);
+		Button playButton = new Button(entireScreen, app.input, this::play, new Label("Play!", titleFont), true);
 		playButton.setAnchor(Anchor.BottomLeft);
 		playButton.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, titleFont.getStringWidth("Play!")+4), size48);
 		playButton.posistion = new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.4f));
-		entireScreen.addGuiObject(playButton);
 		
 		// quit button
-		Button quitButton = new Button(app.input, this::quit, new Label("Quit", titleFont), true);
+		Button quitButton = new Button(entireScreen, app.input, this::quit, new Label("Quit", titleFont), true);
 		quitButton.setAnchor(Anchor.BottomLeft);
 		quitButton.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, titleFont.getStringWidth("Quit")+4), size48);
 		quitButton.posistion = new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));
-		entireScreen.addGuiObject(quitButton);
 		
 		// Title
-		Text title = new Text(new Label("Project Ender", titleFont), true);
+		Text title = new Text(entireScreen, new Label("Project Ender", titleFont), true);
 		title.setAnchor(Anchor.TopLeft);
 		title.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, titleFont.getStringWidth("Project Ender")), size48);
 		title.posistion = new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.05f));
-		entireScreen.addGuiObject(title);
 		
 		// Build version
-		title = new Text(new Label("Build-"+BuildUtil.id, buildFont), false);
+		title = new Text(entireScreen, new Label("Build-"+BuildUtil.id, buildFont), false);
 		title.setAnchor(Anchor.BottomLeft);
 		title.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, 0), size16);
 		title.posistion = new GUIDynamicVector(null, null);
-		entireScreen.addGuiObject(title);
 		
 		// Endoff
 		entireScreen.calculateConstraints(app);

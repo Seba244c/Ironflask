@@ -8,7 +8,9 @@ import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
+import dk.sebsa.ironflask.engine.graph.renderers.GuiRenderer;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
+import dk.sebsa.ironflask.engine.gui.Parent;
 import dk.sebsa.ironflask.engine.gui.text.Glyph;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.math.Vector2f;
@@ -16,13 +18,14 @@ import dk.sebsa.ironflask.engine.math.Vector2f;
 public class Text extends GuiObject {
 	public Label label;
 	
-	public Text(Label label, boolean centered) {
+	public Text(Parent parent, Label label, boolean centered) {
+		super(parent);
 		this.label = label;
 		this.centered = centered;
 	}
 	
 	@Override
-	public void render(Shader shader, Mesh2d mesh, Rect r) {
+	public void render(Shader shader, Mesh2d mesh, Rect r, GuiRenderer renderer) {
 		draw(shader, mesh, r, label, false, scale);
 	}
 	

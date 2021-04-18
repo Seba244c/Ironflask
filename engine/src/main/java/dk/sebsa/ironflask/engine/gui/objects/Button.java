@@ -8,7 +8,9 @@ import dk.sebsa.ironflask.engine.core.events.ButtonPressedEvent;
 import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
+import dk.sebsa.ironflask.engine.graph.renderers.GuiRenderer;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
+import dk.sebsa.ironflask.engine.gui.Parent;
 import dk.sebsa.ironflask.engine.gui.Sprite;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.io.Input;
@@ -20,7 +22,8 @@ public class Button extends GuiObject {
 	private Consumer<Button> clickConsumer;
 	public Label label;
 	
-	public Button(Input input, Consumer<Button> clickConsumer, Label label, boolean centered) {
+	public Button(Parent parent, Input input, Consumer<Button> clickConsumer, Label label, boolean centered) {
+		super(parent);
 		this.input = input;
 		this.clickConsumer = clickConsumer;
 		this.label = label;
@@ -28,7 +31,7 @@ public class Button extends GuiObject {
 	}
 	
 	@Override
-	public void render(Shader shader, Mesh2d mesh, Rect r) {
+	public void render(Shader shader, Mesh2d mesh, Rect r, GuiRenderer renderer) {
 		draw(shader, mesh, r, sprite, label, centered, scale);
 		this.clickRect = r;
 	}

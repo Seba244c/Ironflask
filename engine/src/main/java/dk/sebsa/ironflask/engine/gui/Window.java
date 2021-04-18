@@ -12,7 +12,7 @@ import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.math.Color;
 
-public class Window {
+public class Window implements Parent {
 	protected List<GuiObject> guiObjects = new ArrayList<>();
 	protected List<Constraint> constraints = new ArrayList<>();
 	private Color backgroundColor = Color.black();
@@ -22,14 +22,22 @@ public class Window {
 	public Label label;
 	private static Font font;
 	public float fontHeight;
+	public final boolean borderless;
+	public Sprite style;
 	
-	public Window(String title) {
+	public Window(String title) { this(title, false, null); }
+	public Window(String title, boolean borderless) { this(title, borderless, null); }
+	public Window(String title, Sprite style) { this(title, false, style); }
+	
+	public Window(String title, boolean borderless, Sprite style) {
 		if(font==null) {
 			font = Font.getFont(new java.awt.Font("OpenSans", java.awt.Font.PLAIN, 24));
 		}
 		
 		label = new Label(title, font);
 		fontHeight = font.getFontHeight()+2;
+		this.borderless = borderless;
+		this.style = style;
 	}
 	
 	public Color getBackgroundColor() {
@@ -44,6 +52,7 @@ public class Window {
 		constraints.add(constraint);
 	}
 	
+	@Override
 	public void addGuiObject(GuiObject object) {
 		guiObjects.add(object);
 	}
@@ -91,19 +100,26 @@ public class Window {
 		
 		renderRect = rect.copy();
 		textRect = rect.copy();
-		rect.y += 31;
-		rect.height -= fontHeight;
-		rect.width -= 4;
-		rect.x += 4;
+		if(!borderless) {
+			rect.y += 31;
+			rect.height -= fontHeight;
+			rect.width -= 4;
+			rect.x += 4;
+		}
 		
 		textRect.height -= rect.height-fontHeight;
 		textRect.x += 4;
 		textRect.width -= 4;
 		
 		for(GuiObject object : guiObjects) {
-			object.calculateAnchors(this);
+			object.calculateAnchors();
 		}
 		
 		for(GuiObject object : guiObjects) object.prepare();
+	}
+
+	@Override
+	public Rect getRect() {
+		return rect;
 	}
 }

@@ -15,15 +15,15 @@ public class GUIDynamicVector {
 		this.y = y;
 	}
 	
-	public Vector2f calculate(Window window) {
+	public Vector2f calculate(Parent parent) {
 		float xf, yf;
 		if(x != null)
-			xf = x.calculate(window, false);
+			xf = x.calculate(parent, false);
 		else
 			xf = 0;
 		
 		if(y != null)
-			yf = y.calculate(window, true);
+			yf = y.calculate(parent, true);
 		else
 			yf = 0;
 

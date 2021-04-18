@@ -64,6 +64,17 @@ public class Sprite extends Asset {
 		this.offset = offset;
 		this.padding = padding;
 	}
+	
+	public Sprite(Material material) {
+		this.material = material;
+		this.offset = new Rect();
+		this.padding = new Rect();
+		
+		if(material.isTextured()) {
+			this.offset.width = material.texture.getWidth();
+			this.offset.height = material.texture.getHeight();
+		}
+	}
 
 	public static Sprite getSprite(String name) {
 		for(Sprite sprite : sprites) {

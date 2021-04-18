@@ -5,17 +5,36 @@ import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.Texture;
+import dk.sebsa.ironflask.engine.graph.renderers.GuiRenderer;
 import dk.sebsa.ironflask.engine.graph.renderers.Renderer2d;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
+import dk.sebsa.ironflask.engine.gui.Parent;
 import dk.sebsa.ironflask.engine.gui.Sprite;
+import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class Box extends GuiObject {
+	public Box(Parent parent) {
+		super(parent);
+	}
+
 	@Override
-	public void render(Shader shader, Mesh2d mesh, Rect r) {
+	public void render(Shader shader, Mesh2d mesh, Rect r, GuiRenderer renderer) {
 		draw(shader, mesh, r, sprite);
 	}
 	
-	public static void draw(Shader shader, Mesh2d mesh, Rect r, Sprite e) {
+	public static void draw(Shader shader, Mesh2d mesh, Rect r, Sprite e) {	
+		if(!e.material.isTextured()) {
+			shader.setUniform("useColor", 1);
+			
+			shader.setUniform("pixelScale", new Vector2f(r.width, r.height));
+			shader.setUniform("screenPos", new Vector2f(r.x, r.y));
+			shader.setUniformAlt("backgroundColor", e.material.getColor());
+
+			mesh.render();
+
+			return;
+		}
+		
 		//Cache a short variable for the texture, just so we only have to type a character anytime we use it
 		Texture t = e.material.texture;
 		Rect uv = e.getUV();

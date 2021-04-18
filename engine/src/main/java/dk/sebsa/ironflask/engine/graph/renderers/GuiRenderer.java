@@ -11,7 +11,7 @@ import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
 import dk.sebsa.ironflask.engine.gui.Modifier;
-import dk.sebsa.ironflask.engine.gui.Sprite;
+import dk.sebsa.ironflask.engine.gui.Parent;
 import dk.sebsa.ironflask.engine.gui.Window;
 import dk.sebsa.ironflask.engine.gui.objects.Box;
 import dk.sebsa.ironflask.engine.gui.objects.Text;
@@ -57,13 +57,18 @@ public class GuiRenderer {
 		shader.setUniform("projection", ortho);
 	}
 	
-	public void renderWindow(Window window, Sprite style) {
+	public void renderWindow(Window window) {
+		if(window.borderless) {
+			renderWindowBorderless(window);
+			return;
+		}
+		
 		if(prepare == 0) {
 			LoggingUtil.coreLog(Severity.Error, "GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
 			throw new IllegalStateException("GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
 		}
 
-		Box.draw(shader, guiMesh, window.renderRect, style);
+		Box.draw(shader, guiMesh, window.renderRect, window.style);
 		
 		Text.draw(shader, guiMesh, window.textRect, window.label, false, 1);
 		
@@ -72,7 +77,7 @@ public class GuiRenderer {
 		}
 	}
 	
-	public void renderWindowBorderless(Window window) {
+	private void renderWindowBorderless(Window window) {
 		if(prepare == 0) {
 			LoggingUtil.coreLog(Severity.Error, "GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
 			throw new IllegalStateException("GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
@@ -93,21 +98,21 @@ public class GuiRenderer {
 		window.rect = r;
 	}
 	
-	public void renderObject(GuiObject object, Window window) {
+	public void renderObject(GuiObject object, Parent window) {
 		object.update();
 		
-		Rect r = new Rect(object.rect.x + window.rect.x, object.rect.y + window.rect.y, object.rect.width, object.rect.height);
+		Rect r = new Rect(object.rect.x + window.getRect().x, object.rect.y + window.getRect().y, object.rect.width, object.rect.height);
 		
-		r.width = Mathf.clamp(r.width, 0, window.rect.width);
-		r.height = Mathf.clamp(r.height, 0, window.rect.height);
+		r.width = Mathf.clamp(r.width, 0, window.getRect().width);
+		r.height = Mathf.clamp(r.height, 0, window.getRect().height);
 				
-		shader.setUniform("useColor", object.sprite.material.isTextured() ? 0 : 1);
+		if(object.sprite != null) shader.setUniform("useColor", object.sprite.material.isTextured() ? 0 : 1);
 		
 		for(Modifier modifier : object.modifiers) {
 			modifier.apply(shader);
 		}
 
-		object.draw(shader, guiMesh, r);
+		object.draw(shader, guiMesh, r, this);
 		
 		for(Modifier modifier : object.modifiers) {
 			modifier.remove(shader);

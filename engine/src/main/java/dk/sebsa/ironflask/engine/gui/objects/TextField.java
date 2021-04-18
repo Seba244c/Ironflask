@@ -11,7 +11,9 @@ import dk.sebsa.ironflask.engine.graph.Material;
 import dk.sebsa.ironflask.engine.graph.Mesh2d;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
+import dk.sebsa.ironflask.engine.graph.renderers.GuiRenderer;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
+import dk.sebsa.ironflask.engine.gui.Parent;
 import dk.sebsa.ironflask.engine.gui.Sprite;
 import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
@@ -33,7 +35,8 @@ public class TextField extends GuiObject {
 	
 	public static Sprite cursorSprite = new Sprite("TextFieldCursor", new Material(Color.white()), new Rect(0,0,0,0), new Rect(0,0,0,0));
 	
-	public TextField(Sprite open, Sprite selected, Input input, Font font) {
+	public TextField(Parent parent, Sprite open, Sprite selected, Input input, Font font) {
+		super(parent);
 		this.sprite = open;
 		this.selected = selected;
 		this.input = input;
@@ -41,7 +44,7 @@ public class TextField extends GuiObject {
 	}
 	
 	@Override
-	public void render(Shader shader, Mesh2d mesh, Rect r) {
+	public void render(Shader shader, Mesh2d mesh, Rect r, GuiRenderer renderer) {
 		anim = draw(shader, mesh, r, sprite, selected, isSelected, label, anim, cursorPos);
 		this.clickRect = r;
 	}

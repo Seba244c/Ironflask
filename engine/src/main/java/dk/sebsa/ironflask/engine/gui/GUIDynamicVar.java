@@ -11,13 +11,13 @@ public class GUIDynamicVar {
 		this.value = value;
 	}
 	
-	protected float calculate(Window window, boolean y) {
+	protected float calculate(Parent parent, boolean y) {
 		if(type == GUIDynamicType.Fixed) return value;
 		
 		if(y) {
-			return value * window.rect.height;
+			return value * parent.getRect().height;
 		}
-		return value * window.rect.width;
+		return value * parent.getRect().width;
 	}
 }
 

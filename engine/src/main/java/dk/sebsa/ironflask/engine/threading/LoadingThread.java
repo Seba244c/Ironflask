@@ -106,9 +106,9 @@ public class LoadingThread extends Thread {
 		} catch (Exception e) { state = ThreadState.Failed; e.printStackTrace(); return; }
 		
 		// Renderers
-		renderLoadScreen(false, 0.7f);
+		renderLoadScreen(false, 0.6f);
 		app.skyboxRenderer = new SkyboxRenderer(app);
-		renderLoadScreen(false, 0.78f);
+		renderLoadScreen(false, 0.7f);
 		app.guiRenderer = new GuiRenderer(app);
 		
 		// Other

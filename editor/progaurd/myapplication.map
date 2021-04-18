@@ -1,4 +1,15 @@
 dk.sebsa.ironflask.editor.Main -> dk.sebsa.ironflask.editor.Main:
+    dk.sebsa.ironflask.engine.Application game -> a
     void <init>() -> <init>
     void main(java.lang.String[]) -> main
     void finishedLoading(dk.sebsa.ironflask.engine.Application) -> a
+dk.sebsa.ironflask.editor.ui.EditorLayer -> a:
+    dk.sebsa.ironflask.engine.gui.Window testWindow -> a
+    dk.sebsa.ironflask.engine.Application app -> a
+    dk.sebsa.ironflask.engine.gui.Sprite window -> a
+    void <init>(dk.sebsa.ironflask.engine.Application) -> <init>
+    boolean handleEvent(dk.sebsa.ironflask.engine.core.Event) -> handleEvent
+    void render() -> render
+    void close() -> close
+    void init() -> init
+    void buttonClick(dk.sebsa.ironflask.engine.gui.objects.Button) -> a
