@@ -76,7 +76,7 @@ public class Renderer2d {
 		Rect u = new Rect(x, y, (r.width / drawRect.width) * uvRect.width, (r.height / drawRect.height) * uvRect.height);
 		
 		// Draw
-		tex.bind();
+		if(tex != null) tex.bind();
 		
 		shader.setUniform("offset", u.x, u.y, u.width, u.height);
 		shader.setUniform("pixelScale", new Vector2f(r.width, r.height));

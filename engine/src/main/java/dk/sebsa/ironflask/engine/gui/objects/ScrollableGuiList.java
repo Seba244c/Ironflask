@@ -30,6 +30,7 @@ public class ScrollableGuiList extends GuiList {
 		
 		for(GuiObject object : objects) {
 			renderer.renderObject(object, this);
+			
 			rect.y += object.rect.height+padding;
 			contents -= object.rect.height+padding;
 		}

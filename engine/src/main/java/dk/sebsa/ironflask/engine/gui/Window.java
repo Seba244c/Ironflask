@@ -101,10 +101,10 @@ public class Window implements Parent {
 		renderRect = rect.copy();
 		textRect = rect.copy();
 		if(!borderless) {
-			rect.y += 31;
-			rect.height -= fontHeight;
-			rect.width -= 4;
-			rect.x += 4;
+			rect.y += style.padding.y;
+			rect.height -= style.padding.y;
+			rect.width -= style.padding.x;
+			rect.x += style.padding.x;
 		}
 		
 		textRect.height -= rect.height-fontHeight;
