@@ -17,6 +17,8 @@ public class Renderer2d {
 	private static Mesh2d guiMesh;
 	private static Matrix4x4 ortho;
 	private static Window window;
+	private static Rect ZERO_RECT = new Rect();
+	private static Rect bounds;
 	public static Shader defaultShader;
 	
 	public static void init(Window win, Shader s) {
@@ -49,6 +51,10 @@ public class Renderer2d {
 		defaultShader.setUniform("projection", ortho);
 		defaultShader.setUniformAlt("color", Color.white());
 		guiMesh.bind();
+		
+		// Bounds
+		ZERO_RECT = window.getRect();
+		bounds = ZERO_RECT;
 	}
 	
 	public static void unprepare() {
@@ -68,7 +74,8 @@ public class Renderer2d {
 	}
 	
 	public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect, Mesh2d mesh, Shader shader) {
-		Rect r = new Rect(drawRect.x, drawRect.y, drawRect.width, drawRect.height);
+		Rect r = bounds.getIntersection(new Rect(drawRect.x, drawRect.y, drawRect.width, drawRect.height));
+		if(r == null) return;
 		
 		// uvreact
 		float x = uvRect.x + (((r.x - drawRect.x) / drawRect.width) * uvRect.width);
@@ -77,11 +84,18 @@ public class Renderer2d {
 		
 		// Draw
 		if(tex != null) tex.bind();
-		
 		shader.setUniform("offset", u.x, u.y, u.width, u.height);
 		shader.setUniform("pixelScale", new Vector2f(r.width, r.height));
 		shader.setUniform("screenPos", new Vector2f(r.x, r.y));
 		
 		guiMesh.render();
+	}
+
+	public static void setBounds(Rect bounds) {
+		if(bounds == null) {
+			bounds = ZERO_RECT;
+			return;
+		}
+		Renderer2d.bounds = bounds;
 	}
 }

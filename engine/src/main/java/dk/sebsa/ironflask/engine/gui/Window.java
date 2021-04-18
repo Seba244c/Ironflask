@@ -103,8 +103,11 @@ public class Window implements Parent {
 		if(!borderless) {
 			rect.y += style.padding.y;
 			rect.height -= style.padding.y;
-			rect.width -= style.padding.x;
+			rect.height -= style.padding.height;
+
 			rect.x += style.padding.x;
+			rect.width -= style.padding.x;
+			rect.width -= style.padding.width;
 		}
 		
 		textRect.height -= rect.height-fontHeight;

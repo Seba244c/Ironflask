@@ -58,31 +58,28 @@ public class GuiRenderer {
 	}
 	
 	public void renderWindow(Window window) {
-		if(window.borderless) {
-			renderWindowBorderless(window);
-			return;
-		}
-		
 		if(prepare == 0) {
 			LoggingUtil.coreLog(Severity.Error, "GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
 			throw new IllegalStateException("GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
+		}
+		
+		if(window.borderless) {
+			renderWindowBorderless(window);
+			return;
 		}
 
 		Box.draw(shader, guiMesh, window.renderRect, window.style);
 		
 		Text.draw(shader, guiMesh, window.textRect, window.label, false, 1);
 		
+		Renderer2d.setBounds(window.rect);
 		for(GuiObject object : window.getGuiObjects()) {
 			renderObject(object, window);
 		}
+		Renderer2d.setBounds(null);
 	}
 	
 	private void renderWindowBorderless(Window window) {
-		if(prepare == 0) {
-			LoggingUtil.coreLog(Severity.Error, "GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
-			throw new IllegalStateException("GuiRenderer, someone tried to render a window whilst GuiRenderer was unprepared");
-		}
-
 		shader.setUniform("useColor", 1);
 		shader.setUniform("pixelScale", new Vector2f(window.renderRect.width, window.renderRect.height));
 		shader.setUniform("screenPos", new Vector2f(window.renderRect.x, window.renderRect.y));
@@ -92,10 +89,12 @@ public class GuiRenderer {
 		Rect r = window.rect;
 		window.rect = window.renderRect;
 		
+		Renderer2d.setBounds(window.rect);
 		for(GuiObject object : window.getGuiObjects()) {
 			renderObject(object, window);
 		}
 		window.rect = r;
+		Renderer2d.setBounds(null);
 	}
 	
 	public void renderObject(GuiObject object, Parent window) {
