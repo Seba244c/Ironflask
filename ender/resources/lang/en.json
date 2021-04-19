@@ -1,0 +1,8 @@
+{
+	"gui.mainMenu.build":	"Build-{0}",
+	"gui.mainMenu.play":	"Play!",
+	"gui.mainMenu.quit":	"Quit",
+	"gui.mainMenu.title":	"Project Ender",
+	
+	"gui.pauseMenu.quit":	"Quit"
+}

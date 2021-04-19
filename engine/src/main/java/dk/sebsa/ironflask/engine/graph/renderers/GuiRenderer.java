@@ -69,7 +69,8 @@ public class GuiRenderer {
 		}
 
 		Box.draw(shader, guiMesh, window.renderRect, window.style);
-		
+
+		Renderer2d.setBounds(window.textRect);
 		Text.draw(shader, guiMesh, window.textRect, window.label, false, 1);
 		
 		Renderer2d.setBounds(window.rect);

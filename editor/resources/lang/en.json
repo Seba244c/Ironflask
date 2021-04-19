@@ -1,3 +1,5 @@
 {
-	"gui.testWindow.title": "Test Window"
+	"gui.assetWindow.title": "Assets",
+	"gui.inspectorWindow.title": "Inspector",
+	"gui.worldWindow.title": "World View"
 }

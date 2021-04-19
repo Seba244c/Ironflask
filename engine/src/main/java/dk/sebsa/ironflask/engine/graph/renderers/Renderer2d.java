@@ -91,11 +91,11 @@ public class Renderer2d {
 		guiMesh.render();
 	}
 
-	public static void setBounds(Rect bounds) {
-		if(bounds == null) {
+	public static void setBounds(Rect newBounds) {
+		if(newBounds == null) {
 			bounds = ZERO_RECT;
 			return;
 		}
-		Renderer2d.bounds = bounds;
+		Renderer2d.bounds = newBounds;
 	}
 }

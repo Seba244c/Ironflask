@@ -10,6 +10,7 @@ import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
+import dk.sebsa.ironflask.engine.enums.Languages;
 import dk.sebsa.ironflask.engine.graph.Material;
 import dk.sebsa.ironflask.engine.gui.Constraint;
 import dk.sebsa.ironflask.engine.gui.GUIDynamicVar;
@@ -26,6 +27,7 @@ import dk.sebsa.ironflask.engine.gui.objects.Box;
 import dk.sebsa.ironflask.engine.gui.objects.Button;
 import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
+import dk.sebsa.ironflask.engine.local.LocalizationManager;
 import dk.sebsa.ironflask.engine.math.Color;
 
 public class UILayer extends Layer {
@@ -81,6 +83,8 @@ public class UILayer extends Layer {
 
 	@Override
 	public void init() {	
+		LocalizationManager.setLangauage(Languages.en);
+		
 		// Font
 		buttonFont = Font.getFont(new java.awt.Font("OpenSans", java.awt.Font.BOLD, 36));
 		
@@ -100,7 +104,7 @@ public class UILayer extends Layer {
 		guiObject.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 1f));
 		
 		// Quit Button
-		guiObject = new Button(pauseMenu, app.input, this::quitButton, new Label("Quit", buttonFont), false);
+		guiObject = new Button(pauseMenu, app.input, this::quitButton, new Label(LocalizationManager.getString("gui.pauseMenu.quit"), buttonFont), false);
 		guiObject.setAnchor(Anchor.TopLeft);
 		guiObject.sprite = new Sprite(new Material(Color.dimGrey()));
 		guiObject.posistion =	new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));

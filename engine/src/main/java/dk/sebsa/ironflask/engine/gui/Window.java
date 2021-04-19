@@ -68,6 +68,9 @@ public class Window implements Parent {
 		return false;
 	}
 	
+	/**
+	 * @param app
+	 */
 	public void calculateConstraints(Application app) {
 		rect = new Rect(0, 0, app.window.getWidth(), app.window.getHeight());
 		for(Constraint constraint : constraints) {
@@ -75,6 +78,7 @@ public class Window implements Parent {
 				if(constraint.constraintSide == ConstraintSide.Top) {
 					float removePixels = constraint.var.value*app.window.getHeight();
 					rect.y += removePixels;
+					rect.height -= removePixels;
 				} else if(constraint.constraintSide == ConstraintSide.Bottom) {
 					float removePixels = constraint.var.value*app.window.getHeight();
 					rect.height -= removePixels;
@@ -84,6 +88,7 @@ public class Window implements Parent {
 				} else if(constraint.constraintSide == ConstraintSide.Left) {
 					float removePixels = constraint.var.value*app.window.getWidth();
 					rect.x += removePixels;
+					rect.width -= removePixels;
 				}
 			} else if(constraint.var.type == GUIDynamicType.Fixed) {
 				if(constraint.constraintSide == ConstraintSide.Top) {
@@ -101,18 +106,21 @@ public class Window implements Parent {
 		renderRect = rect.copy();
 		textRect = rect.copy();
 		if(!borderless) {
+			// Top & Text
 			rect.y += style.padding.y;
 			rect.height -= style.padding.y;
+			
+			textRect.height -= rect.height-style.padding.y;
+			textRect.x += style.padding.x;
+			textRect.width -= style.padding.x+style.padding.width;
+			
+			// Bottom
 			rect.height -= style.padding.height;
-
+			
+			// Sides
 			rect.x += style.padding.x;
-			rect.width -= style.padding.x;
-			rect.width -= style.padding.width;
+			rect.width -= style.padding.x + style.padding.width;
 		}
-		
-		textRect.height -= rect.height-fontHeight;
-		textRect.x += 4;
-		textRect.width -= 4;
 		
 		for(GuiObject object : guiObjects) {
 			object.calculateAnchors();
