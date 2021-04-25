@@ -53,20 +53,19 @@ public abstract class RenderingStage {
 		
 		fbo.bindFrameBuffer();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		renderPrevFBO(prevFBO);
-		draw();
+		draw(prevFBO);
 		fbo.unBind();
 		
 		return fbo;
 	}
 	
-	private void renderPrevFBO(FBO prevFBO) {
+	public void renderPrevFBO(FBO prevFBO) {
 		if(prevFBO == null) return;
 		Renderer2d.prepare();
 		Renderer2d.drawTextureWithTextCoords(prevFBO.getTexture(), window.getRect(), new Rect(0, 1, 1, -1));
 		Renderer2d.unprepare();
 	}
 	
-	public abstract void draw();
+	public abstract void draw(FBO prevFBO);
 	public abstract void windowChangedSize();
 }

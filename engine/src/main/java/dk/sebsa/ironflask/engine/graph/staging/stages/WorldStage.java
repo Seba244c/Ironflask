@@ -2,6 +2,7 @@ package dk.sebsa.ironflask.engine.graph.staging.stages;
 
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
+import dk.sebsa.ironflask.engine.graph.FBO;
 import dk.sebsa.ironflask.engine.graph.staging.RenderingStage;
 
 public class WorldStage extends RenderingStage {
@@ -10,7 +11,8 @@ public class WorldStage extends RenderingStage {
 	}
 
 	@Override
-	public void draw() {
+	public void draw(FBO prevFBO) {
+		renderPrevFBO(prevFBO);
 		WorldManager.onWillRenderAll();
         app.stack.render();
 	}

@@ -1,6 +1,7 @@
 package dk.sebsa.ironflask.engine.graph.staging.stages;
 
 import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.graph.FBO;
 import dk.sebsa.ironflask.engine.graph.staging.RenderingStage;
 
 public class GUIStage extends RenderingStage {
@@ -9,7 +10,8 @@ public class GUIStage extends RenderingStage {
 	}
 
 	@Override
-	public void draw() {
+	public void draw(FBO prevFBO) {
+		renderPrevFBO(prevFBO);
         app.stack.renderGUI();
 	}
 
