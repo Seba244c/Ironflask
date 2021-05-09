@@ -34,6 +34,7 @@ public class Box extends GuiObject {
 
 			return;
 		}
+		shader.setUniform("useColor", 0);
 		
 		//Cache a short variable for the texture, just so we only have to type a character anytime we use it
 		Texture t = e.material.texture;

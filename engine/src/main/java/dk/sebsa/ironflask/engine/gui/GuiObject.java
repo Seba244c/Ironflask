@@ -10,11 +10,13 @@ import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.graph.Shader;
 import dk.sebsa.ironflask.engine.graph.renderers.GuiRenderer;
 import dk.sebsa.ironflask.engine.gui.enums.Anchor;
+import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public abstract class GuiObject {
 	private static final GUIDynamicVector DEFAULT_POS_VECTOR = new GUIDynamicVector(null, null);
+	private static final GUIDynamicVector DEFAULT_SIZ_VECTOR = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 1), new GUIDynamicVar(GUIDynamicType.Fixed, 10));
 	
 	public Parent parent;
 	
@@ -22,7 +24,7 @@ public abstract class GuiObject {
 	public Sprite sprite;
 	private static Sprite defualtSprite;
 	private Anchor anchor;
-	public GUIDynamicVector posistion = DEFAULT_POS_VECTOR;
+	public GUIDynamicVector posistion;
 	public GUIDynamicVector size;
 	public boolean centered;
 	public List<Modifier> modifiers = new ArrayList<>();
@@ -31,6 +33,9 @@ public abstract class GuiObject {
 	
 	public GuiObject(Parent parent) {
 		this.parent = parent;
+		this.posistion = DEFAULT_POS_VECTOR.clone();
+		this.size = DEFAULT_SIZ_VECTOR.clone();
+		
 		parent.addGuiObject(this);
 		
 		if(defualtSprite == null) {

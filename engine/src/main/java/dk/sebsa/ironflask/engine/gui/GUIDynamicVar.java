@@ -19,5 +19,9 @@ public class GUIDynamicVar {
 		}
 		return value * parent.getRect().width;
 	}
+	
+	public GUIDynamicVar clone() {
+		return new GUIDynamicVar(type, value);
+	}
 }
 

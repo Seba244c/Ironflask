@@ -3,6 +3,11 @@ package dk.sebsa.ironflask.engine.ecs;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.core.Event.EventCatagory;
+import dk.sebsa.ironflask.engine.core.Event.EventType;
+import dk.sebsa.ironflask.engine.core.events.WorldChangedEvent;
+
 public class WorldManager {
 	private static World world = new World();
 	private static List<Entity> entities = new ArrayList<>();
@@ -74,7 +79,10 @@ public class WorldManager {
 		return world;
 	}
 
-	public static void setWorld(World world) {
+	public static void setWorld(World world, Application app) {
 		WorldManager.world = world;
+		
+		WorldChangedEvent event = new WorldChangedEvent(EventType.CurrentWorldChanged, EventCatagory.Other, world);
+		app.stack.event(event);
 	}
 }

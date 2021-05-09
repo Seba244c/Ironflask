@@ -8,11 +8,12 @@ public class Event {
 		WindowClose, WindowResize, WindowMinimize, WindowUnMinimize, WindowMoved,	// DONE
 		AppUpdate, AppLate, AppRender,												// DONE
 		KeyPressed, KeyReleased, CharEvent,											// DONE
-		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled			// DONE
+		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,			// DONE
+		CurrentWorldChanged
 	}
 	
 	public enum EventCatagory {
-		Window, Input, App
+		Window, Input, App, Other
 	}
 	
 	public String name;

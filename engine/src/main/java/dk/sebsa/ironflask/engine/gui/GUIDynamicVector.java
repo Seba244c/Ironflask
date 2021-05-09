@@ -1,5 +1,6 @@
 package dk.sebsa.ironflask.engine.gui;
 
+import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class GUIDynamicVector {
@@ -13,22 +14,27 @@ public class GUIDynamicVector {
 	public GUIDynamicVector(GUIDynamicVar x, GUIDynamicVar y) {
 		this.x = x;
 		this.y = y;
+		
+		if(x == null) {
+			this.x = new GUIDynamicVar(GUIDynamicType.Dynamic, 0);
+		}
+		if(y == null) {
+			this.y = new GUIDynamicVar(GUIDynamicType.Dynamic, 0);
+		}
 	}
 	
 	public Vector2f calculate(Parent parent) {
 		float xf, yf;
-		if(x != null)
-			xf = x.calculate(parent, false);
-		else
-			xf = 0;
+		xf = x.calculate(parent, false);
 		
-		if(y != null)
-			yf = y.calculate(parent, true);
-		else
-			yf = 0;
+		yf = y.calculate(parent, true);
 
 		if(yf % 1 != 0) yf += 0.5f;
 		if(xf % 1 != 0) xf += 0.5f;
 		return new Vector2f(xf, yf);
+	}
+	
+	public GUIDynamicVector clone() {
+		return new GUIDynamicVector(x.clone(), y.clone());
 	}
 }

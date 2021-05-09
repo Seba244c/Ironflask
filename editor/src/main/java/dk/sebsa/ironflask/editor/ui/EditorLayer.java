@@ -78,5 +78,9 @@ public class EditorLayer extends Layer {
 		modules.add(inspector);
 		modules.add(world);
 		modules.add(asset);
+		
+		for(Module module : modules) {
+			module.init();
+		}
 	}
 }

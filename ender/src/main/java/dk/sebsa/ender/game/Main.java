@@ -25,7 +25,7 @@ public class Main {
 		game = new Application("Project Ender", isDebug, Main::loadingFinished);
 		
 		// Set world
-		WorldManager.setWorld(mainMenuWorld);
+		WorldManager.setWorld(mainMenuWorld, game);
 		
 		// Layers
 		debug = new Debug(game);
@@ -52,13 +52,13 @@ public class Main {
 			UILayer.setEnabled(false);
 			enderGame.setEnabled(false);
 			mainmenu.setEnabled(true);
-			WorldManager.setWorld(mainMenuWorld);
+			WorldManager.setWorld(mainMenuWorld, game);
 			MusicManager.start(Songs.MainMenu);
 		} else {
 			UILayer.setEnabled(true);
 			enderGame.setEnabled(true);
 			mainmenu.setEnabled(false);
-			WorldManager.setWorld(testWorld);
+			WorldManager.setWorld(testWorld, game);
 			MusicManager.start(Songs.Game);
 		}
 	}
