@@ -47,6 +47,7 @@ public class Application {
 	public AppState state = AppState.Loading;
 	private byte logic = 1;
 	private Consumer<Application> loadingFinishedCallback;
+	public Consumer<Application> loadCallback;
 	
 	public LoadingThread loadingThread;
 
@@ -71,9 +72,9 @@ public class Application {
 		loadingThread.start();
 	}
 	
-	public Application(String name, boolean isDebug, Consumer<Application> loadingFinishedCallback, Color clearColor) {
+	public Application(String name, boolean isDebug, Consumer<Application> loadingFinishedCallback, Consumer<Application> loadCallback) {
 		this(name, isDebug, loadingFinishedCallback);
-		window.setClearColor(clearColor);
+		this.loadCallback = loadCallback;
 	}
 	
 	public void pauseLogic(boolean pause) {
@@ -100,7 +101,11 @@ public class Application {
 						glfwMakeContextCurrent(window.windowId);
 						AL.createCapabilities(audioManager.deviceCaps);
 				        alcMakeContextCurrent(audioManager.context);
-				        loadingFinishedCallback.accept(this);
+				        
+				        if(loadingFinishedCallback != null) loadingFinishedCallback.accept(this);
+				        Event event = new Event(EventType.AppFinishedLoading, EventCatagory.App);
+			    		event.oneLayer = false;
+			            event.dispatch(stack);
 					}
 				} else runningState();
 			}

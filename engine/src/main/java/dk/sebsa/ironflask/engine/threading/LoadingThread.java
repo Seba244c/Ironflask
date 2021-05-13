@@ -105,6 +105,10 @@ public class LoadingThread extends Thread {
 			AssetManager.loadAllResources(Paths.get(".").toAbsolutePath().normalize().toString() + "/resources/");
 		} catch (Exception e) { state = ThreadState.Failed; e.printStackTrace(); return; }
 		
+		// Extra
+		renderLoadScreen(false, 0.55f);
+		app.loadCallback.accept(app);
+		
 		// Renderers
 		renderLoadScreen(false, 0.6f);
 		app.skyboxRenderer = new SkyboxRenderer(app);

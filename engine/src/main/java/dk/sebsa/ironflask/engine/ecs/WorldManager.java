@@ -70,7 +70,7 @@ public class WorldManager {
 	
 	public static Entity getEntity(String id) {
 		for(Entity entity : entities) {
-			if(entity.getId().equals(id)) return entity;
+			if(entity.getId().equals(id) || entity.getName().equals(id)) return entity;
 		}
 		return null;
 	}

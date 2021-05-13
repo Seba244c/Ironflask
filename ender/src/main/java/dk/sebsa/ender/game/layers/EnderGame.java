@@ -6,6 +6,8 @@ import org.lwjgl.glfw.GLFW;
 import dk.sebsa.ender.game.Main;
 import dk.sebsa.ender.game.components.OrbitCamera;
 import dk.sebsa.ender.game.components.PlayerMovement;
+import dk.sebsa.ender.game.components.Test;
+import dk.sebsa.ender.game.skill.Creature;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Layer;
@@ -87,9 +89,10 @@ public class EnderGame extends Layer {
 		
 		// Player
 		PlayerMovement pm = new PlayerMovement();
-		player = new Entity(Main.testWorld);
+		player = new Creature(Main.testWorld, "Player");
 		player.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), Material.getMaterial("player"), Shader.getShader("default")));
 		player.addComponent(pm);
+		if(Main.isDebug) player.addComponent(new Test());
 		player.doNotDelete();
 		// Camera
 		OrbitCamera oc = new OrbitCamera(player);

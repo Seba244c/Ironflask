@@ -6,7 +6,7 @@ import dk.sebsa.ironflask.engine.enums.*;
 public class Event {
 	public enum EventType {
 		WindowClose, WindowResize, WindowMinimize, WindowUnMinimize, WindowMoved,	// DONE
-		AppUpdate, AppLate, AppRender,												// DONE
+		AppUpdate, AppLate, AppRender, AppFinishedLoading,							// DONE
 		KeyPressed, KeyReleased, CharEvent,											// DONE
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,			// DONE
 		CurrentWorldChanged

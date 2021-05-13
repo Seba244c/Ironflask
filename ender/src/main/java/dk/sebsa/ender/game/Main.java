@@ -5,6 +5,7 @@ import dk.sebsa.ender.game.layers.Debug;
 import dk.sebsa.ender.game.layers.EnderGame;
 import dk.sebsa.ender.game.layers.MainMenu;
 import dk.sebsa.ender.game.layers.UILayer;
+import dk.sebsa.ender.game.skill.SkillManager;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.ecs.World;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
@@ -22,7 +23,7 @@ public class Main {
 	public static World testWorld = new World();
 	
 	public static void main(String[] args) {
-		game = new Application("Project Ender", isDebug, Main::loadingFinished);
+		game = new Application("Project Ender", isDebug, Main::loadingFinished, Main::load);
 		
 		// Set world
 		WorldManager.setWorld(mainMenuWorld, game);
@@ -63,10 +64,11 @@ public class Main {
 		}
 	}
 	
+	public static void load(Application app) {
+		SkillManager.init();
+	}
+	
 	public static void loadingFinished(Application app) {
-		// Pipeline Modification
-//		app.addRenderingStage(new FlipStage(app, FlipDirection.Vertical));
-		
 		// Audio
 		MusicManager.init();
 		MusicManager.start(Songs.MainMenu);

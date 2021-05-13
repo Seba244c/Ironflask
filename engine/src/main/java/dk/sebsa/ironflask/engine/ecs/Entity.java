@@ -212,4 +212,10 @@ public class Entity {
 	public void doNotDelete() {
 		this.doNotDelete = true;
 	}
+	
+	@Override
+	public String toString() {
+		if(name != "New Entity") return "Entity(" + name + ")";
+		else return "Entity(" + id + ")";
+	}
 }

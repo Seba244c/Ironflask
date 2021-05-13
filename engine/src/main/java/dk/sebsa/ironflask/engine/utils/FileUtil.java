@@ -21,9 +21,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.lwjgl.BufferUtils;
 
 public class FileUtil {
+	private static final JSONParser parser = new JSONParser();
+	
 	public static String loadResource(String fileName) throws Exception {
         String result;
         try (InputStream in = FileUtil.class.getResourceAsStream(fileName);
@@ -116,6 +121,54 @@ public class FileUtil {
 		}
 		
 		return e;
+	}
+	
+	private static String readAnyFileRC(String location) throws Exception {
+		if(location.startsWith("/")) return loadResource(location);
+		
+		String e = "";
+		for(String line : readAllLines(location)) {
+			if(isComment(line)) continue;
+			e += line + "\n";
+		}
+		
+		return e;
+	}
+	
+	public static JSONObject loadJson(String fileName) {
+		String file = "";
+		try {
+			file = readAnyFileRC(fileName);
+			JSONObject json = (JSONObject) parser.parse(file);
+			
+			return json;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static JSONArray loadJsonArray(String fileName) {
+		String file = "";
+		try {
+			file = readAnyFileRC(fileName);
+			JSONArray json = (JSONArray) parser.parse(file);
+			
+			return json;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private static boolean isComment(String line) {
+		while (line.startsWith(" ") || line.startsWith("\t")) {
+			line = line.replaceFirst("\t", "");
+			line = line.replaceFirst(" ", "");
+		}
+		
+		if(line.startsWith("//")) return true;
+		return false;
 	}
 	
 	public static ByteBuffer resizeBuffer(ByteBuffer buffer, int newCapacity) {
