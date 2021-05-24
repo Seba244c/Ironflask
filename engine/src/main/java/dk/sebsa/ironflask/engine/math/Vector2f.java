@@ -24,14 +24,16 @@ public class Vector2f {
 		this.y = 0;
 	}
 	
-	public void set(Vector2f v) {
+	public Vector2f set(Vector2f v) {
 		this.x = v.x;
 		this.y = v.y;
+		return this;
 	}
 	
-	public void set(float x, float y) {
+	public Vector2f set(float x, float y) {
 		this.x = x;
 		this.y = y;
+		return this;
 	}
 	
 	public Vector2f add(float v) { return new Vector2f(x + v, y + v); }

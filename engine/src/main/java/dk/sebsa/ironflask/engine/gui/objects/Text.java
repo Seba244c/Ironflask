@@ -29,18 +29,21 @@ public class Text extends GuiObject {
 		draw(shader, mesh, r, label, false, scale);
 	}
 	
+	private static Rect r1 = new Rect();
+	private static Rect r2 = new Rect();
 	public static void draw(Shader shader, Mesh2d mesh, Rect rect, Label label, boolean centered, float scale) {
-		Rect r = new Rect(rect.x, rect.y, rect.width, rect.height);
+		float rx = rect.x;
+		float ry = rect.y;
 		
 		if(centered) {
-			r.x = r.x + r.width/2;
-			r.x -= r.width/2;
+			rx += rect.width/2;
+			rx -= rect.width/2;
 		}
-		if(r.x % 1 != 0) r.x += 0.5f;
-		if(r.y % 1 != 0) r.y += 0.5f;
+		if(rx % 1 != 0) rx += 0.5f;
+		if(ry % 1 != 0) ry += 0.5f;
 		
 		Map<Character, Glyph> chars = label.font.getChars();
-		float tempX = r.x;
+		float tempX = rx;
 		char[] c = label.getCharArray();
 		
 		label.font.getTexture().bind();
@@ -49,7 +52,7 @@ public class Text extends GuiObject {
 		for(int i = 0; i < c.length; i++) {
 			Glyph glyph = chars.get(c[i]);
 
-			Renderer2d.drawTextureWithTextCoords(null, new Rect(tempX, r.y, glyph.scale.x, glyph.scale.y), new Rect(glyph.position.x, glyph.position.y, glyph.size.x, glyph.size.y), shader);
+			Renderer2d.drawTextureWithTextCoords(null, r1.set(tempX, ry, glyph.scale.x, glyph.scale.y), r2.set(glyph.position.x, glyph.position.y, glyph.size.x, glyph.size.y), shader);
 			
 			tempX += glyph.scale.x*scale;
 		}

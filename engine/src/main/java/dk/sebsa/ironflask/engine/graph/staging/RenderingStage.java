@@ -59,10 +59,11 @@ public abstract class RenderingStage {
 		return fbo;
 	}
 	
+	private static Rect r = new Rect(0, 1, 1, -1);
 	public void renderPrevFBO(FBO prevFBO) {
 		if(prevFBO == null) return;
 		Renderer2d.prepare();
-		Renderer2d.drawTextureWithTextCoords(prevFBO.getTexture(), window.getRect(), new Rect(0, 1, 1, -1));
+		Renderer2d.drawTextureWithTextCoords(prevFBO.getTexture(), window.getRect(), r);
 		Renderer2d.unprepare();
 	}
 	

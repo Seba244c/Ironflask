@@ -23,17 +23,23 @@ public class Rect {
 		return !(x > r.x + r.width || x + width < r.x || y > r.y + r.height || y + height < r.y);
 	}
 	
-	public Rect getIntersection(Rect r) {
-		if(!intersects(r)) return null;
-		Vector2f v = new Vector2f(Math.max(x, r.x), Math.max(y, r.y));
-		return new Rect(v.x, v.y, Math.min(x + width, r.x + r.width) - v.x, Math.min(y + height, r.y + r.height) - v.y);
+	public void getIntersection(Rect r, Rect output) {
+		if(!intersects(r)) return;
+		float vx = Math.max(x, r.x);
+		float vy = Math.max(y, r.y);
+		output.set(vx, vy, Math.min(x + width, r.x + r.width) - vx, Math.min(y + height, r.y + r.height) - vy);
 	}
 	
-	public void set(float x, float y, float w, float h) {
+	public Rect set(float x, float y, float w, float h) {
 		this.x = x;
 		this.y = y;
 		this.width = w;
 		this.height = h;
+		return this;
+	}
+	
+	public Rect set(Rect r) {
+		return set(r.x, r.y, r.width, r.height);
 	}
 	
 	public Rect add(float x, float y, float w, float h) {
@@ -57,7 +63,7 @@ public class Rect {
 	}
 	
 	public Rect addToNew(Rect r) {
-		return copy().add(r);
+		return new Rect(x,y,width,height).add(r);
 	}
 	
 	public void addPosition(float x, float y) {
@@ -68,10 +74,6 @@ public class Rect {
 	public void addPosition(Rect r) {
 		this.x += r.x;
 		this.y += r.y;
-	}
-	
-	public Rect copy() {
-		return new Rect(x, y, width, height);
 	}
 	
 	public Rect(Vector2f pos, Vector2f scale) {

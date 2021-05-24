@@ -1,5 +1,6 @@
 package dk.sebsa.ironflask.editor.ui.modules;
 
+import dk.sebsa.ironflask.editor.ui.EditorLayer;
 import dk.sebsa.ironflask.editor.ui.Module;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
@@ -14,8 +15,8 @@ public class WorldView extends Module {
 	private World world;
 	private GuiList list;
 	
-	public WorldView(String title, Sprite window) {
-		super(title, window);
+	public WorldView(String title, Sprite window, EditorLayer editor) {
+		super(title, window, editor);
 	}
 	
 	@Override

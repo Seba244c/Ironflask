@@ -42,6 +42,8 @@ public class LoadingThread extends Thread {
 		this.capabilities = app.window.capabilities;
 	}
 	
+	private Rect r = new Rect();
+	private Rect r2 = new Rect();
 	public void renderLoadScreen(boolean createAssets, float load) {
 		LoggingUtil.coreLog(Severity.Info, "Rendering Splash Screen");
 		if(createAssets) {
@@ -59,7 +61,7 @@ public class LoadingThread extends Thread {
 		// Splash icon
 		Renderer2d.prepare();
 		
-		Renderer2d.drawTextureWithTextCoords(Texture.getTexture("Splash.png"), new Rect(0, 0, app.window.getWidth(), app.window.getHeight()), new Rect(0, 0, 1,1));
+		Renderer2d.drawTextureWithTextCoords(Texture.getTexture("Splash.png"), r.set(0, 0, app.window.getWidth(), app.window.getHeight()), r2.set(0, 0, 1,1));
 		if(load != -1f) {
 			float cutOff = app.window.getWidth() * 0.2f;
 			float cutOffPrSide = cutOff/2;
@@ -67,11 +69,11 @@ public class LoadingThread extends Thread {
 			// White
 			float y = app.window.getHeight()*0.8f;
 			Renderer2d.defaultShader.setUniformAlt("color", Color.darkGrey());
-			Renderer2d.drawTextureWithTextCoords(Texture.getTexture("Pixel.png"), new Rect(cutOffPrSide, y, app.window.getWidth()*0.8f, 35), new Rect(0, 0, 1,1));
+			Renderer2d.drawTextureWithTextCoords(Texture.getTexture("Pixel.png"), r.set(cutOffPrSide, y, app.window.getWidth()*0.8f, 35), r2.set(0, 0, 1,1));
 			
 			// Red
 			Renderer2d.defaultShader.setUniformAlt("color", Color.dimGrey());
-			Renderer2d.drawTextureWithTextCoords(Texture.getTexture("Pixel.png"), new Rect(cutOffPrSide+4, y+5, (app.window.getWidth()*0.8f-8)*load, 35-10), new Rect(0, 0, 1,1));
+			Renderer2d.drawTextureWithTextCoords(Texture.getTexture("Pixel.png"), r.set(cutOffPrSide+4, y+5, (app.window.getWidth()*0.8f-8)*load, 35-10), r2.set(0, 0, 1,1));
 		}
 		
 		Renderer2d.unprepare();
@@ -107,7 +109,7 @@ public class LoadingThread extends Thread {
 		
 		// Extra
 		renderLoadScreen(false, 0.55f);
-		app.loadCallback.accept(app);
+		if(app.loadCallback != null) app.loadCallback.accept(app);
 		
 		// Renderers
 		renderLoadScreen(false, 0.6f);

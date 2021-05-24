@@ -8,9 +8,11 @@ import dk.sebsa.ironflask.engine.gui.Window;
 
 public abstract class Module {
 	public Window guiWindow;
+	public EditorLayer editor;
 	
-	public Module(String title, Sprite window) {
+	public Module(String title, Sprite window, EditorLayer editor) {
 		guiWindow = new Window(title, window);
+		this.editor = editor;
 	}
 	
 	public abstract void init();

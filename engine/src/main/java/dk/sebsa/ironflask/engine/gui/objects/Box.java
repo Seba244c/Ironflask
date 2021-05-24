@@ -10,7 +10,6 @@ import dk.sebsa.ironflask.engine.graph.renderers.Renderer2d;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
 import dk.sebsa.ironflask.engine.gui.Parent;
 import dk.sebsa.ironflask.engine.gui.Sprite;
-import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class Box extends GuiObject {
 	public Box(Parent parent) {
@@ -26,8 +25,8 @@ public class Box extends GuiObject {
 		if(!e.material.isTextured()) {
 			shader.setUniform("useColor", 1);
 			
-			shader.setUniform("pixelScale", new Vector2f(r.width, r.height));
-			shader.setUniform("screenPos", new Vector2f(r.x, r.y));
+			shader.setUniform("pixelScale", r.width, r.height);
+			shader.setUniform("screenPos", r.x, r.y);
 			shader.setUniformAlt("backgroundColor", e.material.getColor());
 
 			mesh.render();

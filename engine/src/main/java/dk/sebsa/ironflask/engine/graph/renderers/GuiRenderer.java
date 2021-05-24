@@ -18,7 +18,6 @@ import dk.sebsa.ironflask.engine.gui.objects.Text;
 import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.math.Mathf;
 import dk.sebsa.ironflask.engine.math.Matrix4x4;
-import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class GuiRenderer {
 	private Mesh2d guiMesh;
@@ -82,8 +81,8 @@ public class GuiRenderer {
 	
 	private void renderWindowBorderless(Window window) {
 		shader.setUniform("useColor", 1);
-		shader.setUniform("pixelScale", new Vector2f(window.renderRect.width, window.renderRect.height));
-		shader.setUniform("screenPos", new Vector2f(window.renderRect.x, window.renderRect.y));
+		shader.setUniform("pixelScale", window.renderRect.width, window.renderRect.height);
+		shader.setUniform("screenPos", window.renderRect.x, window.renderRect.y);
 		shader.setUniformAlt("backgroundColor", window.getBackgroundColor());
 		guiMesh.render();
 		
@@ -98,10 +97,11 @@ public class GuiRenderer {
 		Renderer2d.setBounds(null);
 	}
 	
+	private Rect r = new Rect();
 	public void renderObject(GuiObject object, Parent window) {
 		object.update();
 		
-		Rect r = new Rect(object.rect.x + window.getRect().x, object.rect.y + window.getRect().y, object.rect.width, object.rect.height);
+		r.set(object.rect.x + window.getRect().x, object.rect.y + window.getRect().y, object.rect.width, object.rect.height);
 		
 		r.width = Mathf.clamp(r.width, 0, window.getRect().width);
 		r.height = Mathf.clamp(r.height, 0, window.getRect().height);

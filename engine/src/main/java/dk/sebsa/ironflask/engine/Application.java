@@ -49,6 +49,8 @@ public class Application {
 	private Consumer<Application> loadingFinishedCallback;
 	public Consumer<Application> loadCallback;
 	
+	private Event updateEvent;
+	
 	public LoadingThread loadingThread;
 
 	public SkyboxRenderer skyboxRenderer;
@@ -70,6 +72,9 @@ public class Application {
 		glfwMakeContextCurrent(MemoryUtil.NULL);
 		loadingThread = new LoadingThread(stack, this);
 		loadingThread.start();
+		
+		updateEvent = new Event(EventType.AppUpdate, EventCatagory.App);
+		updateEvent.oneLayer = false;
 	}
 	
 	public Application(String name, boolean isDebug, Consumer<Application> loadingFinishedCallback, Consumer<Application> loadCallback) {
@@ -151,6 +156,7 @@ public class Application {
 		glfwPollEvents();
 	}
 	
+	private Rect r = new Rect(0, 1, 1, -1);
 	public void render() {
 		FBO fbo = null;
 		for(RenderingStage stage : pipeline) {
@@ -158,7 +164,7 @@ public class Application {
 		}
 
 		Renderer2d.prepare();
-		Renderer2d.drawTextureWithTextCoords(fbo.getTexture(), window.getRect(), new Rect(0, 1, 1, -1));
+		Renderer2d.drawTextureWithTextCoords(fbo.getTexture(), window.getRect(), r);
 		Renderer2d.unprepare();
 	}
 	
@@ -184,9 +190,8 @@ public class Application {
 		if(logic == 1) {
 			WorldManager.getAllEntities();
 			WorldManager.updateAll();
-			Event event = new Event(EventType.AppUpdate, EventCatagory.App);
-			event.oneLayer = false;
-	        event.dispatch(stack);
+			
+			updateEvent.dispatch(stack);
 	        WorldManager.lateUpdateAll();
 		}
         

@@ -19,6 +19,7 @@ import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.enums.*;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.utils.CommandUtils;
+
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.flag.ImGuiInputTextFlags;
@@ -88,7 +89,11 @@ public abstract class ImGuiLayer extends Layer {
 		imGuiGlImp.dispose();
 		ImGui.destroyContext();
 	}
-	
+
+	private static Color logError = Color.logError();
+	private static Color logWarning = Color.logWarning();
+	private static Color logInfo = Color.logInfo();
+	private static Color logTrace = Color.logTrace();
 	public void draw() {
 		// aft
 		DecimalFormat df = new DecimalFormat("#.#####");
@@ -101,16 +106,6 @@ public abstract class ImGuiLayer extends Layer {
 		ImGui.text("FPS: " + application.window.getFps());
 		ImGui.text("AFT: " + aft);
 		
-		// memory,
-		double maxMem = Runtime.getRuntime().maxMemory() / (double)(1024 * 1024);
-		double freMem = Runtime.getRuntime().freeMemory() / (double)(1024 * 1024);
-		double usedMem = maxMem-freMem;
-		ImGui.newLine();
-		ImGui.text("Memory Stats:");
-		ImGui.text("Memory Allocated: " + Math.round(maxMem) + "MB");
-		ImGui.text("Memory Used: " + Math.round(usedMem) + "/" + Math.round(maxMem) + "MB");
-		ImGui.text("Memory Free: " + Math.round(freMem) + "MB");
-
 		ImGui.end();
 		
 		// Engine settings
@@ -138,10 +133,10 @@ public abstract class ImGuiLayer extends Layer {
 		for(Log log : Log.logs) {
 			if(log.severity == Severity.Trace && LoggingUtil.traceLog == false) continue;
 			Color textColor;
-			if(log.severity == Severity.Error) 			textColor = Color.logError();
-			else if(log.severity == Severity.Warning) 	textColor = Color.logWarning();
-			else if(log.severity == Severity.Info) 		textColor = Color.logInfo();
-			else 										textColor = Color.logTrace();
+			if(log.severity == Severity.Error) 			textColor = logError;
+			else if(log.severity == Severity.Warning) 	textColor = logWarning;
+			else if(log.severity == Severity.Info) 		textColor = logInfo;
+			else 										textColor = logTrace;
 			ImGui.textColored(textColor.r, textColor.g, textColor.b, 1f, log.toString());
 		}
 		ImGui.endChild();

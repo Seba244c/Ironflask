@@ -15,8 +15,9 @@ public abstract class Animation {
 		this.time = time;
 	}
 	
+	private Rect r = new Rect();
 	public void prepare(GuiObject obj, Rect input) {
-		this.endGoal = input.copy();
+		this.endGoal = r.set(input);
 		ready = true;
 		now = 0;
 		prepareRect(obj, input);

@@ -20,7 +20,7 @@ public abstract class GuiObject {
 	
 	public Parent parent;
 	
-	public Rect rect;
+	public Rect rect = new Rect();
 	public Sprite sprite;
 	private static Sprite defualtSprite;
 	private Anchor anchor;
@@ -63,7 +63,7 @@ public abstract class GuiObject {
 	public void calculateAnchors() {
 		Vector2f sizeVector2f = size.calculate(parent);
 		Vector2f pos = posistion.calculate(parent);
-		rect = new Rect(0, 0, sizeVector2f.x, sizeVector2f.y);
+		rect.set(0, 0, sizeVector2f.x, sizeVector2f.y);
 		
 		if(anchor == Anchor.BottomLeft) {
 			rect.y = parent.getRect().height;
@@ -109,8 +109,9 @@ public abstract class GuiObject {
 		if(rect.y % 1 != 0) rect.y += 0.5f;
 	}
 	
+	private Rect drawRect = new Rect();
 	public void draw(Shader shader, Mesh2d mesh, Rect r, GuiRenderer renderer) {
-		Rect drawRect = r.copy();
+		drawRect.set(r);
 		if(scale != 1) {
 			float w = drawRect.width * scale;
 			float h = drawRect.height * scale;

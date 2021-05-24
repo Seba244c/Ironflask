@@ -9,7 +9,6 @@ import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.io.Window;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.math.Matrix4x4;
-import dk.sebsa.ironflask.engine.math.Vector2f;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -41,6 +40,7 @@ public class Renderer2d {
 		guiMesh.cleanup();
 	}
 	
+	private static Color white = Color.white(); // Create once so theres no leak
 	public static void prepare() {
 		// Disable 3d
 		glDisable(GL_DEPTH_TEST);
@@ -49,7 +49,7 @@ public class Renderer2d {
 		defaultShader.bind();
 		ortho = Matrix4x4.ortho(0, window.getWidth(), window.getHeight(), 0, -1, 1);
 		defaultShader.setUniform("projection", ortho);
-		defaultShader.setUniformAlt("color", Color.white());
+		defaultShader.setUniformAlt("color", white);
 		guiMesh.bind();
 		
 		// Bounds
@@ -73,20 +73,23 @@ public class Renderer2d {
 		drawTextureWithTextCoords(tex, drawRect, uvRect, guiMesh, defaultShader);
 	}
 	
+	private static Rect u = new Rect(0,0,0,0);
+	private static Rect r = new Rect(0,0,0,0);
+	private static Rect r2 = new Rect(0,0,0,0);
 	public static void drawTextureWithTextCoords(Texture tex, Rect drawRect, Rect uvRect, Mesh2d mesh, Shader shader) {
-		Rect r = bounds.getIntersection(new Rect(drawRect.x, drawRect.y, drawRect.width, drawRect.height));
+		bounds.getIntersection(r2.set(drawRect.x, drawRect.y, drawRect.width, drawRect.height), r);
 		if(r == null) return;
 		
 		// uvreact
 		float x = uvRect.x + (((r.x - drawRect.x) / drawRect.width) * uvRect.width);
 		float y = uvRect.y + (((r.y - drawRect.y) / drawRect.height) * uvRect.height);
-		Rect u = new Rect(x, y, (r.width / drawRect.width) * uvRect.width, (r.height / drawRect.height) * uvRect.height);
+		u.set(x, y, (r.width / drawRect.width) * uvRect.width, (r.height / drawRect.height) * uvRect.height);
 		
 		// Draw
 		if(tex != null) tex.bind();
 		shader.setUniform("offset", u.x, u.y, u.width, u.height);
-		shader.setUniform("pixelScale", new Vector2f(r.width, r.height));
-		shader.setUniform("screenPos", new Vector2f(r.x, r.y));
+		shader.setUniform("pixelScale", r.width, r.height);
+		shader.setUniform("screenPos", r.x, r.y);
 		
 		guiMesh.render();
 	}

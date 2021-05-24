@@ -8,6 +8,7 @@ import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
+import dk.sebsa.ironflask.engine.ecs.Entity;
 import dk.sebsa.ironflask.engine.enums.Languages;
 import dk.sebsa.ironflask.engine.gui.Constraint;
 import dk.sebsa.ironflask.engine.gui.GUIDynamicVar;
@@ -21,6 +22,8 @@ public class EditorLayer extends Layer {
 	private Application app;
 	private Sprite window;
 	private List<Module> modules = new ArrayList<>();
+	public Entity selected;
+	public Object inspected;
 	
 	public EditorLayer(Application app) {
 		guiLayer = true;
@@ -65,9 +68,9 @@ public class EditorLayer extends Layer {
 		window = sheet.getSprite("Window");
 		
 		// Create window layout
-		Module inspector	 = new Inspector(LocalizationManager.getString("gui.inspectorWindow.title"), window);
-		Module world		 = new WorldView(LocalizationManager.getString("gui.worldWindow.title"), window);
-		Module asset		 = new Assets(LocalizationManager.getString("gui.assetWindow.title"), window);
+		Module inspector	 = new Inspector(LocalizationManager.getString("gui.inspectorWindow.title"), window, this);
+		Module world		 = new WorldView(LocalizationManager.getString("gui.worldWindow.title"), window, this);
+		Module asset		 = new Assets(LocalizationManager.getString("gui.assetWindow.title"), window, this);
 		
 		world.addCosntraint(new Constraint(ConstraintSide.Bottom, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.3f)));
 		world.addCosntraint(new Constraint(ConstraintSide.Right, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f)));

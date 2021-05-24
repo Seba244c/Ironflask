@@ -17,8 +17,8 @@ public class Window implements Parent {
 	protected List<Constraint> constraints = new ArrayList<>();
 	private Color backgroundColor = Color.black();
 	public Rect rect;
-	public Rect textRect;
-	public Rect renderRect;
+	public Rect textRect = new Rect();
+	public Rect renderRect = new Rect();
 	public Label label;
 	private static Font font;
 	public float fontHeight;
@@ -102,9 +102,9 @@ public class Window implements Parent {
 				}
 			}
 		}
-		
-		renderRect = rect.copy();
-		textRect = rect.copy();
+
+		renderRect.set(rect);
+		textRect.set(rect);
 		if(!borderless) {
 			// Top & Text
 			rect.y += style.padding.y;

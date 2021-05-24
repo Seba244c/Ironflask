@@ -17,7 +17,6 @@ import dk.sebsa.ironflask.engine.io.LoggingUtil;
 import dk.sebsa.ironflask.engine.enums.*;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.math.Matrix4x4;
-import dk.sebsa.ironflask.engine.math.Vector2f;
 import dk.sebsa.ironflask.engine.utils.FileUtil;
 
 public class Shader extends Asset {
@@ -40,7 +39,8 @@ public class Shader extends Asset {
         uniforms = new HashMap<>();
         
         // Create and verify shader
-        String[] str = FileUtil.loadResource("/shaders" + name + ".glsl").split("///#ENDVERTEX");
+        System.out.println(name);
+        String[] str = FileUtil.readAnyFile("/shaders" + name + ".glsl").split("///#ENDVERTEX");
         createVertexShader(str[0]);
         createFragmentShader(str[1]);
         link();
@@ -93,8 +93,8 @@ public class Shader extends Asset {
 		glUniform4f(uniforms.get(uniformName), x, y, z, w);
 	}
 	
-	public void setUniform(String uniformName, Vector2f value) {
-		glUniform2f(uniforms.get(uniformName), value.x, value.y);
+	public void setUniform(String uniformName, float x, float y) {
+		glUniform2f(uniforms.get(uniformName), x, y);
 	}
 
 
