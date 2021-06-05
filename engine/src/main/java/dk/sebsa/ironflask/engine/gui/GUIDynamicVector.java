@@ -6,7 +6,7 @@ import dk.sebsa.ironflask.engine.math.Vector2f;
 public class GUIDynamicVector {
 	public GUIDynamicVar x;
 	public GUIDynamicVar y;
-	private Vector2f v = new Vector2f();
+	public Vector2f v = new Vector2f();
 	
 	public GUIDynamicVector() {
 		
@@ -29,7 +29,7 @@ public class GUIDynamicVector {
 		xf = x.calculate(parent, false);
 		
 		yf = y.calculate(parent, true);
-
+		
 		if(yf % 1 != 0) yf += 0.5f;
 		if(xf % 1 != 0) xf += 0.5f;
 		return v.set(xf, yf);

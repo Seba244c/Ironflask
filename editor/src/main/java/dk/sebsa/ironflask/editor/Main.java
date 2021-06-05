@@ -2,6 +2,7 @@ package dk.sebsa.ironflask.editor;
 
 import dk.sebsa.ironflask.editor.ui.EditorLayer;
 import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.ecs.Entity;
 
 public class Main {
 	private static Application game;
@@ -9,6 +10,10 @@ public class Main {
 	
 	public static void main(String[] args) {
 		game = new Application("Ironflask Editor", isDebug, Main::finishedLoading);
+		
+		Entity e =new Entity("JE");
+		new Entity("JE2").parent(e);
+		new Entity("E");
 		
 		game.stack.addLayerToTop(new EditorLayer(game));
 		

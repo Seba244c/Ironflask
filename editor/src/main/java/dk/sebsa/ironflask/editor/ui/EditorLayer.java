@@ -68,9 +68,9 @@ public class EditorLayer extends Layer {
 		window = sheet.getSprite("Window");
 		
 		// Create window layout
-		Module inspector	 = new Inspector(LocalizationManager.getString("gui.inspectorWindow.title"), window, this);
-		Module world		 = new WorldView(LocalizationManager.getString("gui.worldWindow.title"), window, this);
-		Module asset		 = new Assets(LocalizationManager.getString("gui.assetWindow.title"), window, this);
+		Module inspector	 = new Inspector(LocalizationManager.getString("gui.inspectorWindow.title"), window, this, app);
+		Module world		 = new WorldView(LocalizationManager.getString("gui.worldWindow.title"), window, this, app);
+		Module asset		 = new Assets(LocalizationManager.getString("gui.assetWindow.title"), window, this, app);
 		
 		world.addCosntraint(new Constraint(ConstraintSide.Bottom, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.3f)));
 		world.addCosntraint(new Constraint(ConstraintSide.Right, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f)));

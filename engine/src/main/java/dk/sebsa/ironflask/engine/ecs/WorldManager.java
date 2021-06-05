@@ -84,5 +84,7 @@ public class WorldManager {
 		
 		WorldChangedEvent event = new WorldChangedEvent(EventType.CurrentWorldChanged, EventCatagory.Other, world);
 		app.stack.event(event);
+		
+		Runtime.getRuntime().gc();
 	}
 }

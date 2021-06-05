@@ -43,9 +43,9 @@ public class Matrix4x4 {
 	}
 	
 	public void setTransformation(Vector2f p, float r, Vector2f s) {
-		float radians = (float)Math.toRadians(r);
-		float cos = (float)Math.cos(radians);
-		float sin = (float)Math.sin(radians);
+		float radians = (float)java.lang.Math.toRadians(r);
+		float cos = (float)java.lang.Math.cos(radians);
+		float sin = (float)java.lang.Math.sin(radians);
 		
 		m[0][0] = cos * s.x; m[0][1] = sin * s.y; 
 		m[1][0] = -sin * s.x; m[1][1] = cos * s.y; 

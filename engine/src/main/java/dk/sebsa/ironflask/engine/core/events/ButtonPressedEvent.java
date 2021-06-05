@@ -8,4 +8,5 @@ public class ButtonPressedEvent extends Event {
 	}
 
 	public int button;
+	public float x, y;
 }

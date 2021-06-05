@@ -104,7 +104,7 @@ public class UILayer extends Layer {
 		guiObject.size = 		new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Dynamic, 1f), new GUIDynamicVar(GUIDynamicType.Dynamic, 1f));
 		
 		// Quit Button
-		guiObject = new Button(pauseMenu, app.input, this::quitButton, new Label(LocalizationManager.getString("gui.pauseMenu.quit"), buttonFont), false);
+		guiObject = new Button(pauseMenu, this::quitButton, new Label(LocalizationManager.getString("gui.pauseMenu.quit"), buttonFont), false);
 		guiObject.setAnchor(Anchor.TopLeft);
 		guiObject.sprite = new Sprite(new Material(Color.dimGrey()));
 		guiObject.posistion =	new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));

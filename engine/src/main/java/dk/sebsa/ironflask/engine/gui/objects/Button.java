@@ -13,18 +13,15 @@ import dk.sebsa.ironflask.engine.gui.GuiObject;
 import dk.sebsa.ironflask.engine.gui.Parent;
 import dk.sebsa.ironflask.engine.gui.Sprite;
 import dk.sebsa.ironflask.engine.gui.text.Label;
-import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class Button extends GuiObject {
 	private Rect clickRect;
-	private Input input;
 	private Consumer<Button> clickConsumer;
 	public Label label;
 	
-	public Button(Parent parent, Input input, Consumer<Button> clickConsumer, Label label, boolean centered) {
+	public Button(Parent parent, Consumer<Button> clickConsumer, Label label, boolean centered) {
 		super(parent);
-		this.input = input;
 		this.clickConsumer = clickConsumer;
 		this.label = label;
 		this.centered = centered;
@@ -45,8 +42,8 @@ public class Button extends GuiObject {
 	public boolean handleEvent(Event e) {
 		if(e.type != EventType.MouseButtonPressed || clickRect == null) return false;
 		ButtonPressedEvent event = (ButtonPressedEvent) e;
-		if(event.button == 0 && clickRect.contains(new Vector2f(input.getMouseX(), input.getMouseY()))) {
-			clickConsumer.accept(this);
+		if(event.button == 0 && clickRect.contains(new Vector2f(event.x, event.y))) {
+			if(clickConsumer != null) clickConsumer.accept(this);
 			return true;
 		}
 		return false;

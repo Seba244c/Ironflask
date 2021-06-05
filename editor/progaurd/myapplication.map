@@ -4,12 +4,30 @@ dk.sebsa.ironflask.editor.Main -> dk.sebsa.ironflask.editor.Main:
     void main(java.lang.String[]) -> main
     void finishedLoading(dk.sebsa.ironflask.engine.Application) -> a
 dk.sebsa.ironflask.editor.ui.EditorLayer -> a:
-    dk.sebsa.ironflask.engine.gui.Window testWindow -> a
     dk.sebsa.ironflask.engine.Application app -> a
     dk.sebsa.ironflask.engine.gui.Sprite window -> a
+    java.util.List modules -> a
     void <init>(dk.sebsa.ironflask.engine.Application) -> <init>
     boolean handleEvent(dk.sebsa.ironflask.engine.core.Event) -> handleEvent
     void render() -> render
     void close() -> close
     void init() -> init
-    void buttonClick(dk.sebsa.ironflask.engine.gui.objects.Button) -> a
+dk.sebsa.ironflask.editor.ui.Module -> b:
+    dk.sebsa.ironflask.engine.gui.Window guiWindow -> a
+    void <init>(java.lang.String,dk.sebsa.ironflask.engine.gui.Sprite) -> <init>
+    void init() -> a
+    boolean handleEvent(dk.sebsa.ironflask.engine.core.Event) -> a
+    void addCosntraint(dk.sebsa.ironflask.engine.gui.Constraint) -> a
+dk.sebsa.ironflask.editor.ui.modules.Assets -> c:
+    void <init>(java.lang.String,dk.sebsa.ironflask.engine.gui.Sprite) -> <init>
+    void init() -> a
+dk.sebsa.ironflask.editor.ui.modules.Inspector -> d:
+    void <init>(java.lang.String,dk.sebsa.ironflask.engine.gui.Sprite) -> <init>
+    void init() -> a
+dk.sebsa.ironflask.editor.ui.modules.WorldView -> e:
+    dk.sebsa.ironflask.engine.ecs.World world -> a
+    dk.sebsa.ironflask.engine.gui.objects.GuiList list -> a
+    void <init>(java.lang.String,dk.sebsa.ironflask.engine.gui.Sprite) -> <init>
+    boolean handleEvent(dk.sebsa.ironflask.engine.core.Event) -> a
+    void populate() -> b
+    void init() -> a
