@@ -80,13 +80,13 @@ public class MainMenu extends Layer {
 		// play button
 		GUIDynamicVar size48 = new GUIDynamicVar(GUIDynamicType.Fixed, 48);
 		GUIDynamicVar size16 = new GUIDynamicVar(GUIDynamicType.Fixed, 16);
-		Button playButton = new Button(entireScreen, this::play, new Label(play, titleFont), true);
+		Button playButton = new Button(entireScreen, app.input, this::play, new Label(play, titleFont), true);
 		playButton.setAnchor(Anchor.BottomLeft);
 		playButton.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, titleFont.getStringWidth(play)+4), size48);
 		playButton.posistion = new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.4f));
 		
 		// quit button
-		Button quitButton = new Button(entireScreen, this::quit, new Label(quit, titleFont), true);
+		Button quitButton = new Button(entireScreen, app.input, this::quit, new Label(quit, titleFont), true);
 		quitButton.setAnchor(Anchor.BottomLeft);
 		quitButton.size = new GUIDynamicVector(new GUIDynamicVar(GUIDynamicType.Fixed, titleFont.getStringWidth(quit)+4), size48);
 		quitButton.posistion = new GUIDynamicVector(null, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f));

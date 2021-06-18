@@ -20,7 +20,6 @@ import dk.sebsa.ironflask.engine.gui.text.Label;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.math.Color;
 import dk.sebsa.ironflask.engine.math.Time;
-import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class TextField extends GuiObject {
 	public boolean isSelected = false;
@@ -82,7 +81,7 @@ public class TextField extends GuiObject {
 			ButtonPressedEvent event = (ButtonPressedEvent) e;
 			
 			if(event.button == 0) {
-				if(clickRect.contains(new Vector2f(input.getMouseX(), input.getMouseY()))) {
+				if(clickRect.contains(input.getMousePos())) {
 					if(!isSelected) {
 						isSelected = true;
 						return true;

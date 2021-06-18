@@ -31,7 +31,8 @@ public class Input {
 	private byte[] buttons;
 	private byte[] buttonsPressed;
 	private byte[] buttonsReleased;
-	
+
+	private Vector2f mousePos = new Vector2f(0, 0);
 	private double mouseX;
 	private double mouseY;
 	private double prevMouseX;
@@ -106,12 +107,14 @@ public class Input {
 				e.dispatch(app.stack);
 				mouseX = xpos;
 				mouseY = ypos;
+				mousePos.set((float) mouseX, (float) mouseY);
 			}
 		};
 		
 		mouseButtons = new GLFWMouseButtonCallback() {
 			public void invoke(long window, int button, int action, int mods) {
 				buttons[button] = (byte)(action != GLFW.GLFW_RELEASE?1:0);
+				
 				if(action == 1) {
 					buttonsPressed[button] = 1;
 					
@@ -187,7 +190,11 @@ public class Input {
 		LoggingUtil.coreLog(Severity.Info, "Freeing input callbacks");
 		glfwFreeCallbacks(window.windowId);
 	}
-
+	
+	public Vector2f getMousePos() {
+		return mousePos;
+	}
+	
 	public double getMouseX() {
 		return mouseX;
 	}

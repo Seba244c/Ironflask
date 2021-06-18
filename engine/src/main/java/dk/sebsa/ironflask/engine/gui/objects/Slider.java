@@ -16,7 +16,6 @@ import dk.sebsa.ironflask.engine.gui.Parent;
 import dk.sebsa.ironflask.engine.gui.Sprite;
 import dk.sebsa.ironflask.engine.io.Input;
 import dk.sebsa.ironflask.engine.math.Mathf;
-import dk.sebsa.ironflask.engine.math.Vector2f;
 
 public class Slider extends GuiObject {
 	private Input input;
@@ -40,7 +39,7 @@ public class Slider extends GuiObject {
 		slideRect = draw(shader, mesh, r, sprite, value, sliderSprite);
 		slideRect.x -= 5;
 		slideRect.width += 10;
-		if(sliding && !slideRect.contains(new Vector2f(input.getMouseX(), input.getMouseY()))) {
+		if(sliding && !slideRect.contains(input.getMousePos())) {
 			sliding = false;
 		}
 	}
@@ -57,7 +56,7 @@ public class Slider extends GuiObject {
 	public boolean handleEvent(Event e) {
 		if(e.type == EventType.MouseButtonPressed) {
 			if(((ButtonPressedEvent) e).button != 0) return false;
-			if(slideRect.contains(new Vector2f(input.getMouseX(), input.getMouseY()))) {
+			if(slideRect.contains(input.getMousePos())) {
 				sliding = true;
 				return true;
 			}

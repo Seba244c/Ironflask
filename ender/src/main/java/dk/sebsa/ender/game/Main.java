@@ -5,7 +5,6 @@ import dk.sebsa.ender.game.layers.Debug;
 import dk.sebsa.ender.game.layers.EnderGame;
 import dk.sebsa.ender.game.layers.MainMenu;
 import dk.sebsa.ender.game.layers.UILayer;
-import dk.sebsa.ender.game.net.Encryption;
 import dk.sebsa.ender.game.skill.SkillManager;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.ecs.World;
@@ -24,7 +23,6 @@ public class Main {
 	public static World testWorld = new World();
 	
 	public static void main(String[] args) {
-		Encryption.test();
 		game = new Application("Project Ender", isDebug, Main::loadingFinished, Main::load);
 		
 		// Set world

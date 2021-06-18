@@ -63,7 +63,7 @@ public class WorldView extends Module {
 				continue;
 			}
 			
-			Button e = new Button(list, null, new Label(entity.getName(), font), false);
+			Button e = new Button(list, app.input, null, new Label(entity.getName(), font), false);
 			e.size = size;
 			
 			updateList.remove(entity);
