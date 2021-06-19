@@ -3,25 +3,19 @@ package dk.sebsa.ironflask.engine.gui.animations;
 import dk.sebsa.ironflask.engine.graph.Rect;
 import dk.sebsa.ironflask.engine.gui.Animation;
 import dk.sebsa.ironflask.engine.gui.GuiObject;
-import dk.sebsa.ironflask.engine.gui.Window;
+import dk.sebsa.ironflask.engine.gui.Parent;
+import dk.sebsa.ironflask.engine.gui.enums.Side;
 import dk.sebsa.ironflask.engine.math.Time;
 
 public class MoveInFromSide extends Animation {
-	public enum Side {
-		Top,
-		Bottom,
-		Right,
-		Left
-	}
-	
 	private Side side;
 	private float moveDistance;
-	private Window window;
+	private Parent parent;
 	
-	public MoveInFromSide(Side side, Window window, float time, float waitTime) {
+	public MoveInFromSide(Side side, Parent parent, float time, float waitTime) {
 		super(time, waitTime);
 		this.side = side;
-		this.window = window;
+		this.parent = parent;
 	}
 
 	@Override
@@ -30,14 +24,14 @@ public class MoveInFromSide extends Animation {
 			moveDistance = input.x + input.width;
 			input.x = 0 - input.width;
 		} else if(side == Side.Right) {
-			moveDistance = -1 * window.rect.width;
-			input.x += window.rect.width;
+			moveDistance = -1 * parent.getRect().width;
+			input.x += parent.getRect().width;
 		} else if(side == Side.Top) {
 			moveDistance = input.y + input.height;
 			input.y = 0 - input.height;
 		} else if(side == Side.Bottom) {
-			moveDistance = -1 * window.rect.height;
-			input.y += window.rect.height;
+			moveDistance = -1 * parent.getRect().height;
+			input.y += parent.getRect().height;
 		}
 	}
 

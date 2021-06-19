@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<window title="hello.world" flat="true" color="darkGrey">
+	<constraint>
+		<side>right</side>
+		<guivar>
+			<dynamic>true</dynamic>
+			<v>0.6f</v>
+		</guivar>
+	</constraint>
+		
+	<button anchor="tl" center="false">
+		<label>
+			<text>gui.pauseMenu.quit</text>
+			<font style="1" size="36">OpenSans</font>
+		</label>
+		
+		<animation type="MoveInFromSide" time="0.4f" waitTime="0">
+			<side>left</side>
+		</animation>
+		
+		<sprite>dimGrey</sprite>
+		
+		<handler>pausemenu.quit</handler>
+		<pos>
+			<x>0</x>
+			<y>
+				<dynamic>true</dynamic>
+				<v>0.2f</v>
+			</y>
+		</pos>
+		<size>
+			<x>
+				<dynamic>true</dynamic>
+				<v>1f</v>
+			</x>
+			<y>
+				<dynamic>false</dynamic>
+				<v>48f</v>
+			</y>
+		</size>
+	</button>
+</window>

@@ -14,7 +14,7 @@ import dk.sebsa.ironflask.engine.gui.Constraint;
 import dk.sebsa.ironflask.engine.gui.GUIDynamicVar;
 import dk.sebsa.ironflask.engine.gui.Sprite;
 import dk.sebsa.ironflask.engine.gui.SpriteSheet;
-import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
+import dk.sebsa.ironflask.engine.gui.enums.Side;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.local.LocalizationManager;
 
@@ -72,11 +72,11 @@ public class EditorLayer extends Layer {
 		Module world		 = new WorldView(LocalizationManager.getString("gui.worldWindow.title"), window, this, app);
 		Module asset		 = new Assets(LocalizationManager.getString("gui.assetWindow.title"), window, this, app);
 		
-		world.addCosntraint(new Constraint(ConstraintSide.Bottom, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.3f)));
-		world.addCosntraint(new Constraint(ConstraintSide.Right, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f)));
-		asset.addCosntraint(new Constraint(ConstraintSide.Top, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.7f)));
-		asset.addCosntraint(new Constraint(ConstraintSide.Right, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f)));
-		inspector.addCosntraint(new Constraint(ConstraintSide.Left, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f)));
+		world.addCosntraint(new Constraint(Side.Bottom, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.3f)));
+		world.addCosntraint(new Constraint(Side.Right, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f)));
+		asset.addCosntraint(new Constraint(Side.Top, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.7f)));
+		asset.addCosntraint(new Constraint(Side.Right, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.2f)));
+		inspector.addCosntraint(new Constraint(Side.Left, new GUIDynamicVar(GUIDynamicType.Dynamic, 0.8f)));
 		
 		modules.add(inspector);
 		modules.add(world);

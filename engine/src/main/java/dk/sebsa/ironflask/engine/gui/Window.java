@@ -6,7 +6,7 @@ import java.util.List;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.graph.Rect;
-import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
+import dk.sebsa.ironflask.engine.gui.enums.Side;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
@@ -75,29 +75,29 @@ public class Window implements Parent {
 		rect = new Rect(0, 0, app.window.getWidth(), app.window.getHeight());
 		for(Constraint constraint : constraints) {
 			if(constraint.var.type == GUIDynamicType.Dynamic) {
-				if(constraint.constraintSide == ConstraintSide.Top) {
+				if(constraint.constraintSide == Side.Top) {
 					float removePixels = constraint.var.value*app.window.getHeight();
 					rect.y += removePixels;
 					rect.height -= removePixels;
-				} else if(constraint.constraintSide == ConstraintSide.Bottom) {
+				} else if(constraint.constraintSide == Side.Bottom) {
 					float removePixels = constraint.var.value*app.window.getHeight();
 					rect.height -= removePixels;
-				} else if(constraint.constraintSide == ConstraintSide.Right) {
+				} else if(constraint.constraintSide == Side.Right) {
 					float removePixels = constraint.var.value*app.window.getWidth();
 					rect.width -= removePixels;
-				} else if(constraint.constraintSide == ConstraintSide.Left) {
+				} else if(constraint.constraintSide == Side.Left) {
 					float removePixels = constraint.var.value*app.window.getWidth();
 					rect.x += removePixels;
 					rect.width -= removePixels;
 				}
 			} else if(constraint.var.type == GUIDynamicType.Fixed) {
-				if(constraint.constraintSide == ConstraintSide.Top) {
+				if(constraint.constraintSide == Side.Top) {
 					rect.y += constraint.var.value;
-				} else if(constraint.constraintSide == ConstraintSide.Bottom) {
+				} else if(constraint.constraintSide == Side.Bottom) {
 					rect.height -= constraint.var.value;
-				} else if(constraint.constraintSide == ConstraintSide.Right) {
+				} else if(constraint.constraintSide == Side.Right) {
 					rect.width -= constraint.var.value;
-				} else if(constraint.constraintSide == ConstraintSide.Left) {
+				} else if(constraint.constraintSide == Side.Left) {
 					rect.x += constraint.var.value;
 				}
 			}

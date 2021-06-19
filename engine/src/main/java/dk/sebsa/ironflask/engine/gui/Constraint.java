@@ -1,12 +1,12 @@
 package dk.sebsa.ironflask.engine.gui;
 
-import dk.sebsa.ironflask.engine.gui.enums.ConstraintSide;
+import dk.sebsa.ironflask.engine.gui.enums.Side;
 
 public class Constraint {
-	public ConstraintSide constraintSide;
+	public Side constraintSide;
 	public GUIDynamicVar var;
 	
-	public Constraint(ConstraintSide constraintSide, GUIDynamicVar var) {
+	public Constraint(Side constraintSide, GUIDynamicVar var) {
 		this.constraintSide = constraintSide;
 		this.var = var;
 	}

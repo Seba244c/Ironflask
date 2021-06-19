@@ -17,8 +17,11 @@ import org.w3c.dom.NodeList;
 
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.enums.Severity;
+import dk.sebsa.ironflask.engine.graph.Material;
+import dk.sebsa.ironflask.engine.gui.animations.MoveInFromSide;
 import dk.sebsa.ironflask.engine.gui.annotaions.ButtonHandler;
 import dk.sebsa.ironflask.engine.gui.enums.Anchor;
+import dk.sebsa.ironflask.engine.gui.enums.Side;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
 import dk.sebsa.ironflask.engine.gui.objects.Button;
 import dk.sebsa.ironflask.engine.gui.objects.Text;
@@ -74,21 +77,14 @@ public class GUIXmlParser {
 					buttonhandlers.get(element.getElementsByTagName("handler").item(0).getTextContent()),
 					(Label) parseNode(element.getElementsByTagName("label").item(0), parent),
 					element.getAttribute("center").startsWith("true"));
-			System.out.println(element.getElementsByTagName("handler").item(0).getTextContent());
-			button.setAnchor(parseAnchor(element.getAttribute("anchor")));
-			button.posistion = (GUIDynamicVector)	parseNode(element.getElementsByTagName("pos").item(0), parent);
-			button.size = (GUIDynamicVector)		parseNode(element.getElementsByTagName("size").item(0), parent);
-						
+			parseGeneralGuiObject(element, button, parent);
 			return button;
 		} else if(name == "text") {
 			Text text = new Text(parent,
 					(Label) parseNode(element.getElementsByTagName("label").item(0), parent),
 					element.getAttribute("center").startsWith("true"));
 			
-			text.setAnchor(parseAnchor(element.getAttribute("anchor")));
-			text.posistion = (GUIDynamicVector)	parseNode(element.getElementsByTagName("pos").item(0), parent);
-			text.size = (GUIDynamicVector)		parseNode(element.getElementsByTagName("size").item(0), parent);
-						
+			parseGeneralGuiObject(element, text, parent);			
 			return text;
 		} else if(name == "label") {
 			Font f = (Font) parseNode(element.getElementsByTagName("font").item(0), parent);
@@ -97,12 +93,60 @@ public class GUIXmlParser {
 			vars.put("textSize", String.valueOf(f.getStringWidth(s)));
 			return new Label(s, f);
 		} else if(name == "font") {
-			return Font.getFont(new java.awt.Font(element.getTextContent(), vari(element.getAttribute("style")), vari(element.getAttribute("size"))));
+			return Font.getFont(
+					new java.awt.Font(element.getTextContent(),
+							vari(element.getAttribute("style")),
+							vari(element.getAttribute("size"))));
 		} else if(name == "pos" || name == "size" || name == "guivector") {
 			Node nx = element.getElementsByTagName("x").item(0);
 			Node ny = element.getElementsByTagName("y").item(0);
 			
 			return new GUIDynamicVector(guiVar(nx), guiVar(ny));
+		} else if(name == "constraint") {
+			((Window) parent).addCosntraint(new Constraint(
+					parseSide(element.getElementsByTagName("side").item(0).getTextContent()),
+					guiVar(element.getElementsByTagName("guivar").item(0))));
+		} else if(name == "sprite") {
+			Sprite sprite = Sprite.getSprite(element.getTextContent());
+			if(sprite != null) return sprite;
+			
+			Material spriteMaterial = Material.getMaterial(element.getTextContent());
+			if(spriteMaterial != null) return new Sprite(spriteMaterial);
+						
+			return new Sprite(new Material(Color.parseColor(element.getTextContent())));
+		}
+		
+		return null;
+	}
+	
+	private static void parseGeneralGuiObject(Element element, GuiObject object, Parent parent) {
+		object.setAnchor(parseAnchor(element.getAttribute("anchor")));
+		object.posistion = (GUIDynamicVector)	parseNode(element.getElementsByTagName("pos").item(0), parent);
+		object.size = (GUIDynamicVector)		parseNode(element.getElementsByTagName("size").item(0), parent);
+		
+		// Animations
+		NodeList animations = element.getElementsByTagName("animation");
+		for(int i = 0; i < animations.getLength(); i++) {
+			Node node = animations.item(i);
+			Animation animation = parseAnimation((Element) node, parent);
+			
+			if(animation != null)
+				object.animations.add(animation);
+		}
+		
+		// Sprite
+		NodeList spriteList = element.getElementsByTagName("sprite");
+		if(spriteList.getLength() > 0) object.sprite = (Sprite) parseNode(spriteList.item(0), parent);
+	}
+	
+	private static Animation parseAnimation(Element element, Parent parent) {
+		String type = element.getAttribute("type");
+		System.out.println(type);
+		float time = varf(element.getAttribute("time"));
+		float waitTime = varf(element.getAttribute("waitTime"));
+		
+		if(type.startsWith("MoveInFromSide")) {
+			return new MoveInFromSide(parseSide(element.getElementsByTagName("side").item(0).getTextContent()), parent, time, waitTime);
 		}
 		
 		return null;
@@ -142,6 +186,19 @@ public class GUIXmlParser {
 			return Anchor.BottomRight;
 		default:
 			return Anchor.BottomLeft;
+		}
+	}
+	
+	private static Side parseSide(String cs) {
+		switch (cs) {
+		case "left":
+			return Side.Left;
+		case "right":
+			return Side.Right;
+		case "bottom":
+			return Side.Bottom;
+		default:
+			return Side.Top;
 		}
 	}
 	
