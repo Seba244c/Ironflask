@@ -23,5 +23,10 @@ public class GUIDynamicVar {
 	public GUIDynamicVar clone() {
 		return new GUIDynamicVar(type, value);
 	}
+	
+	@Override
+	public String toString() {
+		return type + ", "+value;
+	}
 }
 

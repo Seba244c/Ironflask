@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<window title="hello.world" flat="true" color="transparent">
+	<!-- Play Button -->
+	<button center="true" anchor="bl">
+		<label>
+			<text>gui.mainMenu.play</text>
+			<font style="1" size="42">OpenSans</font>
+		</label>
+		
+		<handler>mainmenu.play</handler>
+		
+		<size>
+			<x>
+				<dynamic>false</dynamic>
+				<v>{textSize}</v>
+			</x>
+			<y>
+				<dynamic>false</dynamic>
+				<v>48f</v>
+			</y>
+		</size>
+		<pos>
+			<x>0</x>
+			<y>
+				<dynamic>true</dynamic>
+				<v>0.4f</v>
+			</y>
+		</pos>
+	</button>
+	
+	<!-- Quit Button -->
+	<button center="true" anchor="bl">
+		<label>
+			<text>gui.mainMenu.quit</text>
+			<font style="1" size="42">OpenSans</font>
+		</label>
+		
+		<handler>mainmenu.quit</handler>
+		
+		<size>
+			<x>
+				<dynamic>false</dynamic>
+				<v>{textSize}</v>
+			</x>
+			<y>
+				<dynamic>false</dynamic>
+				<v>48f</v>
+			</y>
+		</size>
+		<pos>
+			<x>0</x>
+			<y>
+				<dynamic>true</dynamic>
+				<v>0.2f</v>
+			</y>
+		</pos>
+	</button>
+	
+	<!-- Title -->
+	<text center="true" anchor="tl">
+		<label>
+			<text>gui.mainMenu.title</text>
+			<font style="1" size="42">OpenSans</font>
+		</label>
+		
+		<size>
+			<x>
+				<dynamic>false</dynamic>
+				<v>{textSize}</v>
+			</x>
+			<y>
+				<dynamic>false</dynamic>
+				<v>48f</v>
+			</y>
+		</size>
+		<pos>
+			<x>0</x>
+			<y>0</y>
+		</pos>
+	</text>
+	
+	<!-- Build -->
+	<text center="false" anchor="bl">
+		<label>
+			<text>gui.mainMenu.build</text>
+			<font style="1" size="12">OpenSans</font>
+		</label>
+		
+		<size>
+			<x>0</x>
+			<y>
+				<dynamic>false</dynamic>
+				<v>16f</v>
+			</y>
+		</size>
+		<pos>
+			<x>0</x>
+			<y>0</y>
+		</pos>
+	</text>
+</window>

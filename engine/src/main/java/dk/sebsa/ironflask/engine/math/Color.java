@@ -59,4 +59,39 @@ public class Color {
 	public static Color fromFloatArray(float[] c) {
 		return new Color(c[0], c[1], c[2]);
 	}
+	
+	public static Color parseColor(String name) {
+		switch (name) {
+		case "black":
+			return black();
+		case "red":
+			return red();
+		case "green":
+			return green();
+		case "blue":
+			return blue();
+		case "grey":
+			return grey();
+		case "dimGrey":
+			return dimGrey();
+		case "darkGrey":
+			return darkGrey();
+		case "wine":
+			return wine();
+		case "forest":
+			return forest();
+		case "marine":
+			return marine();
+		case "yellow":
+			return yellow();
+		case "cyan":
+			return cyan();
+		case "magenta":
+			return magenta();
+		case "transparent":
+			return transparent();
+		default:
+			return white();
+		}
+	}
 }
