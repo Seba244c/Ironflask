@@ -12,7 +12,7 @@ public class LocalizationManager {
 	private static Language currentLanguage;
 	
 	public static void load(String file) {
-		System.out.println(file);
+		System.out.println(" - " + file);
 		Language lang = new Language(file);
 		languages.add(lang);
 	}

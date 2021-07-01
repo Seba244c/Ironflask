@@ -1,6 +1,7 @@
 package dk.sebsa.ironflask.engine.gui;
 
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
+import dk.sebsa.ironflask.engine.math.Mathf;
 
 public class GUIDynamicVar {
 	public GUIDynamicType type;
@@ -14,6 +15,7 @@ public class GUIDynamicVar {
 	protected float calculate(Parent parent, boolean y) {
 		if(type == GUIDynamicType.Fixed) return value;
 		
+		value = Mathf.clamp(value, 0, 1);
 		if(y) {
 			return value * parent.getRect().height;
 		}

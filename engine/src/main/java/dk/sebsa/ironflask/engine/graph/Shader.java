@@ -59,7 +59,7 @@ public class Shader extends Asset {
 	
 	public void createUniform(String uniformName) throws Exception {
     	LoggingUtil.coreLog(Severity.Trace, name + " - Creating uniform named - "+uniformName);
-		if(uniforms.containsKey(uniformName));
+		if(uniforms.containsKey(uniformName)) return;
 	    int uniformLocation = glGetUniformLocation(programId,
 	        uniformName);
 	    if (uniformLocation < 0) {

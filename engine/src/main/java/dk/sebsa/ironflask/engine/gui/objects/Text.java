@@ -37,7 +37,7 @@ public class Text extends GuiObject {
 		
 		if(centered) {
 			rx += rect.width/2;
-			rx -= rect.width/2;
+			rx -= label.font.getStringWidth(label.getText())/2;
 		}
 		if(rx % 1 != 0) rx += 0.5f;
 		if(ry % 1 != 0) ry += 0.5f;

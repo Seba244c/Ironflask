@@ -1,4 +1,8 @@
 {
+	"application.name": "Ironflask Editor",
+	"projectselect.name": "Ironflask Editor - Project Select",
+	
+	"gui.projectSelect.start": "Start",
 	"gui.assetWindow.title": "Assets",
 	"gui.inspectorWindow.title": "Inspector",
 	"gui.worldWindow.title": "World View"

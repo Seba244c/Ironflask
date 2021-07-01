@@ -57,7 +57,7 @@ public class Application {
 	public GuiRenderer guiRenderer;
 	public List<RenderingStage> pipeline = new ArrayList<>();
 	
-	public Application(String name, boolean isDebug, Consumer<Application> loadingFinishedCallback) {
+	public Application(String name, boolean isDebug, Consumer<Application> loadingFinishedCallback, int width, int height) {
 		this.name = name;
 		this.isDebug = isDebug;
 		this.loadingFinishedCallback = loadingFinishedCallback;
@@ -67,7 +67,7 @@ public class Application {
 		
 		// Window, stack and input
 		stack = new LayerStack(this, name + "-LayerStack");
-		window = new Window(name, 800, 500, true, Color.cyan(), this);
+		window = new Window(name, width, height, true, Color.cyan(), this);
 		window.setClearColor(Color.cyan());
 		glfwMakeContextCurrent(MemoryUtil.NULL);
 		loadingThread = new LoadingThread(stack, this);
@@ -75,6 +75,10 @@ public class Application {
 		
 		updateEvent = new Event(EventType.AppUpdate, EventCatagory.App);
 		updateEvent.oneLayer = false;
+	}
+	
+	public Application(String name, boolean isDebug, Consumer<Application> loadingFinishedCallback) {
+		this(name, isDebug, loadingFinishedCallback, 800, 500);
 	}
 	
 	public Application(String name, boolean isDebug, Consumer<Application> loadingFinishedCallback, Consumer<Application> loadCallback) {
@@ -104,6 +108,7 @@ public class Application {
 						
 						LoggingUtil.coreLog(Severity.Info, "Stealing back GLFW and AL capabalities");
 						glfwMakeContextCurrent(window.windowId);
+						GL.setCapabilities(window.capabilities);
 						AL.createCapabilities(audioManager.deviceCaps);
 				        alcMakeContextCurrent(audioManager.context);
 				        
@@ -138,6 +143,7 @@ public class Application {
 				Thread.sleep(1);
 			} catch (InterruptedException e) { e.printStackTrace(); }
 		}
+		window.cleanup();
 	}
 	
 	public void setClearColor(Color color) {

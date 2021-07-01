@@ -23,7 +23,9 @@ import dk.sebsa.ironflask.engine.gui.annotaions.ButtonHandler;
 import dk.sebsa.ironflask.engine.gui.enums.Anchor;
 import dk.sebsa.ironflask.engine.gui.enums.Side;
 import dk.sebsa.ironflask.engine.gui.enums.GUIDynamicType;
+import dk.sebsa.ironflask.engine.gui.objects.Box;
 import dk.sebsa.ironflask.engine.gui.objects.Button;
+import dk.sebsa.ironflask.engine.gui.objects.GuiList;
 import dk.sebsa.ironflask.engine.gui.objects.Text;
 import dk.sebsa.ironflask.engine.gui.text.Font;
 import dk.sebsa.ironflask.engine.gui.text.Label;
@@ -106,6 +108,11 @@ public class GUIXmlParser {
 			((Window) parent).addCosntraint(new Constraint(
 					parseSide(element.getElementsByTagName("side").item(0).getTextContent()),
 					guiVar(element.getElementsByTagName("guivar").item(0))));
+		} else if(name == "list") {
+			GuiList list = new GuiList(parent);
+			parseGeneralGuiObject(element, list, parent);
+			
+			parseChildren(list, node.getChildNodes());
 		} else if(name == "sprite") {
 			Sprite sprite = Sprite.getSprite(element.getTextContent());
 			if(sprite != null) return sprite;
@@ -114,6 +121,12 @@ public class GUIXmlParser {
 			if(spriteMaterial != null) return new Sprite(spriteMaterial);
 						
 			return new Sprite(new Material(Color.parseColor(element.getTextContent())));
+		} else if(name == "box") {
+			Box box = new Box(parent);
+			parseGeneralGuiObject(element, box, parent);
+			System.out.println(parent);
+			
+			return box;
 		}
 		
 		return null;
@@ -141,7 +154,6 @@ public class GUIXmlParser {
 	
 	private static Animation parseAnimation(Element element, Parent parent) {
 		String type = element.getAttribute("type");
-		System.out.println(type);
 		float time = varf(element.getAttribute("time"));
 		float waitTime = varf(element.getAttribute("waitTime"));
 		

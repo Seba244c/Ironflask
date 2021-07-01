@@ -8,7 +8,6 @@ dk.sebsa.ender.game.Main -> dk.sebsa.ender.game.Main:
     dk.sebsa.ironflask.engine.ecs.World testWorld -> a
     void <init>() -> <init>
     void main(java.lang.String[]) -> main
-    void mainMenu(boolean) -> a
     void load(dk.sebsa.ironflask.engine.Application) -> a
     void loadingFinished(dk.sebsa.ironflask.engine.Application) -> b
     void <clinit>() -> <clinit>
@@ -69,8 +68,6 @@ dk.sebsa.ender.game.layers.EnderGame -> g:
     void init() -> init
     void <clinit>() -> <clinit>
 dk.sebsa.ender.game.layers.MainMenu -> h:
-    dk.sebsa.ironflask.engine.gui.text.Font titleFont -> a
-    dk.sebsa.ironflask.engine.gui.text.Font buildFont -> b
     dk.sebsa.ironflask.engine.gui.Window entireScreen -> a
     dk.sebsa.ironflask.engine.Application app -> a
     void <init>(dk.sebsa.ironflask.engine.Application) -> <init>
@@ -78,36 +75,20 @@ dk.sebsa.ender.game.layers.MainMenu -> h:
     void render() -> render
     void close() -> close
     void init() -> init
-    void play(dk.sebsa.ironflask.engine.gui.objects.Button) -> a
-    void quit(dk.sebsa.ironflask.engine.gui.objects.Button) -> b
 dk.sebsa.ender.game.layers.UILayer -> i:
     dk.sebsa.ironflask.engine.Application app -> a
     boolean pauseMenuEnabled -> a
     dk.sebsa.ironflask.engine.gui.Window pauseMenu -> a
-    dk.sebsa.ironflask.engine.gui.text.Font buttonFont -> a
     void <init>(dk.sebsa.ironflask.engine.Application) -> <init>
     boolean handleEvent(dk.sebsa.ironflask.engine.core.Event) -> handleEvent
     void render() -> render
     void close() -> close
     void init() -> init
-    void quitButton(dk.sebsa.ironflask.engine.gui.objects.Button) -> a
-dk.sebsa.ender.game.net.Encryption -> j:
-    java.lang.String encryptionKey -> a
-    int ceaserOffset -> a
-    int seededMax -> b
-    int seedInt -> c
-    java.util.List skills -> a
-    java.util.List resistanceSkills -> b
-    void setEncryptionKey(java.lang.String) -> a
-    java.lang.String decrypt(java.lang.String) -> a
-    void test() -> a
-    void <init>() -> <init>
-    int stringToInt(java.lang.String,int,int,java.lang.String) -> a
-dk.sebsa.ender.game.skill.Creature -> k:
-    dk.sebsa.ender.game.net.Encryption skill$649858c5 -> a
+dk.sebsa.ender.game.skill.Creature -> j:
+    dk.sebsa.ender.game.skill.Skillholder skill -> a
     dk.sebsa.ender.game.skill.CreatureStats stats -> a
     void <init>(dk.sebsa.ironflask.engine.ecs.World,java.lang.String) -> <init>
-dk.sebsa.ender.game.skill.CreatureStats -> l:
+dk.sebsa.ender.game.skill.CreatureStats -> k:
     dk.sebsa.ender.game.skill.Creature creature -> a
     java.lang.String title -> a
     float taboo -> b
@@ -121,17 +102,21 @@ dk.sebsa.ender.game.skill.CreatureStats -> l:
     float maxStamina -> i
     void <init>(dk.sebsa.ender.game.skill.Creature) -> <init>
     java.lang.String appraisal() -> a
-dk.sebsa.ender.game.skill.Damage -> m:
+dk.sebsa.ender.game.skill.Damage -> l:
     float value -> a
     dk.sebsa.ender.game.skill.type.DamageType type -> a
     void <init>(dk.sebsa.ender.game.skill.type.DamageType) -> <init>
     java.lang.String toString() -> toString
-dk.sebsa.ender.game.skill.SkillManager -> n:
+dk.sebsa.ender.game.skill.SkillManager -> m:
     java.util.List damageTypes -> a
     java.util.List skills -> b
     void init() -> a
     void appraiseCommand(java.lang.String[]) -> a
     void <clinit>() -> <clinit>
+dk.sebsa.ender.game.skill.Skillholder -> n:
+    java.util.List skills -> a
+    java.util.List resistanceSkills -> b
+    void <init>() -> <init>
 dk.sebsa.ender.game.skill.type.DamageType -> o:
     java.lang.String name -> a
     void <init>(java.lang.String) -> <init>

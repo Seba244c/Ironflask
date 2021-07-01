@@ -53,6 +53,12 @@ public class Window {
 	private double frameTimeThisSecond;
 	private static long time;
 	
+	// Flags
+	private static int flagResize = GLFW_TRUE;
+	public static void setWindowCreationFlag(String flag, int val) {
+		if(flag == "resizable") flagResize = val;
+	}
+	
 	@SuppressWarnings("resource")
 	public Window(String title, int width, int height, boolean vsync, Color clearColor, Application app) {
 		this.title = title;
@@ -80,7 +86,7 @@ public class Window {
 		// Configure GLFW
 		glfwDefaultWindowHints(); // optional, the current window hints are already the default
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be temporaraly not be resizable
+		glfwWindowHint(GLFW_RESIZABLE, flagResize); // the window will be temporaraly not be resizable
 		
 		// OSX Sipport
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
