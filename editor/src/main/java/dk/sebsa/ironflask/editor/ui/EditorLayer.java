@@ -1,5 +1,6 @@
 package dk.sebsa.ironflask.editor.ui;
 
+import dk.sebsa.ironflask.editor.plugin.PluginManager;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
 import dk.sebsa.ironflask.engine.core.Layer;
@@ -37,6 +38,6 @@ public class EditorLayer extends Layer {
 	public void init() {
 		LocalizationManager.setLangauage(Languages.en);
 		
-		
+		PluginManager.fullInit(app);
 	}
 }

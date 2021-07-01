@@ -1,16 +1,15 @@
 package dk.sebsa.ironflask.editor.plugin;
 
 import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+@Retention(RUNTIME)
 @Target(TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface PluginRegister {
+public @interface PluginModule {
+	String pluginID();
 	String ID();
-	String Name();
-	String Version();;
-	String Author();
+	String name();
 }
