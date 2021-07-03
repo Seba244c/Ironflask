@@ -65,7 +65,7 @@ public class Main {
 	}
 	
 	public static void load(Application app) {
-		SkillManager.init();
+		SkillManager.init(app);
 	}
 	
 	public static void loadingFinished(Application app) {
