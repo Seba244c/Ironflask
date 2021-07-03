@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import dk.sebsa.ender.game.skill.type.DamageType;
 import dk.sebsa.ender.game.skill.type.ResistanceSkill;
 import dk.sebsa.ender.game.skill.type.Skill;
+import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.ecs.Entity;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
 import dk.sebsa.ironflask.engine.enums.Severity;
@@ -21,8 +22,9 @@ import dk.sebsa.ironflask.engine.utils.FileUtil;
 public class SkillManager {
 	public static List<DamageType> damageTypes = new ArrayList<>();
 	public static List<Skill> skills = new ArrayList<>();
+	private static Application application;
 	
-	public static void init() {
+	public static void init(Application app) {
 		String skillsFolder = Paths.get(".").toAbsolutePath().normalize().toString() + "/resources/skill/";
 		
 		// Load damage types
@@ -47,26 +49,27 @@ public class SkillManager {
 		}
 		
 		// Print
-		LoggingUtil.coreLog(Severity.Trace, "-- SkillManager Init --");
-		LoggingUtil.coreLog(Severity.Trace, "- Damage types: " + damageTypes.toString());
-		LoggingUtil.coreLog(Severity.Trace, "- Skills: " + skills.toString());
-		LoggingUtil.coreLog(Severity.Trace, "-- END --");
+		LoggingUtil.appLog(app, Severity.Trace, "-- SkillManager Init --");
+		LoggingUtil.appLog(app, Severity.Trace, "- Damage types: " + damageTypes.toString());
+		LoggingUtil.appLog(app, Severity.Trace, "- Skills: " + skills.toString());
+		LoggingUtil.appLog(app, Severity.Trace, "-- END --");
 		
 		// Add commands
+		application = app;
 		CommandUtils.addCommand(new Command(SkillManager::appraiseCommand, "apraise"));
 	}
 	
 	public static void appraiseCommand(String[] args) {
 		Entity e = WorldManager.getEntity(args[0]);
 		if(e == null) {
-			LoggingUtil.coreLog(Severity.Warning, "Entity(" + args[0] + ") does not exist!");
+			LoggingUtil.appLog(application, Severity.Warning, "Entity(" + args[0] + ") does not exist!");
 			return;
 		} else if (!e.getClass().equals(Creature.class)) {
-			LoggingUtil.coreLog(Severity.Warning, "Entity(" + args[0] + ") is not a creature!");
+			LoggingUtil.appLog(application, Severity.Warning, "Entity(" + args[0] + ") is not a creature!");
 			return;
 		}
 		
 		Creature creature = (Creature) e;
-		LoggingUtil.coreLog(Severity.Info, creature.stats.appraisal()+"\n");
+		LoggingUtil.appLog(application, Severity.Info, creature.stats.appraisal()+"\n");
 	}
 }

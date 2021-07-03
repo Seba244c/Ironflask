@@ -3,6 +3,8 @@ package dk.sebsa.ironflask.engine.io;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +20,7 @@ public class LoggingUtil {
 	private static DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("d/MM-u");
 	private static DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("d-MM-u");
 	private static String logString = "";
+	private static PrintStream printStream = new PrintStream(System.out);
 	
 	private static String getTime() {
 		return dtf.format(LocalDateTime.now());
@@ -25,13 +28,13 @@ public class LoggingUtil {
 	
 	public static void appLog(Application a, Severity s, Object o) {
 		Log log = new Log(o.toString(), getTime(), s, false);
-		System.out.println(log.toString());
+		printStream.println(log.toString());
 		logString += log.toString() + "\n";
 	}
 	
 	public static void coreLog(Severity s, Object o) {
 		Log log = new Log(o.toString(), getTime(), s, true);
-		System.out.println(log.toString());
+		printStream.println(log.toString());
 		logString += log.toString() + "\n";
 	}
 	
@@ -67,5 +70,37 @@ public class LoggingUtil {
 			if(s.startsWith(start)) i++;
 		}
 		return i;
+	}
+	
+	public static class RedirectErrPrintStream extends PrintStream {		
+		public RedirectErrPrintStream(OutputStream out) {
+	        super(out);
+	    }
+		
+		@Override
+		public void println(String stirng) {
+			LoggingUtil.coreLog(Severity.Error, stirng);
+		}
+		
+		@Override
+		public void println(Object object) {
+			LoggingUtil.coreLog(Severity.Error, String.valueOf(object));
+		}
+	}
+	
+	public static class RedirectPrintStream extends PrintStream {		
+		public RedirectPrintStream(OutputStream out) {
+	        super(out);
+	    }
+		
+		@Override
+		public void println(String stirng) {
+			LoggingUtil.coreLog(Severity.Info, stirng);
+		}
+		
+		@Override
+		public void println(Object object) {
+			LoggingUtil.coreLog(Severity.Info, String.valueOf(object));
+		}
 	}
 }

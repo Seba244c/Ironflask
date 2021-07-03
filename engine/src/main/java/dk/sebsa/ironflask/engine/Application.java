@@ -62,6 +62,15 @@ public class Application {
 		this.isDebug = isDebug;
 		this.loadingFinishedCallback = loadingFinishedCallback;
 		
+		// Print stream
+		System.setOut(new LoggingUtil.RedirectPrintStream(System.out));
+		System.setErr(new LoggingUtil.RedirectErrPrintStream(System.err));
+		
+		Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+	        System.err.println("Uncaught exception in thread " + thread.getName());
+	        throwable.printStackTrace(System.err);
+	    });
+		
 		BuildUtil.init();
 		LoggingUtil.coreLog(Severity.Info, "Buildversion: " + BuildUtil.id);
 		
@@ -154,7 +163,11 @@ public class Application {
 	}
 	
 	public void cleanupScreen() {
-		loadingThread.renderLoadScreen(false, -1f);
+		try {
+			loadingThread.renderLoadScreen(false, -1f);
+		} catch (Exception e) {
+			
+		}
 	}
 	
 	public void loadingState() {

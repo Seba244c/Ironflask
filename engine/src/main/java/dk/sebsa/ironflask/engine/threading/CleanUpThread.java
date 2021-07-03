@@ -28,12 +28,16 @@ public class CleanUpThread extends Thread {
 		GL.setCapabilities(capabilities);
 				
 		// Cleans
-		AssetManager.cleanup();
-		app.audioManager.cleanup();
-		app.input.cleanup();
-		app.stack.cleanup();
-		for(RenderingStage stage : app.pipeline) {
-			stage.cleanup();
+		try {
+			AssetManager.cleanup();
+			app.audioManager.cleanup();
+			app.input.cleanup();
+			app.stack.cleanup();
+			for(RenderingStage stage : app.pipeline) {
+				stage.cleanup();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		// Done
