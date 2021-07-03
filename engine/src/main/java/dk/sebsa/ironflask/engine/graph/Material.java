@@ -26,7 +26,6 @@ public class Material extends Asset {
 		BufferedReader br;
 		try {
 			if(name.startsWith("/")) {
-				System.out.println("/materiels" + name + ".imat");
 				InputStreamReader isr =  new InputStreamReader(Material.class.getResourceAsStream("/materials" + name + ".imat"));
 				br = new BufferedReader(isr);
 				this.name = name.replaceFirst("/", "");

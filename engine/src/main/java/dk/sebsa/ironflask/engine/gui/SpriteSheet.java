@@ -26,7 +26,6 @@ public class SpriteSheet extends Asset {
 		BufferedReader br;
 		try {
 			if(name.startsWith("/")) {
-				System.out.println("/sheets" + name + ".isht");
 				InputStreamReader isr =  new InputStreamReader(Material.class.getResourceAsStream("/sheets" + name + ".isht"));
 				br = new BufferedReader(isr);
 				this.name = name.replaceFirst("/", "");

@@ -124,7 +124,6 @@ public class GUIXmlParser {
 		} else if(name == "box") {
 			Box box = new Box(parent);
 			parseGeneralGuiObject(element, box, parent);
-			System.out.println(parent);
 			
 			return box;
 		}

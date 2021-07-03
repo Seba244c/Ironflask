@@ -27,7 +27,6 @@ public class Sprite extends Asset {
 		BufferedReader br;
 		try {
 			if(name.startsWith("/")) {
-				System.out.println("/sprites" + name + ".ispr");
 				InputStreamReader isr =  new InputStreamReader(Material.class.getResourceAsStream("/sprites" + name + ".ispr"));
 				br = new BufferedReader(isr);
 				this.name = name.replaceFirst("/", "");

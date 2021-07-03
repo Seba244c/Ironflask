@@ -93,7 +93,7 @@ public class AssetManager {
 		try {
 			if(dirUrl != null && protocol.equals("file")) importFromDir(externalDir);
 			else importFromJar(externalDir);
-		} catch (IOException e) { System.out.println("Error loading assets:"); e.printStackTrace(); }
+		} catch (IOException e) { LoggingUtil.coreLog(Severity.Error, "Error loading assets:"); e.printStackTrace(); }
 	}
 	
 	private static void importFromJar(String externalDir) throws UnsupportedEncodingException, IOException {

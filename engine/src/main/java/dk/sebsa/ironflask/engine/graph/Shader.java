@@ -39,7 +39,6 @@ public class Shader extends Asset {
         uniforms = new HashMap<>();
         
         // Create and verify shader
-        System.out.println(name);
         String[] str = FileUtil.readAnyFile("/shaders" + name + ".glsl").split("///#ENDVERTEX");
         createVertexShader(str[0]);
         createFragmentShader(str[1]);

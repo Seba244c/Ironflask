@@ -38,10 +38,11 @@ public class LoggingUtil {
 		logString += log.toString() + "\n";
 	}
 	
-	public static void saveToFile() {
-		String fullLog = "# Log from ironflask\n";
-		fullLog += "# "+dtf2.format(LocalDateTime.now());
-		fullLog += "\n# Build: " + BuildUtil.id + "\n";
+	public static void saveToFile(Application app) {
+		String fullLog = "# Log from an Ironflask Application\n";
+		fullLog += "# Build: " + BuildUtil.id + "\n";
+		fullLog += "# OS: " + System.getProperty("os.name") + "\n";
+		fullLog += "# DT: "+dtf2.format(LocalDateTime.now()) + "\n";
 		fullLog += logString;
 		
 		try {
