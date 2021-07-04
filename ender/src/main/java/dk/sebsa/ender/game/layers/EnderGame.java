@@ -92,7 +92,7 @@ public class EnderGame extends Layer {
 		player = new Creature(Main.testWorld, "Player");
 		player.addComponent(new EntityRenderer(Mesh.getMesh("cube.obj"), Material.getMaterial("player"), Shader.getShader("default")));
 		player.addComponent(pm);
-		if(Main.isDebug) player.addComponent(new Test());
+		if(Main.isDebug) player.addComponent(new Test(application));
 		player.doNotDelete();
 		// Camera
 		OrbitCamera oc = new OrbitCamera(player);

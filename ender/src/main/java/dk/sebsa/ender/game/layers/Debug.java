@@ -2,15 +2,16 @@ package dk.sebsa.ender.game.layers;
 
 import dk.sebsa.ender.game.MusicManager;
 import dk.sebsa.ironflask.engine.Application;
+import dk.sebsa.ironflask.engine.core.GUILayer;
 import dk.sebsa.ironflask.engine.debug.ImGuiLayer;
 import imgui.ImGui;
 
+@GUILayer
 public class Debug extends ImGuiLayer {
 	private final float[] audioLevel = new float[1];
 	
 	public Debug(Application app) {
 		super(app);
-		guiLayer = true;
 	}
 
 	@Override

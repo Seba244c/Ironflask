@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import dk.sebsa.ender.game.Main;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
+import dk.sebsa.ironflask.engine.core.GUILayer;
 import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
@@ -15,12 +16,12 @@ import dk.sebsa.ironflask.engine.gui.annotaions.ButtonHandler;
 import dk.sebsa.ironflask.engine.gui.objects.Button;
 import dk.sebsa.ironflask.engine.local.LocalizationManager;
 
+@GUILayer
 public class MainMenu extends Layer {
 	private Window entireScreen;
 	private Application app;
 	
 	public MainMenu(Application app) {
-		guiLayer = true;
 		this.app = app;
 	}
 	

@@ -17,7 +17,7 @@ import dk.sebsa.ironflask.engine.utils.FileUtil;
 public class LoggingUtil {
 	public static boolean traceLog = false;
 	private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-	private static DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("d/MM-u");
+	private static DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("d/MM-u HH:mm");
 	private static DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("d-MM-u");
 	private static String logString = "";
 	private static PrintStream printStream = new PrintStream(System.out);

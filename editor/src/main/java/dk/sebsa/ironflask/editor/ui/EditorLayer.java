@@ -3,15 +3,16 @@ package dk.sebsa.ironflask.editor.ui;
 import dk.sebsa.ironflask.editor.plugin.PluginManager;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
+import dk.sebsa.ironflask.engine.core.GUILayer;
 import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.enums.Languages;
 import dk.sebsa.ironflask.engine.local.LocalizationManager;
 
+@GUILayer
 public class EditorLayer extends Layer {
 	private Application app;
 	
 	public EditorLayer(Application app) {
-		guiLayer = true;
 		this.app = app;
 	}
 	

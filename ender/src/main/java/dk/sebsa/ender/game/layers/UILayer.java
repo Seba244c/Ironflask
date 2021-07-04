@@ -7,6 +7,7 @@ import dk.sebsa.ender.game.MusicManager;
 import dk.sebsa.ender.game.MusicManager.Songs;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.core.Event;
+import dk.sebsa.ironflask.engine.core.GUILayer;
 import dk.sebsa.ironflask.engine.core.Event.EventType;
 import dk.sebsa.ironflask.engine.core.Layer;
 import dk.sebsa.ironflask.engine.core.events.KeyPressedEvent;
@@ -21,6 +22,7 @@ import dk.sebsa.ironflask.engine.local.LocalizationManager;
  * @author seba2
  *
  */
+@GUILayer
 public class UILayer extends Layer {
 	public Application app;
 	
@@ -29,7 +31,6 @@ public class UILayer extends Layer {
 		
 	public UILayer(Application app) {
 		this.app = app;
-		this.guiLayer = true;
 	}
 	
 	@Override
