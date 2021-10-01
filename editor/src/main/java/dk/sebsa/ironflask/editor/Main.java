@@ -9,6 +9,8 @@ public class Main {
 	public static final boolean isDebug = true;
 	
 	public static void main(String[] args) {
+		// if (parseArgs(args)) return;
+		
 		game = new Application("Ironflask Editor", isDebug, Main::finishedLoading);
 		
 		Entity e =new Entity("JE");
@@ -22,5 +24,13 @@ public class Main {
 	
 	public static void finishedLoading(Application app) {
 		
+	}
+	
+	public static boolean parseArgs(String[] args) {
+		for(String arg : args) {
+			if(arg == "launcher") return false;
+		}
+		
+		return true;
 	}
 }

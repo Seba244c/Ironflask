@@ -55,8 +55,10 @@ public class Window {
 	
 	// Flags
 	private static int flagResize = GLFW_TRUE;
-	public static void setWindowCreationFlag(String flag, int val) {
-		if(flag == "resizable") flagResize = val;
+	private static int flagDecorated = GLFW_TRUE;
+	public static void setWindowCreationFlag(WindowFlag flag, int val) {
+		if(flag.equals(WindowFlag.Resizable)) flagResize = val;
+		else if(flag.equals(WindowFlag.Decorated)) flagDecorated = val;
 	}
 	
 	@SuppressWarnings("resource")
@@ -87,6 +89,7 @@ public class Window {
 		glfwDefaultWindowHints(); // optional, the current window hints are already the default
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
 		glfwWindowHint(GLFW_RESIZABLE, flagResize); // the window will be temporaraly not be resizable
+		glfwWindowHint(GLFW_DECORATED, flagDecorated); // the window will be temporaraly not be resizable
 		
 		// OSX Sipport
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -247,6 +250,10 @@ public class Window {
 	
 	public void setShouldClose(boolean shouldClose) {
 		glfwSetWindowShouldClose(windowId, shouldClose);
+	}
+
+	public void setPosistion(int x, int y) {
+		glfwSetWindowPos(windowId, x, y);
 	}
 
 	public void setTitle(String title) {

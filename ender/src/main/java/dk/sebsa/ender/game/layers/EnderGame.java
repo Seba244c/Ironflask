@@ -101,7 +101,7 @@ public class EnderGame extends Layer {
 		camera.setLocalPosition(new Vector3f(0, 0, 4));
 		cameraComponent = oc;
 		camera.addComponent(cameraComponent);
-		player.doNotDelete();
+		camera.doNotDelete();
 		pm.setCameraComponent(oc);
 		
 		// Terrain
