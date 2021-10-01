@@ -1,7 +1,12 @@
 rem Copy jar to tmp folder
 mkdir .\tmp\
 mkdir .\tmp\jar\
+
+rem Obf
 copy /Y /v ..\progaurd\editor-0.0.1-SNAPSHOT-pro.jar .\tmp\editor-0.0.1-SNAPSHOT-pro.jar
+rem no obf
+rem copy /Y /v ..\progaurd\editor-0.0.1-SNAPSHOT.jar .\tmp\editor-0.0.1-SNAPSHOT-pro.jar
+
 cd .\tmp\jar\
 jar xf ..\editor-0.0.1-SNAPSHOT-pro.jar
 
