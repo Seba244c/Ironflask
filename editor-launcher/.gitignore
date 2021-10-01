@@ -1,0 +1,5 @@
+/target/
+/log.zip
+.builds/
+libs/
+scripts/tmp/

@@ -26,5 +26,9 @@ cd ..
 copy /Y /v .\tmp\editor-0.0.1-SNAPSHOT-pro.jar ..\4j\target\bin\editor-0.0.1-SNAPSHOT-pro.jar
 copy /Y /v .\tmp\editor-0.0.1-SNAPSHOT-pro.jar ..\mac\target\bin\editor-0.0.1-SNAPSHOT-pro.jar
 
+rem Copy launcher
+copy /Y /v ..\..\editor-launcher\target\editor-launcher-0.0.1-SNAPSHOT.jar ..\4j\target\bin\editor-launcher-0.0.1-SNAPSHOT.jar
+copy /Y /v ..\..\editor-launcher\target\editor-launcher-0.0.1-SNAPSHOT.jar ..\mac\target\bin\editor-launcher-0.0.1-SNAPSHOT.jar
+
 rem Undo
 rmdir .\tmp\ /s /q
