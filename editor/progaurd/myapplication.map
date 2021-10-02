@@ -1,8 +1,10 @@
 dk.sebsa.ironflask.editor.Main -> dk.sebsa.ironflask.editor.Main:
     dk.sebsa.ironflask.engine.Application game -> a
+    java.lang.String OS -> a
     void <init>() -> <init>
     void main(java.lang.String[]) -> main
     void finishedLoading(dk.sebsa.ironflask.engine.Application) -> a
+    void <clinit>() -> <clinit>
 dk.sebsa.ironflask.editor.plugin.Module -> a:
     void <init>() -> <init>
     java.lang.String toString() -> toString

@@ -132,23 +132,32 @@ public class GUIXmlParser {
 	}
 	
 	private static void parseGeneralGuiObject(Element element, GuiObject object, Parent parent) {
-		object.setAnchor(parseAnchor(element.getAttribute("anchor")));
-		object.posistion = (GUIDynamicVector)	parseNode(element.getElementsByTagName("pos").item(0), parent);
-		object.size = (GUIDynamicVector)		parseNode(element.getElementsByTagName("size").item(0), parent);
-		
-		// Animations
-		NodeList animations = element.getElementsByTagName("animation");
-		for(int i = 0; i < animations.getLength(); i++) {
-			Node node = animations.item(i);
-			Animation animation = parseAnimation((Element) node, parent);
+		try {
+			object.setAnchor(parseAnchor(element.getAttribute("anchor")));
+			object.posistion = (GUIDynamicVector)	parseNode(element.getElementsByTagName("pos").item(0), parent);
+			object.size = (GUIDynamicVector)		parseNode(element.getElementsByTagName("size").item(0), parent);
 			
-			if(animation != null)
-				object.animations.add(animation);
+			// Animations
+			NodeList animations = element.getElementsByTagName("animation");
+			for(int i = 0; i < animations.getLength(); i++) {
+				Node node = animations.item(i);
+				Animation animation = parseAnimation((Element) node, parent);
+				
+				if(animation != null)
+					object.animations.add(animation);
+			}
+			
+			// Sprite
+			NodeList spriteList = element.getElementsByTagName("sprite");
+			if(spriteList.getLength() > 0) object.sprite = (Sprite) parseNode(spriteList.item(0), parent);
+		} catch (Exception e) {
+			System.out.println("Error when parsing generalGuiObject" + element.getBaseURI());
+			System.out.println(" - " + element.getTagName());
+			System.out.println(" - " + element.toString());
+			System.out.println("\n--== Stacktrace =--");
+			e.printStackTrace();
+			System.out.println("--== Stacktrace =--\n");
 		}
-		
-		// Sprite
-		NodeList spriteList = element.getElementsByTagName("sprite");
-		if(spriteList.getLength() > 0) object.sprite = (Sprite) parseNode(spriteList.item(0), parent);
 	}
 	
 	private static Animation parseAnimation(Element element, Parent parent) {
@@ -169,10 +178,11 @@ public class GUIXmlParser {
 		if(element.getTextContent().endsWith("0"))
 			return null;
 		else {
-			float val = varf(element.getElementsByTagName("v").item(0).getTextContent());
+			NodeList insideText = element.getChildNodes();
+			float val = varf(insideText.item(insideText.getLength()-1).getTextContent());
 			GUIDynamicType type;
 			
-			if(element.getElementsByTagName("dynamic").item(0).getTextContent().startsWith("true")) type = GUIDynamicType.Dynamic;
+			if(element.getAttribute("dynamic").equals("true")) type = GUIDynamicType.Dynamic;
 			else type = GUIDynamicType.Fixed;
 			
 			return new GUIDynamicVar(type, val);

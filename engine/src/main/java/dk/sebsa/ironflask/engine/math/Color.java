@@ -61,6 +61,12 @@ public class Color {
 	}
 	
 	public static Color parseColor(String name) {
+		if(name.startsWith("#")) {
+			java.awt.Color c = java.awt.Color.decode(name);
+			
+			return new Color(c.getRed() / 255, c.getGreen() / 255, c.getBlue() / 255, c.getAlpha() / 255);
+		}
+		
 		switch (name) {
 		case "black":
 			return black();

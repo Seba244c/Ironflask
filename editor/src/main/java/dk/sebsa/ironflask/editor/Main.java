@@ -1,6 +1,5 @@
 package dk.sebsa.ironflask.editor;
 
-import java.io.File;
 import java.io.IOException;
 
 import dk.sebsa.ironflask.editor.ui.EditorLayer;
@@ -10,10 +9,11 @@ import dk.sebsa.ironflask.engine.ecs.Entity;
 public class Main {
 	private static Application game;
 	public static final boolean isDebug = true;
+	private static String OS = System.getProperty("os.name").toLowerCase();
 	
 	public static void main(String[] args) throws IOException {
 		if (parseArgs(args)) {
-			Runtime.getRuntime().exec("../jdk-11.0.8/bin/java.exe -jar editor-launcher-0.0.1-SNAPSHOT.jar");
+			if(OS.indexOf("win") >= 0) Runtime.getRuntime().exec(".\\Ironflask Editor.exe");
 			return;
 		}
 		
@@ -35,7 +35,7 @@ public class Main {
 	public static boolean parseArgs(String[] args) {
 		for(String arg : args) {
 			System.out.println("Arg: " + arg);
-			if(arg == "launcher") return false;
+			if(arg.equals("launcher")) return false;
 		}
 		
 		return true;

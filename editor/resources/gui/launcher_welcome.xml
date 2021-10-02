@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<window title="hello.world" flat="true" color="dimGrey">
+	<!-- Start Button -->
+	<text center="true" anchor="bl">
+		<label>
+			<text>launcher.gui.welcome.starttext</text>
+			<font style="1" size="14">OpenSans</font>
+		</label>
+		
+		<size>
+			<x>{textSize}</x>
+			<y>16</y>
+		</size>
+		<pos>
+			<x>0</x>
+			<y>96</y>
+		</pos>
+	</text>
+	<button center="true" anchor="bl">
+		<label>
+			<text>launcher.gui.welcome.start</text>
+			<font style="1" size="42">OpenSans</font>
+		</label>
+		
+		<handler>launcher.welcome.start</handler>
+		
+		<size>
+			<x dynamic="true">{textSize}</x>
+			<y>48</y>
+		</size>
+		<pos>
+			<x>0</x>
+			<y dynamic="true">0.075f</y>
+		</pos>
+		
+		<sprite>darkGrey</sprite>
+	</button>
+	
+	<!-- Ironflask Title -->
+	<box center="true" anchor="tl">
+		<size>
+			<x>398</x>
+			<y>75</y>
+		</size>
+		<pos>
+			<x>201</x>
+			<y>25</y>
+		</pos>
+		
+		<sprite>ironflask_logo</sprite>
+	</box>
+	
+	<!-- Welcome -->
+	<text center="true" anchor="tl">
+		<label>
+			<text>launcher.gui.welcome.welcometext1</text>
+			<font style="1" size="14">OpenSans</font>
+		</label>
+		
+		<size>
+			<x>{textSize}</x>
+			<y>48</y>
+		</size>
+		<pos>
+			<x>0</x>
+			<y>125</y>
+		</pos>
+	</text>
+	<text center="true" anchor="tl">
+		<label>
+			<text>launcher.gui.welcome.welcometext2</text>
+			<font style="1" size="14">OpenSans</font>
+		</label>
+		
+		<size>
+			<x>{textSize}</x>
+			<y>48</y>
+		</size>
+		<pos>
+			<x>0</x>
+			<y>141</y>
+		</pos>
+	</text>
+	<text center="true" anchor="tl">
+		<label>
+			<text>launcher.gui.welcome.welcometext3</text>
+			<font style="1" size="14">OpenSans</font>
+		</label>
+		
+		<size>
+			<x>{textSize}</x>
+			<y>48</y>
+		</size>
+		<pos>
+			<x>0</x>
+			<y>157</y>
+		</pos>
+	</text>
+</window>

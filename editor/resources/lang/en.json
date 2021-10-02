@@ -1,4 +1,9 @@
 {
+	"launcher.gui.welcome.welcometext1": "Welcome to the Ironflask Editor. A 3d opensource game engine based on the Ironflask library.",
+	"launcher.gui.welcome.welcometext2": "This engine is still in the early stages of development, so please contat me if you have any problems.",
+	"launcher.gui.welcome.welcometext3": "Mail: seb.snoer@gmail.com",
+	"launcher.gui.welcome.start": "Start",
+	"launcher.gui.welcome.starttext": "Lets begin creating!",
 	"application.name": "Ironflask Editor",
 	"projectselect.name": "Ironflask Editor - Project Select",
 	
