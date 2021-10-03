@@ -115,6 +115,7 @@ public class AssetManager {
 				else if(name.startsWith("lang")) { fileLists.get(AssetTypes.Language).add("/" +name.split("/")[1]); }
 				else if(name.startsWith("shaders")) { fileLists.get(AssetTypes.Shader).add("/" + name.split("/")[1].split("\\.")[0]); }
 				else if(name.startsWith("materials")) { fileLists.get(AssetTypes.Material).add("/" + name.split("/")[1].split("\\.")[0]); }
+				else if(name.startsWith("sheets")) { fileLists.get(AssetTypes.SpriteSheet).add("/" + name.split("/")[1].split("\\.")[0]); }
 				else if(name.startsWith("models")) { fileLists.get(AssetTypes.Mesh).add("/" +name.split("/")[1]); }
 				else if(name.startsWith("audio")) { fileLists.get(AssetTypes.AudioClip).add("/" + name.split("/")[1].split("\\.")[0]); }
 			}
