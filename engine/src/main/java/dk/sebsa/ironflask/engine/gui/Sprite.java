@@ -76,6 +76,13 @@ public class Sprite extends Asset {
 	}
 
 	public static Sprite getSprite(String name) {
+		if(name.contains(".")) {
+			String[] split = name.split("\\.");
+			
+			SpriteSheet sheet = SpriteSheet.getSheet(split[0]);
+			return sheet.getSprite(split[1]);
+		}
+		
 		for(Sprite sprite : sprites) {
 			if(sprite.name.equals(name)) return sprite;
 		}

@@ -4,10 +4,7 @@
 <window title="hello.world" flat="true" color="darkGrey">
 	<constraint>
 		<side>right</side>
-		<guivar>
-			<dynamic>true</dynamic>
-			<v>0.6f</v>
-		</guivar>
+		<guivar dynamic="true">0.6f</guivar>
 	</constraint>
 		
 	<button anchor="tl" center="false">
@@ -25,20 +22,11 @@
 		<handler>pausemenu.quit</handler>
 		<pos>
 			<x>0</x>
-			<y>
-				<dynamic>true</dynamic>
-				<v>0.2f</v>
-			</y>
+			<y dynamic="true">0.2f</y>
 		</pos>
 		<size>
-			<x>
-				<dynamic>true</dynamic>
-				<v>1f</v>
-			</x>
-			<y>
-				<dynamic>false</dynamic>
-				<v>48f</v>
-			</y>
+			<x dynamic="true">1</x>
+			<y>48</y>
 		</size>
 	</button>
 </window>

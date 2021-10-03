@@ -35,7 +35,7 @@ public abstract class GuiObject {
 		this.parent = parent;
 		this.posistion = DEFAULT_POS_VECTOR.clone();
 		this.size = DEFAULT_SIZ_VECTOR.clone();
-		
+
 		parent.addGuiObject(this);
 		
 		if(defualtSprite == null) {

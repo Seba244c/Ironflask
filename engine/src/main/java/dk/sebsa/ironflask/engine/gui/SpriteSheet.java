@@ -22,7 +22,7 @@ public class SpriteSheet extends Asset {
 	@SuppressWarnings ("resource")
 	public SpriteSheet(String name) throws AssetExistsException {
 		super(name);
-		
+
 		BufferedReader br;
 		try {
 			if(name.startsWith("/")) {

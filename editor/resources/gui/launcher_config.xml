@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<window title="hello.world" flat="true" color="dimGrey">
+	<!-- Ironflask Title -->
+	<box center="true" anchor="tl">
+		<size>
+			<x>398</x>
+			<y>75</y>
+		</size>
+		<pos>
+			<x>201</x>
+			<y>25</y>
+		</pos>
+		
+		<sprite>ironflask_logo</sprite>
+	</box>
+	
+	<text center="true" anchor="tl">
+		<label>
+			<text>launcher.gui.config.title</text>
+			<font style="1" size="14">OpenSans</font>
+		</label>
+		
+		<size>
+			<x>{textSize}</x>
+			<y>48</y>
+		</size>
+		<pos>
+			<x>0</x>
+			<y>125</y>
+		</pos>
+	</text>
+	<button center="false" anchor="br">
+		<label>
+			<text>launcher.gui.config.next</text>
+			<font style="1" size="42">OpenSans</font>
+		</label>
+		
+		<handler>launcher.welcome.start</handler>
+		
+		<size>
+			<x dynamic="true">{textSize}</x>
+			<y>48</y>
+		</size>
+		<pos>
+			<x>{textSize}</x>
+			<y>48</y>
+		</pos>
+		
+		<sprite>Ironflask_BlackGUI.Button</sprite>
+	</button>
+</window>
