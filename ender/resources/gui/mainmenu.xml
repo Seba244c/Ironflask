@@ -13,7 +13,7 @@
 		
 		<size>
 			<x>{textSize}</x>
-			<y>48</y>
+			<y>48-24+12+12</y>
 		</size>
 		<pos>
 			<x>0</x>

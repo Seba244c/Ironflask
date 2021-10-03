@@ -44,8 +44,8 @@
 			<y>48</y>
 		</size>
 		<pos>
-			<x>{textSize}</x>
-			<y>48</y>
+			<x>{textSize}+25</x>
+			<y>48+25</y>
 		</pos>
 		
 		<sprite>Ironflask_BlackGUI.Button</sprite>

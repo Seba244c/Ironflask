@@ -97,8 +97,8 @@ public class GUIXmlParser {
 		} else if(name == "font") {
 			return Font.getFont(
 					new java.awt.Font(element.getTextContent(),
-							vari(element.getAttribute("style")),
-							vari(element.getAttribute("size"))));
+							Math.round(varf(element.getAttribute("style"))),
+							Math.round(varf(element.getAttribute("size")))));
 		} else if(name == "pos" || name == "size" || name == "guivector") {
 			Node nx = element.getElementsByTagName("x").item(0);
 			Node ny = element.getElementsByTagName("y").item(0);
@@ -228,22 +228,68 @@ public class GUIXmlParser {
 	}
 	
 	private static float varf(String input) {
-		return Float.valueOf(var(input));
+		input = input.replace(" ","");
 		
-	}
-	
-	private static int vari(String input) {
-		return Integer.valueOf(var(input));
-	}
-	
-	private static String var(String input) {
-		if(!input.startsWith("{")) return input;
+		// Parse all variables
+		if(input.contains("{")) {
+			String newString = "";
+			String tempVarName = "";
+			String tempVarValue = "";
+			int parseState = 0;
+			
+			for (char c : input.toCharArray()) {
+				if (parseState == 0 && c != '{') newString += c;
+				else if (parseState == 0 && c == '{') { parseState = 1; tempVarName = ""; }
+				else if (parseState == 1 && c != '}') tempVarName += c;
+				else if (parseState == 1 && c == '}') {
+					parseState = 0;
+					
+					if(vars.containsKey(tempVarName)) tempVarValue = vars.get(tempVarName);
+					else tempVarValue = "0";
+					
+					newString += tempVarValue; 
+				}
+			}
+			
+			input = newString;
+		}
 		
-		String varName = input.substring(1, input.length()-1);
-		
-		if(vars.containsKey(varName)) return vars.get(varName);
-		
-		return "0";
+		// Handle + & -
+		if(input.contains("+") || input.contains("-")) {
+			String left = "";
+			char middle = 'e';
+			String right = "";
+			float lTemp = 0;
+			float rTemp = 0;
+			
+			for (char c : input.toCharArray()) {
+				if (middle == 'e') {
+					if(c == '+' || c == '-') middle = c;
+					else left += c;
+				} else {
+					if(c == '+' || c == '-') {
+						lTemp = Float.parseFloat(left); 
+						rTemp = Float.parseFloat(right);
+						
+						if(middle == '+') left = String.valueOf(lTemp + rTemp);
+						else left = String.valueOf(lTemp - rTemp);
+						
+						middle = c;
+						right = "";
+					} else right += c;
+				}
+			}
+			
+			// Do last calculation
+			lTemp = Float.parseFloat(left); 
+			rTemp = Float.parseFloat(right);
+			if(middle == '+') left = String.valueOf(lTemp + rTemp);
+			else left = String.valueOf(lTemp - rTemp);
+
+			return Float.parseFloat(left);
+		} else {
+			return Float.parseFloat(input);
+		}
 	}
 	
 	public static void setupButtons(final Class<?> type, Object instance) {
