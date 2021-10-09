@@ -5,7 +5,6 @@ import dk.sebsa.ender.game.layers.Debug;
 import dk.sebsa.ender.game.layers.EnderGame;
 import dk.sebsa.ender.game.layers.MainMenu;
 import dk.sebsa.ender.game.layers.UILayer;
-import dk.sebsa.ender.game.skill.SkillManager;
 import dk.sebsa.ironflask.engine.Application;
 import dk.sebsa.ironflask.engine.ecs.World;
 import dk.sebsa.ironflask.engine.ecs.WorldManager;
@@ -65,7 +64,7 @@ public class Main {
 	}
 	
 	public static void load(Application app) {
-		SkillManager.init(app);
+		
 	}
 	
 	public static void loadingFinished(Application app) {
