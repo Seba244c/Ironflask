@@ -34,20 +34,43 @@
 	<button center="false" anchor="br">
 		<label>
 			<text>launcher.gui.config.next</text>
-			<font style="1" size="42">OpenSans</font>
+			<font style="1" size="24">OpenSans</font>
 		</label>
 		
-		<handler>launcher.welcome.start</handler>
+		<handler>launcher.config.next</handler>
 		
 		<size>
-			<x dynamic="true">{textSize}</x>
-			<y>48</y>
+			<x>{textSize}</x>
+			<y>28</y>
 		</size>
 		<pos>
 			<x>{textSize}+25</x>
-			<y>48+25</y>
+			<y>26+25</y>
 		</pos>
 		
 		<sprite>Ironflask_BlackGUI.Button</sprite>
 	</button>
+	
+	<!-- Input -->
+	<list anchor="tl">
+		<size>
+			<x>300</x>
+			<y>300</y>
+		</size>
+		<pos>
+			<x>25</x>
+			<y>180</y>
+		</pos>
+				
+		<box center="false" anchor="tl">
+			<size>
+				<x dynamic="true">1</x>
+				<y dynamic="true">1</y>
+			</size>
+			<pos>
+				<x>0</x>
+				<y>0</y>
+			</pos>
+		</box>
+	</list>
 </window>

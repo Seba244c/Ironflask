@@ -6,7 +6,7 @@
 		<side>right</side>
 		<guivar dynamic="true">0.6f</guivar>
 	</constraint>
-		
+	
 	<button anchor="tl" center="false">
 		<label>
 			<text>gui.pauseMenu.quit</text>
@@ -23,6 +23,28 @@
 		<pos>
 			<x>0</x>
 			<y dynamic="true">0.2f</y>
+		</pos>
+		<size>
+			<x dynamic="true">1</x>
+			<y>48</y>
+		</size>
+	</button>	
+	<button anchor="tl" center="false">
+		<label>
+			<text>gui.pauseMenu.settings</text>
+			<font style="1" size="36">OpenSans</font>
+		</label>
+		
+		<animation type="MoveInFromSide" time="0.4f" waitTime="0">
+			<side>left</side>
+		</animation>
+		
+		<sprite>dimGrey</sprite>
+		
+		<handler>pausemenu.settings</handler>
+		<pos>
+			<x>0</x>
+			<y dynamic="true">0.1f</y>
 		</pos>
 		<size>
 			<x dynamic="true">1</x>

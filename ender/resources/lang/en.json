@@ -4,5 +4,6 @@
 	"gui.mainMenu.quit":	"Quit",
 	"gui.mainMenu.title":	"Project Ender",
 	
-	"gui.pauseMenu.quit":	"Quit"
+	"gui.pauseMenu.quit":	"Quit",
+	"gui.pauseMenu.settings":	"Settings"
 }

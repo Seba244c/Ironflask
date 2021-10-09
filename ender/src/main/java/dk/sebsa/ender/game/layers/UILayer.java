@@ -27,7 +27,9 @@ public class UILayer extends Layer {
 	public Application app;
 	
 	public boolean pauseMenuEnabled;
+	public boolean settingsMenuEnabled;
 	private Window pauseMenu;
+	private Window settingsMenu;
 		
 	public UILayer(Application app) {
 		this.app = app;
@@ -36,24 +38,26 @@ public class UILayer extends Layer {
 	@Override
 	public boolean handleEvent(Event e) {
 		if(e.type == EventType.WindowResize) {
+			settingsMenu.calculateConstraints(app);
 			pauseMenu.calculateConstraints(app);
 		} else if(e.type == EventType.KeyPressed) {
 			KeyPressedEvent event = (KeyPressedEvent) e;
 			if(event.key == GLFW.GLFW_KEY_ESCAPE) {
-				if(pauseMenuEnabled) {
+				if(settingsMenuEnabled) settingsMenuEnabled = false;
+				else if(pauseMenuEnabled) {
 					pauseMenuEnabled = false;
 					MusicManager.start(Songs.Game);
-				}
-				else {
+				} else {
 					MusicManager.start(Songs.MainMenu);
-					pauseMenu.calculateConstraints(app);
 					pauseMenuEnabled = true;
 				}
 				app.pauseLogic(pauseMenuEnabled);
 				return true;
 			}
+			
 		}
-		if(pauseMenuEnabled) return pauseMenu.handleEvent(e);
+		if(settingsMenuEnabled) return settingsMenu.handleEvent(e);
+		else if(pauseMenuEnabled) return pauseMenu.handleEvent(e);
 		return false;
 	}
 
@@ -62,6 +66,7 @@ public class UILayer extends Layer {
 		app.guiRenderer.prepareForRender();
 		
 		if(pauseMenuEnabled) app.guiRenderer.renderWindow(pauseMenu);
+		if(settingsMenuEnabled) app.guiRenderer.renderWindow(settingsMenu);
 		
 		app.guiRenderer.endFrame();
 	}
@@ -79,6 +84,8 @@ public class UILayer extends Layer {
 			GUIXmlParser.setupButtons(getClass(), this);
 			pauseMenu = GUIXmlParser.getWindow("pausemenu.xml", app);
 			pauseMenu.calculateConstraints(app);
+			settingsMenu = GUIXmlParser.getWindow("pausemenu.xml", app);
+			settingsMenu.calculateConstraints(app);
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
@@ -86,5 +93,11 @@ public class UILayer extends Layer {
 	public void quitButton(Button button) {
 		Main.mainMenu(true);
 		pauseMenuEnabled = false;
+		settingsMenuEnabled = false;
+	}
+	
+	@ButtonHandler(ID="pausemenu.settings")
+	public void settingsButton(Button button) {
+		settingsMenuEnabled = true;
 	}
 }

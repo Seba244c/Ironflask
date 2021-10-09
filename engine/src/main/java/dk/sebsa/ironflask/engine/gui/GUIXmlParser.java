@@ -134,8 +134,10 @@ public class GUIXmlParser {
 	private static void parseGeneralGuiObject(Element element, GuiObject object, Parent parent) {
 		try {
 			object.setAnchor(parseAnchor(element.getAttribute("anchor")));
-			object.posistion = (GUIDynamicVector)	parseNode(element.getElementsByTagName("pos").item(0), parent);
-			object.size = (GUIDynamicVector)		parseNode(element.getElementsByTagName("size").item(0), parent);
+			try {
+				object.posistion = (GUIDynamicVector)	parseNode(element.getElementsByTagName("pos").item(0), parent);
+				object.size = (GUIDynamicVector)		parseNode(element.getElementsByTagName("size").item(0), parent);
+			} catch (Exception e) { /* Save my ass */ }
 			
 			// Animations
 			NodeList animations = element.getElementsByTagName("animation");
