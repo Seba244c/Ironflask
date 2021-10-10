@@ -7,9 +7,6 @@ cd ..
 cd editor-launcher/
 call mvn clean install
 cd ..
-cd networking/
-call mvn clean install
-cd ..
 
 rem BUILD editor
 cd editor/.scripts/
